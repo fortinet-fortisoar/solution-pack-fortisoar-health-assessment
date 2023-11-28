@@ -39,19 +39,11 @@
     "recordTags": [
         "System configuration Recommendation"
     ],
-    "date": "2023-11-28T09:30:07+00:00",
+    "date": "2023-11-28T13:19:38+00:00",
     "contents": {
-        "globalVariables": [
-            {
-                "id": 1,
-                "name": "Current_User",
-                "value": "{{vars.currentUser}}",
-                "default_value": null
-            }
-        ],
         "playbooks": [
             {
-                "name": "00 - System Config"
+                "name": "System Configuration Recommendation"
             }
         ],
         "connectors": [
