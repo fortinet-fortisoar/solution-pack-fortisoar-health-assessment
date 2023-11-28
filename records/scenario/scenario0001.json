@@ -1,0 +1,29 @@
+[
+    {
+        "@type": "Scenario",
+        "configuration": null,
+        "title": "System Configuration Recommendation",
+        "description": "### This Scenario demonstrates configuring FortiSOAR based on your system details. \nBased on your system details, we suggest configuration changes for following \n\n1. PostgreSQL\n2. NGNIX\n3. UWSGI\n4. Celery-D \n\nYou can find all the recommendations in the attachment section inside FortiSOAR. \n\n* * *\n### How to use this SP \n\n1. Install SSH Connector \n2. Configure the above Connector for FortiSOAR VM\n3. And Simulate \"System Configuration Recommendation\" scenario\n4. After playbook's successful run you will get a Attachment Created by name \"Recommended_System_Configuration_<<TR_TIMESTAMP>>.html\"\n5. Apply the configurations as instructed in Recommended_System_Configuration_<<TR_TIMESTAMP>> report\n\n***\n\n### Note \n\n1. Make sure to install SSH connector and Configure it \n2. Some configuration only applies to system having SSD as storage\n3. One Task is also Created for **csadmin** user \n\n",
+        "steps": {
+            "Steps": [
+                {
+                    "name": "Get System Configurations Recommendation",
+                    "type": "executePlaybook",
+                    "playbookIRI": "\/api\/3\/workflows\/abea60a3-004c-406a-be9f-16765f6f12ac",
+                    "preCreateMessage": "Getting your system details and analysing it. Task named 'Recommended_System_Configuration' is created, please monitor for detials",
+                    "postCreateMessage": "<p>We have analysed your system and now you can view the recommendations in attachments by name <a href='\/modules\/attachments'>Recommended_System_Configuration<\/a><\/p>",
+                    "waitTimeforNextStep": "0"
+                }
+            ]
+        },
+        "createdAlertsID": "[\"\"]",
+        "uuid": "36e24f97-06d2-4127-b82a-dcfe7d591355",
+        "createUser": "\/api\/3\/people\/3451141c-bac6-467c-8d72-85e0fab569ce",
+        "createDate": 1700463779.949511,
+        "modifyUser": "\/api\/3\/people\/3451141c-bac6-467c-8d72-85e0fab569ce",
+        "modifyDate": 1700734671.577171,
+        "recordTags": [
+            "System Config Recommendation"
+        ]
+    }
+]

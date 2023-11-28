@@ -1,0 +1,11 @@
+{
+    "@context": "\/api\/3\/contexts\/WorkflowCollection",
+    "@type": "WorkflowCollection",
+    "name": "00 - System Config",
+    "description": null,
+    "visible": true,
+    "image": null,
+    "uuid": "258d3c94-304e-44cd-9390-b530bc5a0ba3",
+    "deletedAt": null,
+    "recordTags": []
+}

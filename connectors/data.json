@@ -1,0 +1,15 @@
+[
+    {
+        "name": "ssh",
+        "label": "SSH",
+        "category": [
+            "utilities"
+        ],
+        "description": "Steps that use an ssh connection. Including sftp and remote code execution",
+        "publisher": "CyberSponse",
+        "operation_roles": [],
+        "configurations": [],
+        "dataImports": [],
+        "install_mode": "rpm"
+    }
+]
