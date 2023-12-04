@@ -1,0 +1,63 @@
+{
+    "name": "systemConfigurationRecommendation",
+    "version": "1.0.0",
+    "fsrMinCompatibility": "7.2.0",
+    "type": "solutionpack",
+    "local": true,
+    "label": "System Configuration Recommendation",
+    "dependencies": [
+        {
+            "name": "sOARFramework",
+            "type": "solutionpack",
+            "label": "SOAR Framework",
+            "minVersion": null
+        },
+        {
+            "name": "socSimulator",
+            "type": "solutionpack",
+            "label": "SOC Simulator",
+            "minVersion": null
+        }
+    ],
+    "prerequisite": "Please Make Sure to Configure SSH Connector\n",
+    "publisher": "Fortinet",
+    "description": "This Solution pack is only for QA team use right now",
+    "help": "",
+    "category": [
+        "Utilities"
+    ],
+    "supportInfo": null,
+    "iconLarge": null,
+    "postInstallConfig": {
+        "enabled": false,
+        "widgets": [
+            {
+                "autoLaunch": false
+            }
+        ]
+    },
+    "recordTags": [
+        "System configuration Recommendation"
+    ],
+    "date": "2023-12-04T10:58:46+00:00",
+    "contents": {
+        "playbooks": [
+            {
+                "name": "System Configuration Recommendation"
+            }
+        ],
+        "connectors": [
+            {
+                "name": "SSH",
+                "apiName": "ssh"
+            }
+        ],
+        "recordSets": [
+            {
+                "name": "Scenario",
+                "apiName": "scenario",
+                "count": 1
+            }
+        ]
+    }
+}

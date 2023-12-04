@@ -9,19 +9,19 @@
                 {
                     "name": "Get System Configurations Recommendation",
                     "type": "executePlaybook",
-                    "playbookIRI": "\/api\/3\/workflows\/abea60a3-004c-406a-be9f-16765f6f12ac",
+                    "playbookIRI": "\/api\/3\/workflows\/7f5f86e0-56bd-47da-8b07-9dfc48e4d402",
                     "preCreateMessage": "Getting your system details and analysing it. Task named 'Recommended_System_Configuration' is created, please monitor for detials",
                     "postCreateMessage": "<p>We have analysed your system and now you can view the recommendations in attachments by name <a href='\/modules\/attachments'>Recommended_System_Configuration<\/a><\/p>",
                     "waitTimeforNextStep": "0"
                 }
             ]
         },
-        "createdAlertsID": "[\"\"]",
+        "createdAlertsID": null,
         "uuid": "36e24f97-06d2-4127-b82a-dcfe7d591355",
         "createUser": "\/api\/3\/people\/3451141c-bac6-467c-8d72-85e0fab569ce",
         "createDate": 1700463779.949511,
-        "modifyUser": "\/api\/3\/people\/3451141c-bac6-467c-8d72-85e0fab569ce",
-        "modifyDate": 1700734671.577171,
+        "modifyUser": "\/api\/3\/appliances\/57545210-2adc-472b-a24f-2df6ee8dfe63",
+        "modifyDate": 1701687458.61635,
         "recordTags": [
             "System Config Recommendation"
         ]
