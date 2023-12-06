@@ -317,7 +317,7 @@
                 "effectiveIoConcurrency_HDD": "2",
                 "effectiveIoConcurrency_SSD": "200",
                 "parallelMaintenanceWorkers": "4",
-                "max_parallel_workers_per_gather": "{{(vars.system_config.CPU  | int \/ 2) | round}}"
+                "max_parallel_workers_per_gather": "{{(vars.system_config.CPU  | int \/ 4) | round}}"
             },
             "status": null,
             "top": "400",
