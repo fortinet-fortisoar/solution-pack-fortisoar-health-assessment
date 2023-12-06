@@ -1,7 +1,7 @@
 {
     "name": "systemConfigurationRecommendation",
     "version": "1.0.0",
-    "fsrMinCompatibility": "7.2.0",
+    "fsrMinCompatibility": "7.4.3",
     "type": "solutionpack",
     "local": true,
     "label": "System Configuration Recommendation",
@@ -26,7 +26,7 @@
     "category": [
         "Utilities"
     ],
-    "supportInfo": null,
+    "supportInfo": "Contact FortiSOAR QA",
     "iconLarge": null,
     "postInstallConfig": {
         "enabled": false,
@@ -39,7 +39,7 @@
     "recordTags": [
         "System configuration Recommendation"
     ],
-    "date": "2023-12-04T13:04:49+00:00",
+    "date": "2023-12-06T11:07:55+00:00",
     "contents": {
         "playbooks": [
             {

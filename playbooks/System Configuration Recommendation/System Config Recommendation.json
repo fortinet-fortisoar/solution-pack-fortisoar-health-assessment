@@ -1,5 +1,4 @@
 {
-    "@context": "\/api\/3\/contexts\/Workflow",
     "@type": "Workflow",
     "triggerLimit": null,
     "name": "System Config Recommendation",
@@ -44,38 +43,6 @@
         },
         {
             "@type": "WorkflowStep",
-            "name": "Based on Error Create a task for Current User",
-            "description": null,
-            "arguments": {
-                "message": {
-                    "tags": [],
-                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                    "tenant": "",
-                    "thread": false,
-                    "content": "<p>Error Found Please check Tasks for More Details&nbsp;&nbsp;<\/p>",
-                    "records": "{{vars.steps.Create_Task_For_Tracking_Purposes['task_data']['@id']}}",
-                    "parentstepid": "\/api\/3\/workflow_steps\/172235a2-b8ec-49f8-bd41-9a85dc089713"
-                },
-                "resource": {
-                    "name": "{{\"Make sure that all commands required are installed\" if not (vars.system_config[\"error\"]| regex_search(\"PGSQL\") and (vars.system_config[\"error\"]| regex_search(\"PGSQL\")).strip()) else \"Please mount a drive for PGSQL directory\"}}",
-                    "type": "\/api\/3\/picklists\/30300411-a2e0-42dc-9180-513904f73ab9",
-                    "status": "\/api\/3\/picklists\/7669725a-28cc-4b19-98a3-9ca71e0f88f4",
-                    "priority": "\/api\/3\/picklists\/90088ebe-0a7d-4aa6-9c9c-93b937a4e4f8",
-                    "description": "#### Please check the following error\n{{vars.system_config[\"error\"]}}",
-                    "assignedToPerson": "\/api\/3\/people\/3451141c-bac6-467c-8d72-85e0fab569ce"
-                },
-                "collection": "tasks",
-                "step_variables": []
-            },
-            "status": null,
-            "top": "80",
-            "left": "380",
-            "stepType": "\/api\/3\/workflow_step_types\/dc6ac63d-c5a5-472f-9eb4-6b18473a98b8",
-            "group": "\/api\/3\/workflow_groups\/92cd3537-c95f-4ad0-ac77-997134fc1dbb",
-            "uuid": "4513c725-a753-400c-a936-f95d735537eb"
-        },
-        {
-            "@type": "WorkflowStep",
             "name": "Check For Error In Output",
             "description": null,
             "arguments": {
@@ -89,8 +56,8 @@
                     {
                         "option": "is present",
                         "default": true,
-                        "step_iri": "\/api\/3\/workflow_steps\/4513c725-a753-400c-a936-f95d735537eb",
-                        "step_name": "Based on Error Create a task for Current User"
+                        "step_iri": "\/api\/3\/workflow_steps\/6e305d8d-0f13-40bd-a374-a001f9aae4c1",
+                        "step_name": "No Oprations"
                     }
                 ],
                 "step_variables": []
@@ -101,38 +68,6 @@
             "stepType": "\/api\/3\/workflow_step_types\/12254cf5-5db7-4b1a-8cb1-3af081924b28",
             "group": "\/api\/3\/workflow_groups\/92cd3537-c95f-4ad0-ac77-997134fc1dbb",
             "uuid": "58d8a19a-af46-4a26-a971-7508b7324c72"
-        },
-        {
-            "@type": "WorkflowStep",
-            "name": "Create a Task to change the confguration and rerun this playbook",
-            "description": null,
-            "arguments": {
-                "message": {
-                    "tags": [],
-                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
-                    "tenant": "",
-                    "thread": false,
-                    "content": "<p>As you have selected to Review your system Configuration then please Update this task and rerun this playbook<\/p>",
-                    "records": "{{vars.steps.Create_Task_For_Tracking_Purposes['task_data']['@id']}}",
-                    "parentstepid": "\/api\/3\/workflow_steps\/172235a2-b8ec-49f8-bd41-9a85dc089713"
-                },
-                "resource": {
-                    "name": "Change the configuration of VM",
-                    "type": "\/api\/3\/picklists\/30300411-a2e0-42dc-9180-513904f73ab9",
-                    "status": "\/api\/3\/picklists\/7669725a-28cc-4b19-98a3-9ca71e0f88f4",
-                    "priority": "\/api\/3\/picklists\/90088ebe-0a7d-4aa6-9c9c-93b937a4e4f8",
-                    "description": "#### Below is the Last Checked Configuration \n\n1. CPU - {{vars.system_config.CPU}}\n2. RAM - {{vars.system_config.RAM}}\n3. Disk IOPS - Read - {{vars.system_config[\"Disk IOPS - Read\"]}}\n4. Disk IOPS - Wrtie - {{vars.system_config[\"Disk IOPS - Write\"]}}\n5. Disk latency - {{vars.system_config[\"Disk latency\"]}}",
-                    "assignedToPerson": "\/api\/3\/people\/3451141c-bac6-467c-8d72-85e0fab569ce"
-                },
-                "collection": "tasks",
-                "step_variables": []
-            },
-            "status": null,
-            "top": "60",
-            "left": "420",
-            "stepType": "\/api\/3\/workflow_step_types\/dc6ac63d-c5a5-472f-9eb4-6b18473a98b8",
-            "group": "\/api\/3\/workflow_groups\/cc077b07-5744-43ea-9ae9-7460b3e661d0",
-            "uuid": "79ef0bc7-57ad-441e-9b31-61141a6e8407"
         },
         {
             "@type": "WorkflowStep",
@@ -205,6 +140,34 @@
             "stepType": "\/api\/3\/workflow_step_types\/2597053c-e718-44b4-8394-4d40fe26d357",
             "group": null,
             "uuid": "bd5e75ed-95e1-4b30-8682-5c9e68824c9a"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Error Found While Analyzing System",
+            "description": null,
+            "arguments": {
+                "params": [],
+                "message": {
+                    "tags": [],
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "tenant": "",
+                    "thread": false,
+                    "content": "<h4><span style=\"color: rgb(224, 62, 45);\">Error : {% if (vars.system_config[\"error\"]| regex_search(\"PGSQL\") and (vars.system_config[\"error\"]| regex_search(\"PGSQL\")).strip())%}Please mount a drive for PGSQL directory{% elif (vars.system_config[\"error\"]| regex_search(\"command failed\") and (vars.system_config[\"error\"]| regex_search(\"command failed\")).strip())%}Command Failed{% elif (vars.system_config[\"error\"]| regex_search(\"following commands are installed or not\") and (vars.system_config[\"error\"]| regex_search(\"following commands are installed or not\")).strip())%}Make sure that all commands required are installed{% else%}{{vars}}{% endif %}<\/span><\/h4>\n<hr>\n<p>&nbsp;{{vars.system_config[\"error\"]}}<br>{{vars.system_config[\"error_log\"] if vars.system_config[\"error_log\"] is defined}}<\/p>",
+                    "records": "{{vars.steps.Create_Task_For_Tracking_Purposes['@id']}}",
+                    "parentstepid": "\/api\/3\/workflow_steps\/2b6cab4e-6196-4710-84b2-ef7cc266950d"
+                },
+                "version": "3.2.6",
+                "connector": "cyops_utilities",
+                "operation": "no_op",
+                "operationTitle": "Utils: No Operation",
+                "step_variables": []
+            },
+            "status": null,
+            "top": "80",
+            "left": "360",
+            "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+            "group": "\/api\/3\/workflow_groups\/92cd3537-c95f-4ad0-ac77-997134fc1dbb",
+            "uuid": "6e305d8d-0f13-40bd-a374-a001f9aae4c1"
         },
         {
             "@type": "WorkflowStep",
@@ -313,6 +276,7 @@
                 "version": "2.1.2",
                 "connector": "ssh",
                 "operation": "run_remote_command",
+                "mock_result": "{\n\"data\":{'CPU': '32', 'RAM': '64', 'Disk IOPS - Read': '22k', 'Disk IOPS - Write': '22k', 'Disk latency': ' 820.0 us ', 'SHMALL': '2017224', 'SHMMAX': '8262549504'}\n}",
                 "operationTitle": "Execute remote command",
                 "pickFromTenant": false,
                 "step_variables": {
@@ -417,18 +381,46 @@
             "stepType": "\/api\/3\/workflow_step_types\/b348f017-9a94-471f-87f8-ce88b6a7ad62",
             "group": null,
             "uuid": "3ebe5ddd-498e-4d75-b4f8-30b281a82686"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "User Rejected the Configuration",
+            "description": null,
+            "arguments": {
+                "params": [],
+                "message": {
+                    "tags": [],
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "tenant": "",
+                    "thread": false,
+                    "content": "<p>User has rejected the Analyzed System Details. Please Verify or Update the System Details and Retrigger the Playbook<\/p>",
+                    "records": "{{vars.steps.Create_Task_For_Tracking_Purposes['@id']}}",
+                    "parentstepid": "\/api\/3\/workflow_steps\/522b344d-3a64-4fb9-8476-69d67670dc23"
+                },
+                "version": "3.2.6",
+                "connector": "cyops_utilities",
+                "operation": "no_op",
+                "operationTitle": "Utils: No Operation",
+                "step_variables": []
+            },
+            "status": null,
+            "top": "60",
+            "left": "360",
+            "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+            "group": "\/api\/3\/workflow_groups\/cc077b07-5744-43ea-9ae9-7460b3e661d0",
+            "uuid": "2f1f2ade-f40a-47cf-9af0-a85cebee53e5"
         }
     ],
     "routes": [
         {
             "@type": "WorkflowRoute",
-            "name": "Check if Data is Present -> Based on error Create a task for Current User",
-            "targetStep": "\/api\/3\/workflow_steps\/4513c725-a753-400c-a936-f95d735537eb",
+            "name": "Check For Error In Output -> No Oprations",
+            "targetStep": "\/api\/3\/workflow_steps\/6e305d8d-0f13-40bd-a374-a001f9aae4c1",
             "sourceStep": "\/api\/3\/workflow_steps\/58d8a19a-af46-4a26-a971-7508b7324c72",
             "label": "is present",
             "isExecuted": false,
             "group": null,
-            "uuid": "9fd972e4-0639-4fe1-b43d-649f9448a134"
+            "uuid": "7b1a120f-adac-4cca-a09f-78153052b7c7"
         },
         {
             "@type": "WorkflowRoute",
@@ -472,13 +464,13 @@
         },
         {
             "@type": "WorkflowRoute",
-            "name": "Get Input Confirmation -> Create a Task to change the confguration and rerun this playbook",
-            "targetStep": "\/api\/3\/workflow_steps\/79ef0bc7-57ad-441e-9b31-61141a6e8407",
+            "name": "Get Input Confirmation -> Copy of No Oprations",
+            "targetStep": "\/api\/3\/workflow_steps\/2f1f2ade-f40a-47cf-9af0-a85cebee53e5",
             "sourceStep": "\/api\/3\/workflow_steps\/522b344d-3a64-4fb9-8476-69d67670dc23",
-            "label": "Review Required",
+            "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "a92d86c2-23cb-4933-a929-92655652d07d"
+            "uuid": "a230d90f-6153-4c25-bf8f-838a3647b934"
         },
         {
             "@type": "WorkflowRoute",
