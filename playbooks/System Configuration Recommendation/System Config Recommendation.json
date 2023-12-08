@@ -227,7 +227,7 @@
                         },
                         {
                             "option": "Review Required",
-                            "step_iri": "\/api\/3\/workflow_steps\/d9b2e170-6ba3-4b17-bfd5-cfc72596f2c3"
+                            "step_iri": "\/api\/3\/workflow_steps\/2f1f2ade-f40a-47cf-9af0-a85cebee53e5"
                         }
                     ],
                     "duplicateOption": false,
@@ -459,7 +459,7 @@
             "name": "Get Input Confirmation -> Copy of No Oprations",
             "targetStep": "\/api\/3\/workflow_steps\/2f1f2ade-f40a-47cf-9af0-a85cebee53e5",
             "sourceStep": "\/api\/3\/workflow_steps\/522b344d-3a64-4fb9-8476-69d67670dc23",
-            "label": "",
+            "label": "Review Required",
             "isExecuted": false,
             "group": null,
             "uuid": "a230d90f-6153-4c25-bf8f-838a3647b934"
