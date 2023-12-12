@@ -1,0 +1,623 @@
+{
+    "@type": "Workflow",
+    "triggerLimit": null,
+    "name": "System Configuration Recommendation",
+    "aliasName": null,
+    "tag": null,
+    "description": null,
+    "isActive": true,
+    "debug": true,
+    "singleRecordExecution": false,
+    "remoteExecutableFlag": false,
+    "parameters": [],
+    "synchronous": false,
+    "collection": "\/api\/3\/workflow_collections\/c1bbf33a-dc28-4481-937c-beb1436b5e91",
+    "versions": [],
+    "triggerStep": "\/api\/3\/workflow_steps\/3ebe5ddd-498e-4d75-b4f8-30b281a82686",
+    "steps": [
+        {
+            "@type": "WorkflowStep",
+            "name": "Attach Attachment to Task",
+            "description": null,
+            "arguments": {
+                "resource": {
+                    "__link": {
+                        "attachments": "{{vars.steps.Report_as_Attachment.data['@id']}}"
+                    },
+                    "status": "\/api\/3\/picklists\/343f4b67-e929-4205-bf95-ba5b70545fed"
+                },
+                "operation": "Append",
+                "collection": "{{vars.steps.Create_Task_For_Tracking_Purposes['@id']}}",
+                "__recommend": [],
+                "collectionType": "\/api\/3\/tasks",
+                "fieldOperation": {
+                    "recordTags": "Append"
+                },
+                "step_variables": []
+            },
+            "status": null,
+            "top": "700",
+            "left": "1640",
+            "stepType": "\/api\/3\/workflow_step_types\/b593663d-7d13-40ce-a3a3-96dece928722",
+            "group": null,
+            "uuid": "b9dd186d-9010-49f5-898f-bf7de402c9fa"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Check For Error In Output",
+            "description": null,
+            "arguments": {
+                "conditions": [
+                    {
+                        "option": "is not present",
+                        "step_iri": "\/api\/3\/workflow_steps\/522b344d-3a64-4fb9-8476-69d67670dc23",
+                        "condition": "{{ (vars.system_config[\"error\"] is undefined) or (vars.system_config[\"error\"] == None) }}",
+                        "step_name": "Get Input Confirmation"
+                    },
+                    {
+                        "option": "is present",
+                        "default": true,
+                        "step_iri": "\/api\/3\/workflow_steps\/6e305d8d-0f13-40bd-a374-a001f9aae4c1",
+                        "step_name": "No Oprations"
+                    }
+                ],
+                "step_variables": []
+            },
+            "status": null,
+            "top": "80",
+            "left": "20",
+            "stepType": "\/api\/3\/workflow_step_types\/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+            "group": "\/api\/3\/workflow_groups\/92cd3537-c95f-4ad0-ac77-997134fc1dbb",
+            "uuid": "58d8a19a-af46-4a26-a971-7508b7324c72"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Create Report File",
+            "description": null,
+            "arguments": {
+                "params": {
+                    "contents": "{{vars.HTML}}",
+                    "filename": "Recommended_System_Configuration_{{arrow.utcnow().int_timestamp}}.html",
+                    "mimetype": ""
+                },
+                "version": "3.2.6",
+                "connector": "cyops_utilities",
+                "operation": "create_file_from_string",
+                "operationTitle": "File: Create File from String",
+                "step_variables": []
+            },
+            "status": null,
+            "top": "60",
+            "left": "380",
+            "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+            "group": "\/api\/3\/workflow_groups\/11deafc3-47c2-425b-a0a9-862870d14dcb",
+            "uuid": "f2ef2fea-5185-4b45-becc-5bb0c8713f11"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Create Task For Tracking Purposes",
+            "description": null,
+            "arguments": {
+                "message": {
+                    "tags": [],
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "tenant": "",
+                    "thread": false,
+                    "content": "<p>Analyzing Your System for following details&nbsp;<\/p>\n<ol>\n<li>CPU<\/li>\n<li>RAM<\/li>\n<li>IOPS<\/li>\n<li>Disk Latency&nbsp;<\/li>\n<li>SHMALL<\/li>\n<li>SHMMAX<\/li>\n<\/ol>",
+                    "records": "{{vars.steps.Create_Task_For_Tracking_Purposes['@id']}}"
+                },
+                "resource": {
+                    "name": "System Configuration Recommendation",
+                    "type": "\/api\/3\/picklists\/6d113f01-123a-4c78-b68c-029e16df9b8b",
+                    "status": "\/api\/3\/picklists\/7669725a-28cc-4b19-98a3-9ca71e0f88f4",
+                    "priority": "\/api\/3\/picklists\/ebe64b35-bf47-4f74-aadb-df7c2aeba60e",
+                    "__replace": "",
+                    "recordTags": [
+                        "\/api\/3\/tags\/System Configuration Recommendation"
+                    ],
+                    "description": "### This Task is Create for Tracking of System Configuration Recommendation Playbook\n\n\n* * *\n\n#### For HA setup Only \n\nMake sure that all the Nodes have Same Configuration in their configuration files.  And while restarting services, start with Primary node and then same for Secondary Nodes",
+                    "assignedToPerson": "\/api\/3\/people\/3451141c-bac6-467c-8d72-85e0fab569ce"
+                },
+                "operation": "Overwrite",
+                "collection": "\/api\/3\/tasks",
+                "__recommend": [],
+                "fieldOperation": {
+                    "recordTags": "Overwrite"
+                },
+                "step_variables": []
+            },
+            "status": null,
+            "top": "120",
+            "left": "360",
+            "stepType": "\/api\/3\/workflow_step_types\/2597053c-e718-44b4-8394-4d40fe26d357",
+            "group": null,
+            "uuid": "bd5e75ed-95e1-4b30-8682-5c9e68824c9a"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Error Found While Analyzing System",
+            "description": null,
+            "arguments": {
+                "params": [],
+                "message": {
+                    "tags": [],
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "tenant": "",
+                    "thread": false,
+                    "content": "<h4><span style=\"color: rgb(224, 62, 45);\">Error : {% if (vars.system_config[\"error\"]| regex_search(\"PGSQL\") and (vars.system_config[\"error\"]| regex_search(\"PGSQL\")).strip())%}Please mount a drive for PGSQL directory{% elif (vars.system_config[\"error\"]| regex_search(\"command failed\") and (vars.system_config[\"error\"]| regex_search(\"command failed\")).strip())%}Command Failed{% elif (vars.system_config[\"error\"]| regex_search(\"following commands are installed or not\") and (vars.system_config[\"error\"]| regex_search(\"following commands are installed or not\")).strip())%}Make sure that all commands required are installed{% else%}{{vars}}{% endif %}<\/span><\/h4>\n<hr>\n<p>&nbsp;{{vars.system_config[\"error\"]}}<br>{{vars.system_config[\"error_log\"] if vars.system_config[\"error_log\"] is defined}}<\/p>",
+                    "records": "{{vars.steps.Create_Task_For_Tracking_Purposes['@id']}}",
+                    "parentstepid": "\/api\/3\/workflow_steps\/2b6cab4e-6196-4710-84b2-ef7cc266950d"
+                },
+                "version": "3.2.6",
+                "connector": "cyops_utilities",
+                "operation": "no_op",
+                "operationTitle": "Utils: No Operation",
+                "step_variables": []
+            },
+            "status": null,
+            "top": "80",
+            "left": "360",
+            "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+            "group": "\/api\/3\/workflow_groups\/92cd3537-c95f-4ad0-ac77-997134fc1dbb",
+            "uuid": "6e305d8d-0f13-40bd-a374-a001f9aae4c1"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Generate Report Code",
+            "description": null,
+            "arguments": {
+                "HTML": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <title>FortiSOAR<\/title>\n    <style>\n        table.GeneratedTable {\n            width: 100%;\n            background-color: #797777;\n            border-collapse: collapse;\n            border-width: 2px;\n            border-color: #080808;\n            border-style: solid;\n            color: #f3f2f2;\n        }\n\n        table.GeneratedTable td,\n        table.GeneratedTable th {\n            border-width: 2px;\n            border-color: #080808;\n            border-style: solid;\n            padding: 3px;\n        }\n\n        table.GeneratedTable thead {\n            background-color: #5074e2;\n        }\n        .spacing-div{\n            height: 2vw;\n        }\n        code{\n            color: crimson;\n            background-color: #f1f1f1;\n            padding: 2px;\n            font-size: 105%;\n        }\n        \n    <\/style>\n<\/head>\n\n<body>\n    <h1>\n        <center>FortiSOAR - Recommended System Configuration.<\/center>\n    <\/h1>\n    <div class=\"spacing-div\"><\/div>\n    <!-- <p> We performed a scan of system for resources like CPU , RAM , Disk\n        Here are details about it\n    <p> -->\n    <h2> Here are your System Details<\/h2>\n    <table class=\"GeneratedTable\">\n        <thead>\n            <tr>\n                <th>Sr No<\/th>\n                <th>System Entity<\/th>\n                <th>Value<\/th>\n            <\/tr>\n        <\/thead>\n        <tbody>\n            <tr>\n                <td>1<\/td>\n                <td>CPU<\/td>\n                <td>{{vars.system_config.CPU}}\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>2<\/td>\n                <td>RAM\n                <\/td>\n                <td>{{vars.system_config.RAM}} GB\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>3<\/td>\n                <td>Disk Latency\n                <\/td>\n                <td>{{vars.system_config[\"Disk latency\"]}}\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>3<\/td>\n                <td>Disk IOPS - Read\n                <\/td>\n                <td>{{vars.system_config[\"Disk IOPS - Read\"]}}\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>4<\/td>\n                <td>Disk IOPS - Write\n                <\/td>\n                <td>{{vars.system_config[\"Disk IOPS - Write\"]}}\n            <\/tr>\n            <tr>\n                <td>5<\/td>\n                <td>SHMALL\n                <\/td>\n                <td>{{vars.system_config[\"SHMALL\"]}}\n            <\/tr>\n            <tr>\n                <td>6<\/td>\n                <td>SHMMAX\n                <\/td>\n                <td>{{vars.system_config[\"SHMMAX\"]}}\n            <\/tr>\n        <\/tbody>\n    <\/table>\n\n    <div class=\"spacing-div\"><\/div>\n    <h2>We recommend following system configuration based on system information gathered <\/h2>\n    <h2>Recommendation for Celery-D, Sealab_WSGI and NGINX<\/h2>\n    <table class=\"GeneratedTable\">\n        <thead>\n            <tr>\n                <th>Sr No<\/th>\n                <th>Configuration File<\/th>\n                <th>Recommendation<\/th>\n            <\/tr>\n        <\/thead>\n        <tbody>\n            <tr>\n                <td>1<\/td>\n                <td>File -\/etc\/celery\/celeryd.conf<\/td>\n                <td>Update key CELERYD_OPTS to use value = \"--concurrency={{vars.system_config.CPU}}\"\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>2<\/td>\n                <td>File - \/etc\/uwsgi.d\/sealab_wsgi.ini\n                <\/td>\n                <td>Update value of processes to {{vars.system_config.CPU}} , e.g processes = {{vars.system_config.CPU}}\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>3<\/td>\n                <td>File - \/etc\/nginx\/nginx.conf\n                <\/td>\n                <td>Set value of worker processes as auto - e.g worker_processes auto\n                <\/td>\n            <\/tr>\n        <\/tbody>\n    <\/table>\n\n    <div class=\"spacing-div\"><\/div>\n    <h2>Recommendation for PostgreSQL<\/h2>\n    <table class=\"GeneratedTable\">\n        <thead>\n            <tr>\n                <th>Sr No<\/th>\n                <th>Property<\/th>\n                <th>Recommended Value<\/th>\n                <th>Unit<\/th>\n            <\/tr>\n        <\/thead>\n        <tbody>\n            <tr>\n                <td>1<\/td>\n                <td>shared_buffer{% set variable = (vars.sharedBuffersValue | int) %}<\/td>\n                <td>{{((variable\/1024) if variable > 4096 else (variable))| round | int}}<\/td>\n                <td>{{'GB' if variable > 4096 else 'MB' }}<\/td>\n            <\/tr>\n            <tr>\n                <td>2<\/td>\n                <td>work_mem{% set variable = (vars.workMem | int) %}<\/td>\n                <td>{{((variable\/1024) if variable > 4096 else (variable))| round | int}}<\/td>\n                <td>{{'GB' if variable > 4096 else 'MB' }}<\/td>\n            <\/tr>\n            <tr>\n                <td>3<\/td>\n                <td>wal_buffers{% set variable = (vars.walBuffers | int) %}<\/td>\n                <td>{{((variable\/1024) if variable > 4096 else (variable))| round | int}}<\/td>\n                <td>{{'GB' if variable > 4096 else 'MB' }}<\/td>\n            <\/tr>\n            <tr>\n                <td>4<\/td>\n                <td>effective_cache_size{% set variable = (vars.effectiveCacheSize | int) %}<\/td>\n                <td>{{((variable\/1024) if variable > 4096 else (variable))| round | int}}<\/td>\n                <td>{{'GB' if variable > 4096 else 'MB' }}<\/td>\n            <\/tr>\n            <tr>\n                <td>5<\/td>\n                <td>maintenance_work_mem{% set variable = (vars.maintenanceWorkMem | int) %}<\/td>\n                <td>{{((variable\/1024) if variable > 4096 else (variable))| round | int}}<\/td>\n                <td>{{'GB' if variable > 4096 else 'MB' }}<\/td>\n            <\/tr>\n            <tr>\n                <td>6<\/td>\n                <td>max_wal_size{% set variable = (vars.max_wal_size | int) %}<\/td>\n                <td>{{((variable\/1024) if variable > 4096 else (variable))| round | int}}<\/td>\n                <td>{{'GB' if variable > 4096 else 'MB' }}<\/td>\n            <\/tr>\n            <tr>\n                <td>7<\/td>\n                <td>min_wal_size{% set variable = (vars.min_wal_size | int) %}<\/td>\n                <td>{{((variable\/1024) if variable > 4096 else (variable))| round | int}}<\/td>\n                <td>{{'GB' if variable > 4096 else 'MB' }}<\/td>\n            <\/tr>\n            <tr>\n                <td>8<\/td>\n                <td>random_page_cost<span style=\"color: red;\">*<\/span><\/td>\n                <td>{{vars.randomPageCost_SSD}}<\/td>\n                <td> <\/td>\n            <\/tr>\n            <tr>\n                <td>9<\/td>\n                <td>max_parallel_workers<\/td>\n                <td>{{vars.max_parallel_workers}}<\/td>\n                <td> <\/td>\n            <\/tr>\n            <tr>\n                <td>10<\/td>\n                <td>max_worker_processes<\/td>\n                <td>{{vars.max_worker_processes}}<\/td>\n                <td> <\/td>\n            <\/tr>\n            <tr>\n                <td>11<\/td>\n                <td>checkpoint_completion_target<\/td>\n                <td>{{vars.checkpointCompletionTarget}}<\/td>\n                <td> <\/td>\n            <\/tr>\n            <tr>\n                <td>12<\/td>\n                <td>effective_io_concurrency<span style=\"color: red;\">*<\/span><\/td>\n                <td>{{vars.effectiveIoConcurrency_SSD}}<\/td>\n                <td> <\/td>\n            <\/tr>\n            <tr>\n                <td>13<\/td>\n                <td>max_parallel_workers_per_gather<\/td>\n                <td>{{vars.max_parallel_workers_per_gather}}<\/td>\n                <td> <\/td>\n            <\/tr>\n            <tr>\n                <td>14<\/td>\n                <td>max_connections<\/td>\n                <td>{{vars.max_connections}}<\/td>\n                <td><\/td>\n            <\/tr>\n        <\/tbody>\n    <\/table>\n\n    <p> <span style=\"color: red;\">*<\/span> <span style=\"font-style: italic;font-weight: bold;text-decoration: underline;\"> Note : These field is applicable only when your system's storage is Solid State Drive<\/span> <\/p>\n\n    <div>\n        <h2>Here is the way to use this configuration and apply in you VM <\/h2>\n        <h3>Steps to incorporate the above listed recommendation<\/h3>\n        <ol>\n            <li>Login to Terminal of Your VM via SSH<\/li>\n            <li>Edit following files with above mentioned changes <br\/>\n                <ul>\n                    <li>\n                        Celery-D<br\/>\n                        <ul>\n                            <li>File Location :  <code>\/etc\/celery\/celeryd.conf<\/code><\/li>\n                        <\/ul>\n                    <\/li>\n                    <li>\n                        Sealab_WSGI<br\/>\n                        <ul>\n                            <li>File Location :  <code>\/etc\/uwsgi.d\/sealab_wsgi.ini<\/code><\/li>\n                        <\/ul>\n                    <\/li>\n                    <li>\n                        NGINX<br\/>\n                        <ul>\n                            <li>File Location : <code>\/etc\/nginx\/nginx.conf<\/code><\/li> \n                        <\/ul>\n                    <\/li>\n                    <li>\n                        PostgreSQL<br\/>\n                        <ul>\n                            <li>File Location :  <code>\/var\/lib\/pgsql\/14\/data\/postgresql.conf<\/code><\/li>\n                        <\/ul>\n                    <\/li>\n                <\/ul>\n            <\/li>\n            <li>Restart services using csadm commands <code>csadm services --restart<\/code><\/li>\n        <\/ol>\n    <\/div>\n    \n<\/body>\n\n<\/html>",
+                "message": {
+                    "tags": [],
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "thread": false,
+                    "content": "<p>System Details are Analysed and Creating Report<\/p>",
+                    "records": "{{vars.steps.Create_Task_For_Tracking_Purposes['@id']}}",
+                    "parentstepid": "\/api\/3\/workflow_steps\/d57cdcbf-309e-4684-a8e1-eacf32d528d2"
+                }
+            },
+            "status": null,
+            "top": "60",
+            "left": "60",
+            "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+            "group": "\/api\/3\/workflow_groups\/11deafc3-47c2-425b-a0a9-862870d14dcb",
+            "uuid": "97805970-201b-49c9-a86d-630d5ae0c2e9"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Get Input Confirmation",
+            "description": null,
+            "arguments": {
+                "type": "InputBased",
+                "input": {
+                    "schema": {
+                        "title": "Confirm System Configuration",
+                        "description": "We have capture system configuration. Please confirm to proceed.\nYou can reduce  CPU & RAM number so that suggestion will not use all of CPU \/ RAM  or proceed to use complete CPU \/ RAM for system tune up.\n\n1. CPU - {{vars.system_config.CPU}}\n2. RAM - {{vars.system_config.RAM}}\n3. Disk IOPS - Read - {{vars.system_config[\"Disk IOPS - Read\"]}}\n4. Disk IOPS - Write - {{vars.system_config[\"Disk IOPS - Write\"]}}\n5. Disk latency - {{vars.system_config[\"Disk latency\"]}}\n6. SHMMAX - {{vars.system_config[\"SHMMAX\"]}}\n7. SHMALL - {{vars.system_config[\"SHMALL\"]}}",
+                        "inputVariables": []
+                    }
+                },
+                "record": "{{vars.steps.Create_Task_For_Tracking_Purposes['@id']}}",
+                "message": {
+                    "tags": [],
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "tenant": "",
+                    "thread": false,
+                    "content": "<p>Waiting for Your approval, To confirm that below system configuration is correct&nbsp;<\/p>\n<p>1. CPU - {{vars.system_config.CPU}}<br>2. RAM - {{vars.system_config.RAM}}<br>3. Disk IOPS - Read - {{vars.system_config[\"Disk IOPS - Read\"]}}<br>4. Disk IOPS - Write - {{vars.system_config[\"Disk IOPS - Write\"]}}<br>5. Disk latency - {{vars.system_config[\"Disk latency\"]}}<br>6. SHMMAX - {{vars.system_config[\"SHMMAX\"]}}<br>7. SHMALL - {{vars.system_config[\"SHMALL\"]}}<\/p>",
+                    "records": "{{vars.steps.Create_Task_For_Tracking_Purposes['@id']}}",
+                    "parentstepid": "\/api\/3\/workflow_steps\/bd5e75ed-95e1-4b30-8682-5c9e68824c9a"
+                },
+                "agent_id": null,
+                "resources": "tasks",
+                "is_approval": false,
+                "owner_detail": {
+                    "isAssigned": false,
+                    "emailRecipients": ""
+                },
+                "isRecordLinked": true,
+                "step_variables": {
+                    "RAM": "{{(vars.system_config.RAM | int) - 10}}",
+                    "sharedBuffersValue": "{{(((vars.system_config.RAM | int - 10)\/ 4 ) * 1024 ) | round}}"
+                },
+                "response_mapping": {
+                    "options": [
+                        {
+                            "option": "Details Are Correct",
+                            "primary": true,
+                            "step_iri": "\/api\/3\/workflow_steps\/d9b2e170-6ba3-4b17-bfd5-cfc72596f2c3"
+                        },
+                        {
+                            "option": "Review Required",
+                            "step_iri": "\/api\/3\/workflow_steps\/2f1f2ade-f40a-47cf-9af0-a85cebee53e5"
+                        }
+                    ],
+                    "duplicateOption": false,
+                    "customSuccessMessage": "Awaiting Playbook resumed successfully."
+                },
+                "email_notification": {
+                    "enabled": false,
+                    "smtpParameters": []
+                },
+                "customEmailExternal": false,
+                "inline_channel_list": [],
+                "external_channel_list": [],
+                "unauthenticated_input": false,
+                "external_email_subject": null,
+                "internal_email_subject": "A FortiSOAR playbook is requesting your input",
+                "custom_email_body_external": null,
+                "external_email_attachments": null
+            },
+            "status": null,
+            "top": "60",
+            "left": "20",
+            "stepType": "\/api\/3\/workflow_step_types\/fc04082a-d7dc-4299-96fb-6837b1baa0fe",
+            "group": "\/api\/3\/workflow_groups\/cc077b07-5744-43ea-9ae9-7460b3e661d0",
+            "uuid": "522b344d-3a64-4fb9-8476-69d67670dc23"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Get System Configuration",
+            "description": null,
+            "arguments": {
+                "name": "SSH",
+                "config": "739b5a4e-30ca-4c76-a1d7-0ee9d694cff4",
+                "params": {
+                    "cmd": "\/bin\/python3  \/opt\/cyops\/scripts\/get-system-details.py",
+                    "allowed_exit": "-1,0",
+                    "is_super_user": false
+                },
+                "version": "2.1.2",
+                "connector": "ssh",
+                "operation": "run_remote_command",
+                "mock_result": "{\n\"data\":{'CPU': '32', 'RAM': '64', 'Disk IOPS - Read': '22k', 'Disk IOPS - Write': '22k', 'Disk latency': ' 820.0 us ', 'SHMALL': '2017224', 'SHMMAX': '8262549504'}\n}",
+                "operationTitle": "Execute remote command",
+                "pickFromTenant": false,
+                "step_variables": {
+                    "system_config": "{{vars.steps.Get_System_Configuration.data | toDict}}"
+                }
+            },
+            "status": null,
+            "top": "80",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/0bfed618-0316-11e7-93ae-92361f002671",
+            "group": "\/api\/3\/workflow_groups\/a67865b0-2192-436a-b4af-6f2016bf35c1",
+            "uuid": "d57cdcbf-309e-4684-a8e1-eacf32d528d2"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Postgresql Configuration",
+            "description": null,
+            "arguments": {
+                "message": {
+                    "tags": [],
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "thread": false,
+                    "content": "<p>Analyzed System Details are validated By user. Proceeding Further<\/p>",
+                    "records": "{{vars.steps.Create_Task_For_Tracking_Purposes['@id']}}",
+                    "parentstepid": "\/api\/3\/workflow_steps\/d57cdcbf-309e-4684-a8e1-eacf32d528d2"
+                },
+                "workMem": "{{((vars.RAM *1024)-vars.sharedBuffersValue)\/(300 * 3)\/(vars.system_config.CPU  | int \/ 2) | round}}",
+                "walBuffers": "{{((3 * vars.sharedBuffersValue | int ) \/ 100) | round }}",
+                "max_wal_size": "4096",
+                "min_wal_size": "1024",
+                "max_connections": "300",
+                "workersPerGather": "4",
+                "effectiveCacheSize": "{{((vars.RAM)* 3  * 1024 \/ 4 ) | round}}",
+                "maintenanceWorkMem": "{{ ((vars.RAM)* 1024 \/ 16) | round }}",
+                "randomPageCost_HDD": "4",
+                "randomPageCost_SSD": "1.1",
+                "max_parallel_workers": "{{vars.system_config.CPU}}",
+                "max_worker_processes": "{{vars.system_config.CPU}}",
+                "checkpointCompletionTarget": "0.9",
+                "effectiveIoConcurrency_HDD": "2",
+                "effectiveIoConcurrency_SSD": "200",
+                "parallelMaintenanceWorkers": "4",
+                "max_parallel_workers_per_gather": "{{(vars.system_config.CPU  | int \/ 4) | round}}"
+            },
+            "status": null,
+            "top": "400",
+            "left": "1000",
+            "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+            "group": null,
+            "uuid": "d9b2e170-6ba3-4b17-bfd5-cfc72596f2c3"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Record IRI for Reset",
+            "description": null,
+            "arguments": {
+                "recordIRI": "{{vars.steps.Create_Task_For_Tracking_Purposes}}"
+            },
+            "status": null,
+            "top": "820",
+            "left": "1640",
+            "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+            "group": null,
+            "uuid": "56f23eb7-b11e-46f9-8b4f-dc8becf74084"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Report as Attachment",
+            "description": null,
+            "arguments": {
+                "params": {
+                    "name": "{{vars.steps.Create_Report_File.data.filename| regex_replace(\"_[0-9]+[\\.]html\", \"\")}}",
+                    "filename": "{{vars.steps.Create_Report_File.data.filename}}",
+                    "description": "This is Playbook Generated Report for System Configuration Recommendation",
+                    "request_headers": "",
+                    "multipart_headers": "",
+                    "extra_multipart_fields": ""
+                },
+                "message": {
+                    "tags": [],
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "tenant": "",
+                    "thread": false,
+                    "content": "<p>Report Generated&nbsp; and Created Attachment for same.<br><br>Please click on following link to navigate to Attachments {% set uuid=vars.steps.Report_as_Attachment.data[\"@id\"]| regex_search(\"[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}\") %}<a href=\"\/modules\/view-panel\/attachments\/{{uuid}}\">{{vars.steps.Create_Report_File.data.filename| regex_replace(\"_[0-9]+[\\.]html\", \"\")}}<\/a><\/p>\n<p>&nbsp;<\/p>",
+                    "records": "{{vars.steps.Create_Task_For_Tracking_Purposes['@id']}}",
+                    "parentstepid": "\/api\/3\/workflow_steps\/d57cdcbf-309e-4684-a8e1-eacf32d528d2"
+                },
+                "version": "3.2.6",
+                "connector": "cyops_utilities",
+                "operation": "create_cyops_attachment",
+                "operationTitle": "File: Create Attachment from File",
+                "step_variables": []
+            },
+            "status": null,
+            "top": "60",
+            "left": "700",
+            "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+            "group": "\/api\/3\/workflow_groups\/11deafc3-47c2-425b-a0a9-862870d14dcb",
+            "uuid": "cdbecb62-8e63-4266-96b8-8a4f4957598d"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Start",
+            "description": null,
+            "arguments": {
+                "__triggerLimit": true,
+                "step_variables": {
+                    "input": {
+                        "params": []
+                    }
+                },
+                "triggerOnSource": true,
+                "triggerOnReplicate": false
+            },
+            "status": null,
+            "top": "120",
+            "left": "60",
+            "stepType": "\/api\/3\/workflow_step_types\/b348f017-9a94-471f-87f8-ce88b6a7ad62",
+            "group": null,
+            "uuid": "3ebe5ddd-498e-4d75-b4f8-30b281a82686"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "User Rejected the Configuration",
+            "description": null,
+            "arguments": {
+                "params": [],
+                "message": {
+                    "tags": [],
+                    "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
+                    "tenant": "",
+                    "thread": false,
+                    "content": "<p>User has rejected the Analyzed System Details. Please Verify or Update the System Details and Retrigger the Playbook<\/p>",
+                    "records": "{{vars.steps.Create_Task_For_Tracking_Purposes['@id']}}",
+                    "parentstepid": "\/api\/3\/workflow_steps\/522b344d-3a64-4fb9-8476-69d67670dc23"
+                },
+                "version": "3.2.6",
+                "connector": "cyops_utilities",
+                "operation": "no_op",
+                "operationTitle": "Utils: No Operation",
+                "step_variables": []
+            },
+            "status": null,
+            "top": "60",
+            "left": "360",
+            "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+            "group": "\/api\/3\/workflow_groups\/cc077b07-5744-43ea-9ae9-7460b3e661d0",
+            "uuid": "2f1f2ade-f40a-47cf-9af0-a85cebee53e5"
+        }
+    ],
+    "routes": [
+        {
+            "@type": "WorkflowRoute",
+            "name": "Attach Attachment to Task -> Record IRI for Reset",
+            "targetStep": "\/api\/3\/workflow_steps\/56f23eb7-b11e-46f9-8b4f-dc8becf74084",
+            "sourceStep": "\/api\/3\/workflow_steps\/b9dd186d-9010-49f5-898f-bf7de402c9fa",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "d2a3ea18-e2e6-4909-b057-cbe93734bdfb"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Check For Error In Output -> No Oprations",
+            "targetStep": "\/api\/3\/workflow_steps\/6e305d8d-0f13-40bd-a374-a001f9aae4c1",
+            "sourceStep": "\/api\/3\/workflow_steps\/58d8a19a-af46-4a26-a971-7508b7324c72",
+            "label": "is present",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "7b1a120f-adac-4cca-a09f-78153052b7c7"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Check if Data is Present -> Get Input Confirmation",
+            "targetStep": "\/api\/3\/workflow_steps\/522b344d-3a64-4fb9-8476-69d67670dc23",
+            "sourceStep": "\/api\/3\/workflow_steps\/58d8a19a-af46-4a26-a971-7508b7324c72",
+            "label": "is not present",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "7ab67396-6154-4092-9140-bf4cd1612c36"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Create Report File -> Report as Attachment",
+            "targetStep": "\/api\/3\/workflow_steps\/cdbecb62-8e63-4266-96b8-8a4f4957598d",
+            "sourceStep": "\/api\/3\/workflow_steps\/f2ef2fea-5185-4b45-becc-5bb0c8713f11",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "eb2b758f-24f3-4d2b-9680-70efa11b0b14"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Create Task For Tracking Purposes1 -> Get System Configuration",
+            "targetStep": "\/api\/3\/workflow_steps\/d57cdcbf-309e-4684-a8e1-eacf32d528d2",
+            "sourceStep": "\/api\/3\/workflow_steps\/bd5e75ed-95e1-4b30-8682-5c9e68824c9a",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "eec9b4a9-0e5b-4a01-a0f6-00d8f1b30c21"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Generate Report Code -> Create Report File",
+            "targetStep": "\/api\/3\/workflow_steps\/f2ef2fea-5185-4b45-becc-5bb0c8713f11",
+            "sourceStep": "\/api\/3\/workflow_steps\/97805970-201b-49c9-a86d-630d5ae0c2e9",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "6eb2874d-29d3-4ebd-8ed3-237754d5a160"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Get Input Confirmation -> Copy of No Oprations",
+            "targetStep": "\/api\/3\/workflow_steps\/2f1f2ade-f40a-47cf-9af0-a85cebee53e5",
+            "sourceStep": "\/api\/3\/workflow_steps\/522b344d-3a64-4fb9-8476-69d67670dc23",
+            "label": "Review Required",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "a230d90f-6153-4c25-bf8f-838a3647b934"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Get Input Confirmation -> Postgresql Configuration",
+            "targetStep": "\/api\/3\/workflow_steps\/d9b2e170-6ba3-4b17-bfd5-cfc72596f2c3",
+            "sourceStep": "\/api\/3\/workflow_steps\/522b344d-3a64-4fb9-8476-69d67670dc23",
+            "label": "Details Are Correct",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "4f414eb0-be69-4e12-9974-8c8fdb95ff70"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Get System Configuration -> Check if Data is Present",
+            "targetStep": "\/api\/3\/workflow_steps\/58d8a19a-af46-4a26-a971-7508b7324c72",
+            "sourceStep": "\/api\/3\/workflow_steps\/d57cdcbf-309e-4684-a8e1-eacf32d528d2",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "f5ae7284-4af0-4fd1-9d98-315be68a4ef9"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Postgresql Configuration -> Generate Report Code",
+            "targetStep": "\/api\/3\/workflow_steps\/97805970-201b-49c9-a86d-630d5ae0c2e9",
+            "sourceStep": "\/api\/3\/workflow_steps\/d9b2e170-6ba3-4b17-bfd5-cfc72596f2c3",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "d7279d49-8940-4af5-b4ba-9a865b3727dd"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Report as Attachment -> Attach Attachment to Task",
+            "targetStep": "\/api\/3\/workflow_steps\/b9dd186d-9010-49f5-898f-bf7de402c9fa",
+            "sourceStep": "\/api\/3\/workflow_steps\/cdbecb62-8e63-4266-96b8-8a4f4957598d",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "0381ecd9-3df3-419b-a381-84d3ef5937b0"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Create Task For Tracking Purposes1",
+            "targetStep": "\/api\/3\/workflow_steps\/bd5e75ed-95e1-4b30-8682-5c9e68824c9a",
+            "sourceStep": "\/api\/3\/workflow_steps\/3ebe5ddd-498e-4d75-b4f8-30b281a82686",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "f54268fb-9d18-41f5-9810-02220af69dd2"
+        }
+    ],
+    "groups": [
+        {
+            "@type": "WorkflowGroup",
+            "name": "Checking For Error and Create task to resolve error",
+            "description": "There are two types of error that can occur, first due to PGSQL directory is not mounted and second one because of some command is not installed",
+            "type": "block",
+            "isCollapsed": false,
+            "hasTriggerStep": false,
+            "hideInLogs": false,
+            "metadata": [],
+            "reusable": false,
+            "top": "40",
+            "left": "980",
+            "height": "174",
+            "width": "679",
+            "uuid": "92cd3537-c95f-4ad0-ac77-997134fc1dbb",
+            "recordTags": []
+        },
+        {
+            "@type": "WorkflowGroup",
+            "name": "Generate System Config Recomendation",
+            "description": "",
+            "type": "block",
+            "isCollapsed": false,
+            "hasTriggerStep": false,
+            "hideInLogs": false,
+            "metadata": [],
+            "reusable": false,
+            "top": "480",
+            "left": "940",
+            "height": "164",
+            "width": "991",
+            "uuid": "11deafc3-47c2-425b-a0a9-862870d14dcb",
+            "recordTags": []
+        },
+        {
+            "@type": "WorkflowGroup",
+            "name": "Get System Details",
+            "description": "This step uses python script to return you the system configuration",
+            "type": "block",
+            "isCollapsed": false,
+            "hasTriggerStep": false,
+            "hideInLogs": false,
+            "metadata": [],
+            "reusable": false,
+            "top": "40",
+            "left": "640",
+            "height": "171",
+            "width": "319",
+            "uuid": "a67865b0-2192-436a-b4af-6f2016bf35c1",
+            "recordTags": []
+        },
+        {
+            "@type": "WorkflowGroup",
+            "name": "User Review",
+            "description": "",
+            "type": "block",
+            "isCollapsed": false,
+            "hasTriggerStep": false,
+            "hideInLogs": false,
+            "metadata": [],
+            "reusable": false,
+            "top": "220",
+            "left": "980",
+            "height": "167",
+            "width": "688",
+            "uuid": "cc077b07-5744-43ea-9ae9-7460b3e661d0",
+            "recordTags": []
+        }
+    ],
+    "priority": "\/api\/3\/picklists\/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
+    "uuid": "7f5f86e0-56bd-47da-8b07-9dfc48e4d402",
+    "owners": [],
+    "isPrivate": false,
+    "deletedAt": null,
+    "recordTags": [
+        "system",
+        "System Configuration Recommendation"
+    ]
+}
