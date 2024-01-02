@@ -2,10 +2,10 @@
     "@context": "\/api\/3\/contexts\/Workflow",
     "@type": "Workflow",
     "triggerLimit": null,
-    "name": "Manual Input > System Configuration Recommendation",
+    "name": "Manual Trigger > System Configuration Recommendation",
     "aliasName": null,
     "tag": null,
-    "description": null,
+    "description": "This playbook generates the configuration recommendation report based on the inputs given by user",
     "isActive": true,
     "debug": false,
     "singleRecordExecution": false,
@@ -519,6 +519,7 @@
     "isPrivate": false,
     "deletedAt": null,
     "recordTags": [
+        "Manual Trigger",
         "System Configuration Recommendation"
     ]
 }

@@ -3,7 +3,7 @@
         "@type": "Scenario",
         "configuration": null,
         "title": "System Configuration Recommendation",
-        "description": "### This Scenario demonstrates configuring FortiSOAR based on your system details. \nBased on your system details, we suggest configuration changes for following \n\n1. PostgreSQL\n2. NGNIX\n3. UWSGI\n4. Celery-D \n\nYou can find all the recommendations in the attachment section inside FortiSOAR. \n\n* * *\n### How to use this SP \n\n1. Install SSH Connector \n2. Configure the above Connector for FortiSOAR VM\n3. And Simulate \"System Configuration Recommendation\" scenario\n4. After playbook's successful run you will get a Attachment Created by name \"Recommended_System_Configuration.html\"\n5. Apply the configurations as instructed in Recommended_System_Configuration report\n\n***\n\n### Note \n\n1. Make sure to install SSH connector and Configure it \n2. Some configuration only applies to system having SSD as storage\n3. One Task is also Created for **csadmin** user \n\n",
+        "description": "### This Scenario demonstrates configuring FortiSOAR based on your system details. \nBased on your system details, we suggest configuration changes for following \n\n1. PostgreSQL\n2. NGNIX\n3. UWSGI\n4. Celery-D \n\nYou can find all the recommendations in the attachment section inside FortiSOAR. \n\n",
         "steps": {
             "Steps": [
                 {
@@ -21,7 +21,7 @@
         "createUser": "\/api\/3\/people\/3451141c-bac6-467c-8d72-85e0fab569ce",
         "createDate": 1700463779.949511,
         "modifyUser": "\/api\/3\/people\/3451141c-bac6-467c-8d72-85e0fab569ce",
-        "modifyDate": 1704184917.712732,
+        "modifyDate": 1704190176.577299,
         "recordTags": [
             "System Configuration Recommendation"
         ]

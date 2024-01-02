@@ -1,0 +1,11 @@
+{
+    "@context": "\/api\/3\/contexts\/WorkflowCollection",
+    "@type": "WorkflowCollection",
+    "name": "10 - SP - System Configuration Recommendation",
+    "description": "These playbook uses system details like number of CPU, RAM, etc to generate a recommendation report that contains changes to be done in your system for optimal use of all resources",
+    "visible": true,
+    "image": null,
+    "uuid": "dbf8de0d-974b-451d-bbbc-8d4e2ec77ec4",
+    "deletedAt": null,
+    "recordTags": []
+}

@@ -39,11 +39,11 @@
     "recordTags": [
         "System Configuration Recommendation"
     ],
-    "date": "2024-01-02T09:07:03+00:00",
+    "date": "2024-01-02T10:41:18+00:00",
     "contents": {
         "playbooks": [
             {
-                "name": "System Configuration Recommendation"
+                "name": "10 - SP - System Configuration Recommendation"
             }
         ],
         "connectors": [

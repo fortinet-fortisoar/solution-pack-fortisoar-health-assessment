@@ -2,10 +2,10 @@
     "@context": "\/api\/3\/contexts\/Workflow",
     "@type": "Workflow",
     "triggerLimit": null,
-    "name": "System Configuration Recommendation",
+    "name": "Scenario - System Configuration Recommendation",
     "aliasName": null,
     "tag": null,
-    "description": null,
+    "description": "This playbook is triggered by Scenario record to generate configuration recommendation report",
     "isActive": true,
     "debug": true,
     "singleRecordExecution": false,
@@ -638,7 +638,8 @@
     "isPrivate": false,
     "deletedAt": null,
     "recordTags": [
-        "system",
+        "Refrenced",
+        "Scenario",
         "System Configuration Recommendation"
     ]
 }
