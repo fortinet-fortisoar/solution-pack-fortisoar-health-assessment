@@ -33,8 +33,8 @@
                 "step_variables": []
             },
             "status": null,
-            "top": "208",
-            "left": "38",
+            "top": "160",
+            "left": "40",
             "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
             "group": "\/api\/3\/workflow_groups\/e377ba59-568a-4cea-8d73-86746924eadf",
             "uuid": "8227edb2-655d-4467-b068-d7ed55b268a0"
@@ -47,8 +47,8 @@
                 "HTML": "<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <title>FortiSOAR<\/title>\n    <style>\n        table.GeneratedTable {\n            width: 100%;\n            background-color: #797777;\n            border-collapse: collapse;\n            border-width: 2px;\n            border-color: #080808;\n            border-style: solid;\n            color: #f3f2f2;\n        }\n\n        table.GeneratedTable td,\n        table.GeneratedTable th {\n            border-width: 2px;\n            border-color: #080808;\n            border-style: solid;\n            padding: 3px;\n        }\n\n        table.GeneratedTable thead {\n            background-color: #5074e2;\n        }\n        .spacing-div{\n            height: 2vw;\n        }\n        code{\n            color: crimson;\n            background-color: #f1f1f1;\n            padding: 2px;\n            font-size: 105%;\n        }\n        \n    <\/style>\n<\/head>\n\n<body>\n    <h1>\n        <center>FortiSOAR - Recommended System Configuration.<\/center>\n    <\/h1>\n    <div class=\"spacing-div\"><\/div>\n    <!-- <p> We performed a scan of system for resources like CPU , RAM , Disk\n        Here are details about it\n    <p> -->\n    <h2> Here are your System Details<\/h2>\n    <table class=\"GeneratedTable\">\n        <thead>\n            <tr>\n                <th>Sr No<\/th>\n                <th>System Entity<\/th>\n                <th>Value<\/th>\n            <\/tr>\n        <\/thead>\n        <tbody>\n            <tr>\n                <td>1<\/td>\n                <td>CPU<\/td>\n                <td>{{vars.system_config.CPU}}\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>2<\/td>\n                <td>RAM\n                <\/td>\n                <td>{{vars.system_config.RAM}} GB\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>3<\/td>\n                <td>Disk Latency\n                <\/td>\n                <td>{{vars.system_config[\"Disk latency\"]}}\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>3<\/td>\n                <td>Disk IOPS - Read\n                <\/td>\n                <td>{{vars.system_config[\"Disk IOPS - Read\"]}}\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>4<\/td>\n                <td>Disk IOPS - Write\n                <\/td>\n                <td>{{vars.system_config[\"Disk IOPS - Write\"]}}\n            <\/tr>\n            <tr>\n                <td>5<\/td>\n                <td>SHMALL\n                <\/td>\n                <td>{{vars.system_config[\"SHMALL\"]}}\n            <\/tr>\n            <tr>\n                <td>6<\/td>\n                <td>SHMMAX\n                <\/td>\n                <td>{{vars.system_config[\"SHMMAX\"]}}\n            <\/tr>\n        <\/tbody>\n    <\/table>\n\n    <div class=\"spacing-div\"><\/div>\n    <h2>We recommend following system configuration based on system information gathered <\/h2>\n    <h2>Recommendation for Celery-D, Sealab_WSGI, RabbitMQ, Integrations_WSGI and NGINX<\/h2>\n    <table class=\"GeneratedTable\">\n        <thead>\n            <tr>\n                <th>Sr No<\/th>\n                <th>Configuration File<\/th>\n                <th>Recommendation<\/th>\n            <\/tr>\n        <\/thead>\n        <tbody>\n            <tr>\n                <td>1<\/td>\n                <td>File -\/etc\/celery\/celeryd.conf<\/td>\n                <td>Update key CELERYD_OPTS to use value = \"--concurrency={{vars.system_config.CPU}}\"\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>2<\/td>\n                <td>File - \/etc\/uwsgi.d\/sealab_wsgi.ini\n                <\/td>\n                <td>Update value of processes to {{vars.system_config.CPU}} , e.g processes = {{vars.system_config.CPU}}\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>3<\/td>\n                <td>File - \/etc\/uwsgi.d\/integrations_wsgi.ini\n                <\/td>\n                <td>Update value of processes to {{vars.system_config.CPU}} , e.g processes = {{vars.system_config.CPU}}\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>4<\/td>\n                <td>File - \/etc\/nginx\/nginx.conf\n                <\/td>\n                <td>Set value of worker processes as auto - e.g worker_processes auto\n                <\/td>\n            <\/tr>\n            {{\"<tr>\n                <td>5<\/td>\n                <td>File - \/etc\/rabbitmq\/rabbitmq-env.conf\n                <\/td>\n                <td>Update the Value of RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS to \\\"+S 8:8\\\"\n                <\/td>\n            <\/tr>\" if (vars.system_config.CPU |int)  >= 16 }}\n        <\/tbody>\n    <\/table>\n\n    <div class=\"spacing-div\"><\/div>\n    <h2>Recommendation for PostgreSQL<\/h2>\n    <table class=\"GeneratedTable\">\n        <thead>\n            <tr>\n                <th>Sr No<\/th>\n                <th>Property<\/th>\n                <th>Recommended Value<\/th>\n                <th>Unit<\/th>\n            <\/tr>\n        <\/thead>\n        <tbody>\n            <tr>\n                <td>1<\/td>\n                <td>shared_buffer{% set variable = (vars.sharedBuffersValue | int) %}<\/td>\n                <td>{{((variable\/1024) if variable > 4096 else (variable))| round | int}}<\/td>\n                <td>{{'GB' if variable > 4096 else 'MB' }}<\/td>\n            <\/tr>\n            <tr>\n                <td>2<\/td>\n                <td>work_mem{% set variable = (vars.workMem | int) %}<\/td>\n                <td>{{((variable\/1024) if variable > 4096 else (variable))| round | int}}<\/td>\n                <td>{{'GB' if variable > 4096 else 'MB' }}<\/td>\n            <\/tr>\n            <tr>\n                <td>3<\/td>\n                <td>wal_buffers{% set variable = (vars.walBuffers | int) %}<\/td>\n                <td>{{((variable\/1024) if variable > 4096 else (variable))| round | int}}<\/td>\n                <td>{{'GB' if variable > 4096 else 'MB' }}<\/td>\n            <\/tr>\n            <tr>\n                <td>4<\/td>\n                <td>effective_cache_size{% set variable = (vars.effectiveCacheSize | int) %}<\/td>\n                <td>{{((variable\/1024) if variable > 4096 else (variable))| round | int}}<\/td>\n                <td>{{'GB' if variable > 4096 else 'MB' }}<\/td>\n            <\/tr>\n            <tr>\n                <td>5<\/td>\n                <td>maintenance_work_mem{% set variable = (vars.maintenanceWorkMem | int) %}<\/td>\n                <td>{{((variable\/1024) if variable > 4096 else (variable))| round | int}}<\/td>\n                <td>{{'GB' if variable > 4096 else 'MB' }}<\/td>\n            <\/tr>\n            <tr>\n                <td>6<\/td>\n                <td>max_wal_size{% set variable = (vars.max_wal_size | int) %}<\/td>\n                <td>{{((variable\/1024) if variable > 4096 else (variable))| round | int}}<\/td>\n                <td>{{'GB' if variable > 4096 else 'MB' }}<\/td>\n            <\/tr>\n            <tr>\n                <td>7<\/td>\n                <td>min_wal_size{% set variable = (vars.min_wal_size | int) %}<\/td>\n                <td>{{((variable\/1024) if variable > 4096 else (variable))| round | int}}<\/td>\n                <td>{{'GB' if variable > 4096 else 'MB' }}<\/td>\n            <\/tr>\n            <tr>\n                <td>8<\/td>\n                <td>random_page_cost<span style=\"color: red;\">*<\/span><\/td>\n                <td>{{vars.randomPageCost_SSD}}<\/td>\n                <td> <\/td>\n            <\/tr>\n            <tr>\n                <td>9<\/td>\n                <td>max_parallel_workers<\/td>\n                <td>{{vars.max_parallel_workers}}<\/td>\n                <td> <\/td>\n            <\/tr>\n            <tr>\n                <td>10<\/td>\n                <td>max_worker_processes<\/td>\n                <td>{{vars.max_worker_processes}}<\/td>\n                <td> <\/td>\n            <\/tr>\n            <tr>\n                <td>11<\/td>\n                <td>checkpoint_completion_target<\/td>\n                <td>{{vars.checkpointCompletionTarget}}<\/td>\n                <td> <\/td>\n            <\/tr>\n            <tr>\n                <td>12<\/td>\n                <td>effective_io_concurrency<span style=\"color: red;\">*<\/span><\/td>\n                <td>{{vars.effectiveIoConcurrency_SSD}}<\/td>\n                <td> <\/td>\n            <\/tr>\n            <tr>\n                <td>13<\/td>\n                <td>max_parallel_workers_per_gather<\/td>\n                <td>{{vars.max_parallel_workers_per_gather}}<\/td>\n                <td> <\/td>\n            <\/tr>\n            <tr>\n                <td>14<\/td>\n                <td>max_parallel_maintaince_worker<\/td>\n                <td>{{vars.max_parallel_workers_per_gather}}<\/td>\n                <td><\/td>\n            <\/tr>\n            <tr>\n                <td>15<\/td>\n                <td>max_connections<\/td>\n                <td>{{vars.max_connections}}<\/td>\n                <td><\/td>\n            <\/tr>\n        <\/tbody>\n    <\/table>\n\n    <p> <span style=\"color: red;\">*<\/span> <span style=\"font-style: italic;font-weight: bold;text-decoration: underline;\"> Note : These field is applicable only when your system's storage is Solid State Drive <\/span> <\/p>\n\n    <div>\n        <h2>Here is the way to use this configuration and apply in you VM <\/h2>\n        <h3>Steps to incorporate the above listed recommendation<\/h3>\n        <ol>\n            <li>Login to Terminal of Your VM via SSH<\/li>\n            <li>Edit following files with above mentioned changes <br\/>\n                <ul>\n                    <li>\n                        Celery-D<br\/>\n                        <ul>\n                            <li>File Location :  <code>\/etc\/celery\/celeryd.conf<\/code><\/li>\n                        <\/ul>\n                    <\/li>\n                    <li>\n                        Sealab_WSGI<br\/>\n                        <ul>\n                            <li>File Location :  <code>\/etc\/uwsgi.d\/sealab_wsgi.ini<\/code><\/li>\n                        <\/ul>\n                    <\/li>\n                    <li>\n                        Integrations_WSGI<br\/>\n                        <ul>\n                            <li>File Location :  <code>\/etc\/uwsgi.d\/integrations_wsgi.ini<\/code><\/li>\n                        <\/ul>\n                    <\/li>\n                    {{\"<li>\n                        RabbitMQ<br\/>\n                        <ul>\n                            <li>File Location :  <code>\/etc\/rabbitmq\/rabbitmq-env.conf<\/code><\/li>\n                        <\/ul>\n                        <\/li>\" if (vars.system_config.CPU |int)  >= 16 }}\n                    <li>\n                        NGINX<br\/>\n                        <ul>\n                            <li>File Location : <code>\/etc\/nginx\/nginx.conf<\/code><\/li> \n                        <\/ul>\n                    <\/li>\n                    <li>\n                        PostgreSQL<br\/>\n                        <ul>\n                            <li>File Location :  <code>\/var\/lib\/pgsql\/14\/data\/postgresql.conf<\/code><\/li>\n                        <\/ul>\n                    <\/li>\n                <\/ul>\n            <\/li>\n            <li>Restart services using csadm commands <code>csadm services --restart<\/code><\/li>\n        <\/ol>\n    <\/div>\n    \n<\/body>\n\n<\/html>"
             },
             "status": null,
-            "top": "48",
-            "left": "38",
+            "top": "60",
+            "left": "40",
             "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
             "group": "\/api\/3\/workflow_groups\/e377ba59-568a-4cea-8d73-86746924eadf",
             "uuid": "4ae43a68-75bf-4472-99cd-b597fb1da218"
@@ -85,6 +85,27 @@
         },
         {
             "@type": "WorkflowStep",
+            "name": "Raise Exception for Incorrect Data Entered",
+            "description": null,
+            "arguments": {
+                "params": {
+                    "msg": "Please check if CPU is greater than 8, RAM is greater than 32 and IOPS (Read + Write) is greater than 3000"
+                },
+                "version": "3.2.6",
+                "connector": "cyops_utilities",
+                "operation": "raise_exception",
+                "operationTitle": "Utils: Raise Exception",
+                "step_variables": []
+            },
+            "status": null,
+            "top": "580",
+            "left": "880",
+            "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+            "group": null,
+            "uuid": "3865ee34-83b0-40a3-8b9f-b3520abeb3f4"
+        },
+        {
+            "@type": "WorkflowStep",
             "name": "Report as Attachment",
             "description": null,
             "arguments": {
@@ -103,8 +124,8 @@
                 "step_variables": []
             },
             "status": null,
-            "top": "368",
-            "left": "38",
+            "top": "260",
+            "left": "40",
             "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
             "group": "\/api\/3\/workflow_groups\/e377ba59-568a-4cea-8d73-86746924eadf",
             "uuid": "f6c619f7-5e13-4288-ab78-9b4ae4b1e630"
@@ -132,7 +153,7 @@
             "arguments": {
                 "route": "394aec98-3a0f-4ce8-97ad-5abbc39d29b1",
                 "resources": [
-                    "alerts"
+                    "scenario"
                 ],
                 "__triggerLimit": true,
                 "inputVariables": [
@@ -146,7 +167,7 @@
                         "dataType": "integer",
                         "formType": "integer",
                         "required": true,
-                        "_expanded": false,
+                        "_expanded": true,
                         "mmdUpdate": true,
                         "collection": false,
                         "searchable": true,
@@ -169,8 +190,8 @@
                         "tooltip": "Please add you system's RAM",
                         "dataType": "integer",
                         "formType": "integer",
-                        "required": false,
-                        "_expanded": false,
+                        "required": true,
+                        "_expanded": true,
                         "mmdUpdate": true,
                         "collection": false,
                         "searchable": true,
@@ -191,10 +212,10 @@
                         "label": "Disk Latency",
                         "title": "Integer Field",
                         "usable": true,
-                        "tooltip": "Add your system's Disk Latency",
+                        "tooltip": "Add your system's Disk Latency in milliseconds only",
                         "dataType": "integer",
                         "formType": "integer",
-                        "required": false,
+                        "required": true,
                         "_expanded": false,
                         "mmdUpdate": true,
                         "collection": false,
@@ -203,11 +224,18 @@
                         "defaultValue": null,
                         "_previousName": "",
                         "playbookField": true,
+                        "visibilityQuery": {
+                            "sort": [],
+                            "limit": 30,
+                            "logic": "AND",
+                            "filters": []
+                        },
                         "lengthConstraint": true,
                         "allowedEncryption": false,
                         "allowedGridColumn": true,
                         "jinjaExpressionView": true,
-                        "useRecordFieldDefault": false
+                        "useRecordFieldDefault": false,
+                        "_addVisibilityConditions": true
                     },
                     {
                         "name": "diskIOPSRead",
@@ -219,7 +247,7 @@
                         "dataType": "integer",
                         "formType": "integer",
                         "required": false,
-                        "_expanded": false,
+                        "_expanded": true,
                         "mmdUpdate": true,
                         "collection": false,
                         "searchable": true,
@@ -243,7 +271,7 @@
                         "dataType": "integer",
                         "formType": "integer",
                         "required": false,
-                        "_expanded": false,
+                        "_expanded": true,
                         "mmdUpdate": true,
                         "collection": false,
                         "searchable": true,
@@ -267,7 +295,7 @@
                         "dataType": "integer",
                         "formType": "integer",
                         "required": false,
-                        "_expanded": false,
+                        "_expanded": true,
                         "mmdUpdate": true,
                         "collection": false,
                         "searchable": true,
@@ -292,7 +320,7 @@
                         "dataType": "integer",
                         "formType": "integer",
                         "required": false,
-                        "_expanded": false,
+                        "_expanded": true,
                         "mmdUpdate": true,
                         "collection": false,
                         "searchable": true,
@@ -324,6 +352,14 @@
                 },
                 "_promptexpanded": true,
                 "triggerOnSource": true,
+                "displayConditions": {
+                    "alerts": {
+                        "sort": [],
+                        "limit": 30,
+                        "logic": "AND",
+                        "filters": []
+                    }
+                },
                 "executeButtonText": "Execute",
                 "noRecordExecution": true,
                 "showToasterMessage": {
@@ -334,11 +370,39 @@
                 "singleRecordExecution": false
             },
             "status": null,
-            "top": "233",
+            "top": "322",
             "left": "125",
             "stepType": "\/api\/3\/workflow_step_types\/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
             "group": null,
             "uuid": "4cc93893-2d18-4488-a73e-c4681a6c32ed"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Verify Data Entered",
+            "description": null,
+            "arguments": {
+                "conditions": [
+                    {
+                        "option": "Data is correct",
+                        "step_iri": "\/api\/3\/workflow_steps\/2b646c6c-a239-4d8d-b39d-843870ebee0d",
+                        "condition": "{{ ((vars.input.params.diskIOPSRead | int) + (vars.input.params.diskIOPSWrite | int )) >= 3000 and vars.input.params.cPU >=8 and vars.input.params.rAM | int >= 32 }}",
+                        "step_name": "Set System_Config"
+                    },
+                    {
+                        "option": "Data entered is incorrect",
+                        "default": true,
+                        "step_iri": "\/api\/3\/workflow_steps\/3865ee34-83b0-40a3-8b9f-b3520abeb3f4",
+                        "step_name": "Raise Exception for Incorrect Data Entered"
+                    }
+                ],
+                "step_variables": []
+            },
+            "status": null,
+            "top": "322",
+            "left": "450",
+            "stepType": "\/api\/3\/workflow_step_types\/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+            "group": null,
+            "uuid": "651b12c7-ea28-40bd-aa34-584f3b4e00ec"
         }
     ],
     "routes": [
@@ -384,13 +448,33 @@
         },
         {
             "@type": "WorkflowRoute",
-            "name": "Start -> Set System_Config",
-            "targetStep": "\/api\/3\/workflow_steps\/2b646c6c-a239-4d8d-b39d-843870ebee0d",
+            "name": "Start -> Verify Data Entred",
+            "targetStep": "\/api\/3\/workflow_steps\/651b12c7-ea28-40bd-aa34-584f3b4e00ec",
             "sourceStep": "\/api\/3\/workflow_steps\/4cc93893-2d18-4488-a73e-c4681a6c32ed",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "be546b25-25ac-4de3-aa23-d1136dfa4cc7"
+            "uuid": "6d2a744a-2334-440c-8a23-34833e784b90"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Verify Data Entered -> Raise Exception for Incorrect Data Entered",
+            "targetStep": "\/api\/3\/workflow_steps\/3865ee34-83b0-40a3-8b9f-b3520abeb3f4",
+            "sourceStep": "\/api\/3\/workflow_steps\/651b12c7-ea28-40bd-aa34-584f3b4e00ec",
+            "label": "Data entered is incorrect",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "de34fbe0-0c18-4ffc-95cb-06968a0786af"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Verify Data Entred -> Set System_Config",
+            "targetStep": "\/api\/3\/workflow_steps\/2b646c6c-a239-4d8d-b39d-843870ebee0d",
+            "sourceStep": "\/api\/3\/workflow_steps\/651b12c7-ea28-40bd-aa34-584f3b4e00ec",
+            "label": "Data is correct",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "cd4a36af-660f-4371-bb56-dea062b173ff"
         }
     ],
     "groups": [
@@ -404,10 +488,10 @@
             "hideInLogs": false,
             "metadata": [],
             "reusable": false,
-            "top": "233",
-            "left": "910",
-            "height": "466",
-            "width": "341",
+            "top": "181",
+            "left": "1231",
+            "height": "360",
+            "width": "336",
             "uuid": "e377ba59-568a-4cea-8d73-86746924eadf",
             "recordTags": []
         },
@@ -421,10 +505,10 @@
             "hideInLogs": false,
             "metadata": [],
             "reusable": false,
-            "top": "233",
-            "left": "495",
-            "height": "369",
-            "width": "339",
+            "top": "120",
+            "left": "820",
+            "height": "302",
+            "width": "337",
             "uuid": "f837c0b4-b25a-4132-a4f7-cf14829e5867",
             "recordTags": []
         }

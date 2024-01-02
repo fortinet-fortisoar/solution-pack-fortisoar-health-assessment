@@ -1,7 +1,7 @@
 {
     "name": "systemConfigurationRecommendation",
     "version": "1.0.0",
-    "fsrMinCompatibility": "7.2.0",
+    "fsrMinCompatibility": "7.4.3",
     "type": "solutionpack",
     "local": true,
     "label": "System Configuration Recommendation",
@@ -39,7 +39,7 @@
     "recordTags": [
         "System Configuration Recommendation"
     ],
-    "date": "2024-01-01T11:32:12+00:00",
+    "date": "2024-01-02T07:01:59+00:00",
     "contents": {
         "playbooks": [
             {
