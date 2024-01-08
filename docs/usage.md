@@ -5,43 +5,36 @@
 
 Refer to [Simulate Scenario documentation](https://github.com/fortinet-fortisoar/solution-pack-soc-simulator/blob/develop/docs/usage.md) to understand how to simulate and reset scenarios.
 
-To understand the process FortiSOAR follows to respond to phishing emails, we have included a scenario &mdash; **Phishing Email Response** with this solution pack. 
+To generate report with self analyzing system details, we have included a scenario &mdash; **System Configuration Recommendation** with this solution pack. 
 
-This solution pack includes a playbook that you can launch manually from the alerts page. This playbook performs the following automated tasks:
+This solution pack includes a playbook that you can launch manually from the scenario page. This playbook performs the following tasks:
 
-- Send an email acknowledging the reporter, of the suspicious email, about the ongoing investigation 
-- Perform spoofing and SPF checks
-- Check for a particular keyword (configurable in the playbook)
-- If indicators of type URL are found, it prompts the user to mark this phishing attempt as **Drive by Download**. The user gets more information about URLs
-- User is prompted to review and receives a suggestion to block malicious indicators
-- Playbook finally sends out a message, to the reporter of the suspicious email, with an investigation summary
+- Get system details either from user or analyze itself
+- Generate Recommendation for UWSGI, PGSQL, etc 
+- Converts Recommendation to HTML report and create an attachment of report
 
-Refer to the sections *Phishing Email Scenario* and *Manual Email Upload* to understand how this solution pack's automation addresses your needs.
+Refer to the sections *System Configuration Recommendation Scenario* and *Manual Email Upload* to understand how this solution pack's automation addresses your needs.
 
-## Phishing Email Scenario
-This scenario generates an example alert of type *Suspicious Email*.
+## System Configuration Recommendation Scenario
+This scenario generates a report by analyzing system details automatically and creates a task for tracking purposes
 
-Navigate to the demo alert and note the following:
+Navigate to the Task and note the following:
 
-- The demo alert created is an example of a default email ingestion using the **Data Ingestion** feature
-- Alert fields are mapped with information from the email, such as sender email id, reporter email id, and attachments
+- The task contains comments to know at what phase is being executed in plybook
+- After Playbook execution is successfully you will get an atttachment created for system configuration report
 
-## Manual Email Upload
+>**NOTE**: If any error occurs please check the comments it self and if no error is present in comments then check playbook execution log
 
-This section addresses the requirement of an email that has to be manually uploaded for further investigation. An alert of type *Suspicious Email* must be present for the **Execute** button to display the playbook &ndash; **Attach Email** &ndash; from the playbook collection **02 - Use Case - Phishing Email Response**.
 
-When executed, this playbook prompts you to attach an email file in `.eml` or `.msg` format, to the alert.
+## Manual Trigger > System Configuration Recommendation
 
->**NOTE**: To see this playbook **Attach Email** in action, first create an alert of type *Suspicious Email*.
+This Playbook can be executed on Scenario module. **Execute** button to display the playbook &ndash; **Manual Trigger > System Configuration Recommendation** &ndash; from the playbook collection **10 - SP - System Configuration Recommendation**.
 
-When executed, this playbook prompts you to attach an email file in `.eml` or `.msg` format, to the alert.
-
-As soon as the upload is complete, the enrichment process starts. A notification informs that the indicators are being enriched. Once the enrichment completes, navigate to generated alert and note the following:
-- Attached  Email, if it contains an attachment, its extracted and then correlated as an indicator 
-- Alert fields are mapped with information from the email, such as sender email Id, reporter email Id, and attachment &ndash; if any
+When executed, this playbook prompts you to enter data related to your system like Number of CPU, RAM in GB, etc. as soon as you enter data and click execute an attchament will be created containing system configuration report
 
 # Note 
 * For HA setups apply the recommended configuration to all the system and then restart the services starting with Primary
+* For HA setups allocate swap memory for PostgreSQL with size equal to shared memory
 * Steps to apply recommended configuration is mentioned in report itself
 
 | [Installation](./setup.md#installation) | [Configuration](./setup.md#configuration) | [Contents](./contents.md) |
