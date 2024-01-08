@@ -145,9 +145,9 @@
                     "type": "\/api\/3\/picklists\/ff599189-3eeb-4c86-acb0-a7915e85ac3b",
                     "tenant": "",
                     "thread": false,
-                    "content": "<h4><span style=\"color: rgb(224, 62, 45);\">Error : {% if (vars.system_config[\"error\"]| regex_search(\"PGSQL\") and (vars.system_config[\"error\"]| regex_search(\"PGSQL\")).strip())%}Please mount a drive for PGSQL directory{% elif (vars.system_config[\"error\"]| regex_search(\"command failed\") and (vars.system_config[\"error\"]| regex_search(\"command failed\")).strip())%}Command Failed{% elif (vars.system_config[\"error\"]| regex_search(\"following commands are installed or not\") and (vars.system_config[\"error\"]| regex_search(\"following commands are installed or not\")).strip())%}Make sure that all commands required are installed{% else%}{{vars}}{% endif %}<\/span><\/h4>\n<hr>\n<p>&nbsp;{{vars.system_config[\"error\"]}}<br>{{vars.system_config[\"error_log\"] if vars.system_config[\"error_log\"] is defined}}<\/p>",
+                    "content": "<p>&nbsp;<\/p>\n<h4><span style=\"color: rgb(224, 62, 45);\">Error : {% if (vars.system_config[\"error\"]| regex_search(\"PGSQL\") and (vars.system_config[\"error\"]| regex_search(\"PGSQL\")).strip())%}Please mount a drive for PGSQL directory{% elif (vars.system_config[\"error\"]| regex_search(\"command failed\") and (vars.system_config[\"error\"]| regex_search(\"command failed\")).strip())%}Command Failed{% elif (vars.system_config[\"error\"]| regex_search(\"following commands are installed or not\") and (vars.system_config[\"error\"]| regex_search(\"following commands are installed or not\")).strip())%}Make sure that all commands required are installed{% else%}{{vars}}{% endif %}<\/span><\/h4>\n<hr>\n<p>&nbsp;{{vars.system_config[\"error\"]}}<br>{{vars.system_config[\"error_log\"] if vars.system_config[\"error_log\"] is defined}}<\/p>",
                     "records": "{{vars.steps.Create_Task_For_Tracking_Purposes['@id']}}",
-                    "parentstepid": "\/api\/3\/workflow_steps\/undefined"
+                    "parentstepid": "\/api\/3\/workflow_steps\/d90d974a-7ecb-4ace-925b-a20dc3c30122"
                 },
                 "version": "3.2.6",
                 "connector": "cyops_utilities",
