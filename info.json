@@ -1,25 +1,19 @@
 {
-    "name": "systemConfigurationRecommendation",
+    "name": "fortiSOARHealthAssessment",
     "version": "1.0.0",
-    "fsrMinCompatibility": "7.4.3",
+    "fsrMinCompatibility": "7.6.0",
     "type": "solutionpack",
     "local": true,
-    "label": "System Configuration Recommendation",
-    "dependencies": [
+    "featuredTags": [
         {
-            "name": "sOARFramework",
-            "type": "solutionpack",
-            "label": "SOAR Framework",
-            "minVersion": null
-        },
-        {
-            "name": "socSimulator",
-            "type": "solutionpack",
-            "label": "SOC Simulator",
-            "minVersion": null
+            "color": "#2d87e3",
+            "tag": "preview"
         }
     ],
-    "prerequisite": "Please Make Sure to Configure SSH Connector\n",
+    "featured": true,
+    "label": "FortiSOAR Health Assessment",
+    "dependencies": [],
+    "prerequisite": "",
     "publisher": "Fortinet",
     "description": "This Solution pack is only for QA team use right now",
     "help": "",
@@ -37,26 +31,46 @@
         ]
     },
     "recordTags": [
-        "System Configuration Recommendation"
+        "FortiSOAR Health Assessment"
     ],
-    "date": "2024-01-08T06:36:10+00:00",
+    "date": "2024-11-04T11:04:09+00:00",
     "contents": {
+        "modules": {
+            "health_assessments": {
+                "name": "Health Assessments",
+                "apiName": "health_assessments"
+            }
+        },
+        "viewTemplates": {
+            "health_assessments": {
+                "name": "Health Assessments",
+                "apiName": "health_assessments",
+                "views": [
+                    "list",
+                    "detail",
+                    "form"
+                ]
+            }
+        },
+        "views": {
+            "navigation": [
+                "Health Assessments"
+            ]
+        },
+        "roles": [
+            {
+                "name": "Security Administrator"
+            }
+        ],
         "playbooks": [
             {
-                "name": "10 - SP - System Configuration Recommendation"
+                "name": "10 - SP - FortiSOAR Health Assessment"
             }
         ],
         "connectors": [
             {
-                "name": "SSH",
-                "apiName": "ssh"
-            }
-        ],
-        "recordSets": [
-            {
-                "name": "Scenario",
-                "apiName": "scenario",
-                "count": 1
+                "name": "FortiSOAR Health Assessment",
+                "apiName": "fortisoar-health-assessment"
             }
         ]
     }

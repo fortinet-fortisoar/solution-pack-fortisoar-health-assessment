@@ -1,7 +1,7 @@
 {
     "@context": "\/api\/3\/contexts\/WorkflowCollection",
     "@type": "WorkflowCollection",
-    "name": "10 - SP - System Configuration Recommendation",
+    "name": "10 - SP - FortiSOAR Health Assessment",
     "description": "These playbook uses system details like number of CPU, RAM, etc to generate a recommendation report that contains changes to be done in your system for optimal use of all resources",
     "visible": true,
     "image": null,

@@ -1,0 +1,219 @@
+{
+    "@type": "Workflow",
+    "triggerLimit": null,
+    "name": "Referenced > Report Generation",
+    "aliasName": null,
+    "tag": null,
+    "description": null,
+    "isActive": true,
+    "debug": true,
+    "singleRecordExecution": false,
+    "remoteExecutableFlag": false,
+    "parameters": [
+        "fortisoar_health_data"
+    ],
+    "synchronous": false,
+    "collection": "\/api\/3\/workflow_collections\/dbf8de0d-974b-451d-bbbc-8d4e2ec77ec4",
+    "versions": [],
+    "triggerStep": "\/api\/3\/workflow_steps\/6b74e61f-cddc-45a2-85ac-f286b3079a4e",
+    "steps": [
+        {
+            "@type": "WorkflowStep",
+            "name": "Configure Report",
+            "description": null,
+            "arguments": {
+                "alerts_trend": "<h3>Alerts Trend<\/h3>\n    <table class=\"GeneratedTable\">\n        <thead>\n            <th>Sr No<\/th>\n            <th>Duration<\/th>\n            <th>Number of Alerts Ingested<\/th>\n        <\/thead>\n        <tbody>\n            <tr>\n                <td>1<\/td>\n                <td>One Day<\/td>\n                <td>{{vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_day']}}<\/td>\n            <\/tr>\n            <tr>\n                <td>2<\/td>\n                <td>7 Days<\/td>\n                <td>{{vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_week']}}<\/td>\n            <\/tr>\n            <tr>\n                <td>3<\/td>\n                <td>14 Days<\/td>\n                <td>{{vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_two_week']}}<\/td>\n            <\/tr>\n            <tr>\n                <td>4<\/td>\n                <td>Average Number Of Alerts in a day<\/td>\n                <td>{{((vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_two_week']| int)\/14) | round}}<\/td>\n            <\/tr>\n        <\/tbody>\n    <\/table>",
+                "recommendations": "<h3>Recommendation for celeryd, sealab_wsgi, {{\"RabbitMQ,\" if (vars.input.params['fortisoar_health_data']['system_details']['CPU'] |int) >= 16 }}\n    integrations_wsgi, and php-fpm<\/h3>\n<table class=\"GeneratedTable\">\n    <thead>\n        <tr>\n            <th>Sr No<\/th>\n            <th>Configuration File<\/th>\n            <th>Recommendation<\/th>\n            <th>Current Value<\/th>\n        <\/tr>\n    <\/thead>\n    <tbody>\n        <tr>\n            <td>1<\/td>\n            <td>File -\/etc\/celery\/celeryd.conf<\/td>\n            <td>Update key CELERYD_OPTS to use value =\n                \"{{vars.input.params['fortisoar_health_data']['recommended_configuration']['celeryd']}}\"<\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['celeryd']}}<\/td>\n        <\/tr>\n        <tr>\n            <td>2<\/td>\n            <td>File - \/etc\/uwsgi.d\/sealab_wsgi.ini<\/td>\n            <td>Update value of processes to\n                {{vars.input.params['fortisoar_health_data']['recommended_configuration']['sealab_wsgi']}} , e.g\n                processes =\n                {{vars.input.params['fortisoar_health_data']['recommended_configuration']['sealab_wsgi']}}<\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['sealab_wsgi']}}<\/td>\n        <\/tr>\n        <tr>\n            <td>3<\/td>\n            <td>File - \/etc\/uwsgi.d\/integrations_wsgi.ini<\/td>\n            <td>Update value of processes to\n                {{vars.input.params['fortisoar_health_data']['recommended_configuration']['integrations_wgsi']}} ,\n                e.g processes =\n                {{vars.input.params['fortisoar_health_data']['recommended_configuration']['integrations_wgsi']}}\n            <\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['integrations_wgsi']}}\n            <\/td>\n        <\/tr>\n        <tr>\n            <td>4<\/td>\n            <td>File - \/etc\/php-fpm.d\/cyops-api.conf<\/td>\n            <td>Update value of pm.start_servers to {{vars.input.params['fortisoar_health_data']['recommended_configuration']['php_fpm']['pm.start_servers']}}  and of pm.max_spare_servers to {{vars.input.params['fortisoar_health_data']['recommended_configuration']['php_fpm']['pm.max_spare_servers']}} ,\n                <br\/>e.g pm.start_servers =\n                {{vars.input.params['fortisoar_health_data']['recommended_configuration']['php_fpm']['pm.start_servers']}},\n                pm.max_spare_servers = {{vars.input.params['fortisoar_health_data']['recommended_configuration']['php_fpm']['pm.max_spare_servers']}}\n            <\/td>\n            <td>pm.start_servers = {{vars.input.params['fortisoar_health_data']['current_system_configuration']['php_fpm']['pm.start_servers']}},<br\/>\n                pm.max_spare_servers = {{vars.input.params['fortisoar_health_data']['current_system_configuration']['php_fpm']['pm.max_spare_servers']}}\n            <\/td>\n        <\/tr>\n        <!-- <tr>\n            <td>4<\/td>\n            <td>File - \/etc\/nginx\/nginx.conf\n            <\/td>\n            <td>Set value of worker processes as auto - e.g worker_processes auto\n            <\/td>\n        <\/tr> -->\n        {{vars.rabbit_mq_statement if (vars.input.params['fortisoar_health_data']['system_details']['CPU'] |int) >=\n        16 }}\n    <\/tbody>\n<\/table>\n\n<div class=\"spacing-div\"><\/div>\n<h3>Recommendation for PostgreSQL<\/h3>\n<table class=\"GeneratedTable\">\n    <thead>\n        <tr>\n            <th>Sr No<\/th>\n            <th>Property<\/th>\n            <th>Recommended Value<\/th>\n            <th>Current Value<\/th>\n        <\/tr>\n    <\/thead>\n    <tbody>\n        <tr>\n            <td>1<\/td>\n            <td>shared_buffers<\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['recommended_configuration']['postgresql']['shared_buffers']}}\n            <\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['postgresql']['shared_buffers']}}\n            <\/td>\n        <\/tr>\n        <tr>\n            <td>2<\/td>\n            <td>work_mem<\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['recommended_configuration']['postgresql']['work_mem']}}\n            <\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['postgresql']['work_mem']}}\n            <\/td>\n        <\/tr>\n        <tr>\n            <td>3<\/td>\n            <td>wal_buffers<\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['recommended_configuration']['postgresql']['wal_buffers']}}\n            <\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['postgresql']['wal_buffers']}}\n            <\/td>\n        <\/tr>\n        <tr>\n            <td>4<\/td>\n            <td>effective_cache_size<\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['recommended_configuration']['postgresql']['effective_cache_size']}}\n            <\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['postgresql']['effective_cache_size']}}\n            <\/td>\n        <\/tr>\n        <tr>\n            <td>5<\/td>\n            <td>maintenance_work_mem<\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['recommended_configuration']['postgresql']['maintenance_work_mem']}}\n            <\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['postgresql']['maintenance_work_mem']}}\n            <\/td>\n        <\/tr>\n        <tr>\n            <td>6<\/td>\n            <td>max_wal_size<\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['recommended_configuration']['postgresql']['max_wal_size']}}\n            <\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['postgresql']['max_wal_size']}}\n            <\/td>\n        <\/tr>\n        <tr>\n            <td>7<\/td>\n            <td>min_wal_size<\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['recommended_configuration']['postgresql']['min_wal_size']}}\n            <\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['postgresql']['min_wal_size']}}\n            <\/td>\n        <\/tr>\n        <tr>\n            <td>8<\/td>\n            <td>random_page_cost<span style=\"color: red;\">*<\/span><\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['recommended_configuration']['postgresql']['random_page_cost']}}\n            <\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['postgresql']['random_page_cost']}}\n            <\/td>\n        <\/tr>\n        <tr>\n            <td>9<\/td>\n            <td>max_parallel_workers<\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['recommended_configuration']['postgresql']['max_parallel_workers']}}\n            <\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['postgresql']['max_parallel_workers']}}\n            <\/td>\n        <\/tr>\n        <tr>\n            <td>10<\/td>\n            <td>max_worker_processes<\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['recommended_configuration']['postgresql']['max_worker_processes']}}\n            <\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['postgresql']['max_worker_processes']}}\n            <\/td>\n        <\/tr>\n        <tr>\n            <td>11<\/td>\n            <td>checkpoint_completion_target<\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['recommended_configuration']['postgresql']['checkpoint_completion_target']}}\n            <\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['postgresql']['checkpoint_completion_target']}}\n            <\/td>\n        <\/tr>\n        <tr>\n            <td>12<\/td>\n            <td>effective_io_concurrency<span style=\"color: red;\">*<\/span><\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['recommended_configuration']['postgresql']['effective_io_concurrency']}}\n            <\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['postgresql']['effective_io_concurrency']}}\n            <\/td>\n        <\/tr>\n        <tr>\n            <td>13<\/td>\n            <td>max_parallel_workers_per_gather<\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['recommended_configuration']['postgresql']['max_parallel_workers_per_gather']}}\n            <\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['postgresql']['max_parallel_workers_per_gather']}}\n            <\/td>\n        <\/tr>\n        <tr>\n            <td>14<\/td>\n            <td>max_parallel_maintenance_workers <\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['recommended_configuration']['postgresql']['max_parallel_maintenance_workers']}}\n            <\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['postgresql']['max_parallel_maintenance_workers']}}\n            <\/td>\n        <\/tr>\n        <tr>\n            <td>15<\/td>\n            <td>max_connections<\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['recommended_configuration']['postgresql']['max_connections']}}\n            <\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['postgresql']['max_connections']}}\n            <\/td>\n        <\/tr>\n    <\/tbody>\n<\/table>\n\n<h3>Recommendation for Swap Space<\/h3>\n<table class=\"GeneratedTable\">\n    <thead>\n        <tr>\n            <th>Recommended Value<\/th>\n            <th>Current Value<\/th>\n        <\/tr>\n    <\/thead>\n    <tbody>\n        <tr>\n            <td>Create a swap space of size {{vars.input.params['fortisoar_health_data']['recommended_configuration']['swap_space']}} using the <a href=\"https:\/\/docs.redhat.com\/en\/documentation\/red_hat_enterprise_linux\/9\/html\/managing_storage_devices\/getting-started-with-swap_managing-storage-devices#creating-a-swap-file_getting-started-with-swap\" target=\"_blank\">documentation<\/a>.<\/td>\n            <td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['swap_space']}}\n            <\/td>\n        <\/tr>\n    <\/tbody>\n<\/table>   \n\n<p> <span style=\"color: red;\">*<\/span> <span\n    style=\"font-style: italic;font-weight: bold;text-decoration: underline;\"> Note : These field is applicable\n    only when your system's storage is Solid State Drive <\/span> <\/p>\n    <br>\n\n<div>\n    <h2>Here is the way to use this configuration and apply in you VM <\/h2>\n    <h3>Steps to incorporate the above listed recommendation<\/h3>\n    <ol>\n        <li>Login to Terminal of Your VM via SSH<\/li>\n        <li>Edit following files with above mentioned changes <br \/>\n            <ul>\n                <li>\n                    celeryd<br \/>\n                    <ul>\n                        <li>File Location : <code>\/etc\/celery\/celeryd.conf<\/code><\/li>\n                    <\/ul>\n                <\/li>\n                <li>\n                    sealab_wsgi<br \/>\n                    <ul>\n                        <li>File Location : <code>\/etc\/uwsgi.d\/sealab_wsgi.ini<\/code><\/li>\n                    <\/ul>\n                <\/li>\n                <li>\n                    integrations_wsgi<br \/>\n                    <ul>\n                        <li>File Location : <code>\/etc\/uwsgi.d\/integrations_wsgi.ini<\/code><\/li>\n                    <\/ul>\n                <\/li>\n                {{\"<li>\n                    RabbitMQ<br \/>\n                    <ul>\n                        <li>File Location : <code>\/etc\/rabbitmq\/rabbitmq-env.conf<\/code><\/li>\n                    <\/ul>\n                <\/li>\" if (vars.input.params['fortisoar_health_data']['system_details']['CPU'] |int) >= 16 }}\n                <!-- <li>\n                    nginx<br\/>\n                    <ul>\n                        <li>File Location : <code>\/etc\/nginx\/nginx.conf<\/code><\/li> \n                    <\/ul>\n                <\/li> -->\n                <li>\n                    php-fpm<br \/>\n                    <ul>\n                        <li>File Location : <code>\/etc\/php-fpm.d\/cyops-api.conf<\/code><\/li>\n                    <\/ul>\n                <\/li>\n                <li>\n                    PostgreSQL<br \/>\n                    <ul>\n                        <li>File Location : <code>\/var\/lib\/pgsql\/14\/data\/postgresql.conf<\/code><\/li>\n                    <\/ul>\n                <\/li>\n            <\/ul>\n        <\/li>\n        <li>\n            Swap Space<br \/>\n            <ul>\n                <li>Use the <a href=\"https:\/\/docs.redhat.com\/en\/documentation\/red_hat_enterprise_linux\/9\/html\/managing_storage_devices\/getting-started-with-swap_managing-storage-devices#creating-a-swap-file_getting-started-with-swap\">documentation<\/a> for creating swap space<\/li>\n            <\/ul>\n        <\/li>\n        <li>Restart services using csadm commands <code>csadm services --restart<\/code><\/li>\n    <\/ol>\n<\/div>",
+                "rabbit_mq_statement": "<tr><td>4<\/td><td>File - \/etc\/rabbitmq\/rabbitmq-env.conf<\/td><td>Update the Value of RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS to \"{{vars.input.params['fortisoar_health_data']['recommended_configuration']['rabbit_mq']}}\"<\/td><td>{{vars.input.params['fortisoar_health_data']['current_system_configuration']['rabbit_mq']}}<\/td><\/tr>",
+                "most_failing_playbooks": "<h3>Most Failing Playbooks<\/h3>\n    <table class=\"GeneratedTable\">\n        <thead>\n                <th>Sr No<\/th>\n                <th>Playbook Name<\/th>\n                <th>Number of Times Executed<\/th>\n        <\/thead>\n        <tbody>\n            {% for data in vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_failing_playbooks']  %}\n            <tr>\n                <td>{{loop.index}}<\/td>\n                <td><a href='https:\/\/{{globalVars.Server_fqhn}}\/playbooks\/{{data.playbook_iri | regex_replace(\"\/api\/3\/workflows\/\", \"\")}}' target='_blank'>{{data.playbook_name}} <\/a><\/td>\n                <td>{{data.execution_count}}<\/td>\n            <\/tr>{% endfor%}\n        <\/tbody>\n    <\/table>",
+                "most_executed_playbooks": "<h3>Most Executed Playbooks<\/h3>\n    <table class=\"GeneratedTable\">\n        <thead>\n                <th>Sr No<\/th>\n                <th>Playbook Name<\/th>\n                <th>Number of Times Executed<\/th>\n        <\/thead>\n        <tbody>\n            {% for data in vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_executed_playbooks']  %}\n            <tr>\n                <td>{{loop.index}}<\/td>\n                <td><a href='https:\/\/{{globalVars.Server_fqhn}}\/playbooks\/{{data.playbook_iri | regex_replace(\"\/api\/3\/workflows\/\", \"\")}}' target='_blank'>{{data.playbook_name}} <\/a><\/td>\n                <td>{{data.execution_count}}<\/td>\n            <\/tr>{% endfor%}\n        <\/tbody>\n    <\/table>",
+                "most_time_consuming_playbooks": "<h3>Most Time Consuming Playbooks<\/h3>\n    <table class=\"GeneratedTable\">\n        <thead>\n                <th>Sr No<\/th>\n                <th>Playbook Name<\/th>\n                <th>Execution Time<\/th>\n        <\/thead>\n        <tbody>\n            {% for data in vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_time_consuming_playbooks']  %}\n            <tr>\n                <td>{{loop.index}}<\/td>\n                <td><a href='https:\/\/{{globalVars.Server_fqhn}}\/playbooks\/{{data.playbook_iri | regex_replace(\"\/api\/3\/workflows\/\", \"\")}}' target='_blank'>{{data.playbook_name}} <\/a><\/td>\n                <td>{{data.time_consumed}}<\/td>\n            <\/tr>{% endfor%}\n        <\/tbody>\n    <\/table>",
+                "playbooks_running_in_debug_mode_constantly": "<h3>Playbooks Running In Debug Mode Constantly<\/h3>\n    <table class=\"GeneratedTable\">\n        <thead>\n                <th>Sr No<\/th>\n                <th>Playbook Name<\/th>\n                <th>Number of Times Executed<\/th>\n        <\/thead>\n        <tbody>\n            {% for data in vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_playbooks_running_in_debug_mode']  %}\n            <tr>\n                <td>{{loop.index}}<\/td>\n                <td><a href='https:\/\/{{globalVars.Server_fqhn}}\/playbooks\/{{data.playbook_iri | regex_replace(\"\/api\/3\/workflows\/\", \"\")}}' target='_blank'>{{data.playbook_name}} <\/a><\/td>\n                <td>{{data.execution_count}}<\/td>\n            <\/tr>{% endfor%}\n        <\/tbody>\n    <\/table>"
+            },
+            "status": null,
+            "top": "80",
+            "left": "360",
+            "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+            "group": null,
+            "uuid": "372c8d15-a112-43fa-b11c-b2cb6fb92300"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Create Report File",
+            "description": null,
+            "arguments": {
+                "params": {
+                    "contents": "{{vars.report_code}}",
+                    "filename": "FortiSOAR_Health_Assessment_{{arrow.utcnow().int_timestamp}}.html",
+                    "mimetype": ""
+                },
+                "version": "3.3.1",
+                "connector": "cyops_utilities",
+                "operation": "create_file_from_string",
+                "operationTitle": "File: Create File from String",
+                "step_variables": []
+            },
+            "status": null,
+            "top": "160",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+            "group": "\/api\/3\/workflow_groups\/5b18fcc1-b7da-4625-9f35-e432b0e6fdf2",
+            "uuid": "40e85a9a-2776-45ec-9370-2a73f10b2d9c"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Generate Report Code",
+            "description": null,
+            "arguments": {
+                "report_code": "<!-- \nCopyright start\nCopyright (C) 2008 - 2024 Fortinet Inc.\nAll rights reserved.\nFORTINET CONFIDENTIAL & FORTINET PROPRIETARY SOURCE CODE\nCopyright end \n-->\n<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <title>FortiSOAR Health Assessment<\/title>\n    <style>\n        \/* Global Styles *\/\n        body {\n            font-family: Arial, sans-serif;\n            line-height: 1.6;\n            color: #333;\n            background-color: #f4f4f4;\n            margin: 0;\n            padding: 0;\n        }\n\n        \/* Centered Heading *\/\n        h1 {\n            text-align: center;\n            color: #333;\n            padding: 20px 0;\n        }\n\n        \/* Center Tables *\/\n        table.GeneratedTable {\n            width: 80%;\n            \/* Adjust width as needed *\/\n            margin: 20px auto;\n            \/* Center table and add vertical margins *\/\n            border-collapse: collapse;\n        }\n\n        table.GeneratedTable th,\n        table.GeneratedTable td {\n            border: 2px solid #080808;\n            padding: 8px;\n            text-align: left;\n        }\n\n        table.GeneratedTable thead {\n            background-color: #5074e2;\n            color: #fff;\n        }\n\n        table.GeneratedTable tbody tr:nth-child(odd) {\n            background-color: #f2f2f2;\n        }\n\n        \/* Spacing Divs *\/\n        .spacing-div {\n            height: 20px;\n            \/* Adjusted for better spacing *\/\n        }\n\n        \/* Code Styling *\/\n        code {\n            color: crimson;\n            background-color: #f1f1f1;\n            padding: 2px 4px;\n            font-size: 1.1em;\n        }\n\n        \/* Headings *\/\n        h2,\n        h3 {\n            color: #333;\n            text-align: center;\n        }\n\n        h2 {\n            border-bottom: 2px solid #5074e2;\n            padding-bottom: 10px;\n            margin-bottom: 20px;\n        }\n\n        h3 {\n            color: #5074e2;\n            margin-top: 20px;\n        }\n\n        \/* Horizontal Rules *\/\n        hr {\n            border: 0;\n            border-top: 2px solid #ccc;\n            margin: 20px 0;\n        }\n    <\/style>\n<\/head>\n\n<body>\n    <h1>\n        <center>FortiSOAR Health Assessment.<\/center>\n    <\/h1>\n    <div class=\"spacing-div\"><\/div>\n    <!-- <p> We performed a scan of system for resources like CPU , RAM , Disk\n        Here are details about it\n    <p> -->\n    <h2> Here are your System Details<\/h2>\n    <table class=\"GeneratedTable\">\n        <thead>\n            <tr>\n                <th>Sr No<\/th>\n                <th>System Entity<\/th>\n                <th>Value<\/th>\n            <\/tr>\n        <\/thead>\n        <tbody>\n            <tr>\n                <td>1<\/td>\n                <td>CPU<\/td>\n                <td>{{vars.input.params['fortisoar_health_data']['system_details']['CPU']}}\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>2<\/td>\n                <td>RAM\n                <\/td>\n                <td>{{vars.input.params['fortisoar_health_data']['system_details']['RAM']}} GB\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>3<\/td>\n                <td>Disk Latency\n                <\/td>\n                <td>{{vars.input.params['fortisoar_health_data']['system_details'][\"Disk latency\"]}}\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>3<\/td>\n                <td>Disk IOPS - Read\n                <\/td>\n                <td>{{vars.input.params['fortisoar_health_data']['system_details'][\"Disk IOPS - Read\"]}}\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>4<\/td>\n                <td>Disk IOPS - Write\n                <\/td>\n                <td>{{vars.input.params['fortisoar_health_data']['system_details'][\"Disk IOPS - Write\"]}}\n            <\/tr>\n        <\/tbody>\n    <\/table>\n    <br>\n\n\n    <h2>Current System State<\/h2>\n\n    {{vars.alerts_trend if (vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_day'] | int !=0) or\n    (vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_week'] | int !=0) or\n    (vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_two_week'] | int !=0)}}\n\n    {{vars.most_executed_playbooks if (vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_executed_playbooks']| length)\n    != 0 }}\n\n    {{vars.most_failing_playbooks if (vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_failing_playbooks']| length)\n    != 0}}\n\n    {{vars.most_time_consuming_playbooks if\n    (vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_time_consuming_playbooks']| length) != 0 }}\n\n    {{vars.playbooks_running_in_debug_mode_constantly if\n    (vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_playbooks_running_in_debug_mode']| length) != 0 }}\n\n    <div class=\"spacing-div\"><\/div>\n    <h2>We recommend following system configuration based on system information gathered <\/h2>\n    {{vars.recommendations if vars.input.params['fortisoar_health_data']['system_details']['CPU'] | int > 12  else \"<h3 style='color: red;'>Your current system configuration is less than recommended. Therefore, we cannot generate recommendations. Please check <a href='https:\/\/docs.fortinet.com\/document\/fortisoar\/7.6.0\/deployment-guide\/158469\/deploying-fortisoar#\/document\/fortisoar\/7.6.0\/deployment-guide\/158469\/deploying-fortisoar#Recommended_Resource_Requirements' target='_blank'>Recommended Resource Requirements<\/a>.<\/h3><br><br><br>\"}}\n<\/body>\n\n<\/html>"
+            },
+            "status": null,
+            "top": "60",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+            "group": "\/api\/3\/workflow_groups\/5b18fcc1-b7da-4625-9f35-e432b0e6fdf2",
+            "uuid": "b2b22de9-af76-4f1c-b041-159b4b90b7e6"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Output",
+            "description": null,
+            "arguments": {
+                "fileName": "{{vars.steps.Report_as_Attachment.data.name}}",
+                "recordIRI": "{{vars.steps.Report_as_Attachment.data['@id']}}"
+            },
+            "status": null,
+            "top": "280",
+            "left": "1180",
+            "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+            "group": null,
+            "uuid": "b26ea287-3b50-4194-a05a-fea7af679032"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Report as Attachment",
+            "description": null,
+            "arguments": {
+                "params": {
+                    "name": "{{vars.steps.Create_Report_File.data.filename| regex_replace(\"_[0-9]+[\\.]html\", \"\") | regex_replace(\"_\",\" \")}} Report",
+                    "filename": "{{vars.steps.Create_Report_File.data.filename}}",
+                    "description": "This is Playbook Generated Report by FortiSOAR Health Assessment",
+                    "request_headers": "",
+                    "multipart_headers": "",
+                    "extra_multipart_fields": ""
+                },
+                "version": "3.3.1",
+                "connector": "cyops_utilities",
+                "operation": "create_cyops_attachment",
+                "operationTitle": "File: Create Attachment from File",
+                "step_variables": []
+            },
+            "status": null,
+            "top": "260",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+            "group": "\/api\/3\/workflow_groups\/5b18fcc1-b7da-4625-9f35-e432b0e6fdf2",
+            "uuid": "748efb97-9530-40dd-bf76-de0a0926f885"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Start",
+            "description": null,
+            "arguments": {
+                "__triggerLimit": true,
+                "step_variables": {
+                    "input": {
+                        "params": []
+                    }
+                },
+                "triggerOnSource": true,
+                "triggerOnReplicate": false
+            },
+            "status": null,
+            "top": "80",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/b348f017-9a94-471f-87f8-ce88b6a7ad62",
+            "group": null,
+            "uuid": "6b74e61f-cddc-45a2-85ac-f286b3079a4e"
+        }
+    ],
+    "routes": [
+        {
+            "@type": "WorkflowRoute",
+            "name": "Configure Report -> Generate Report Code",
+            "targetStep": "\/api\/3\/workflow_steps\/b2b22de9-af76-4f1c-b041-159b4b90b7e6",
+            "sourceStep": "\/api\/3\/workflow_steps\/372c8d15-a112-43fa-b11c-b2cb6fb92300",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "91771969-67bc-4c2a-b73c-e806ac1c21b7"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Create Report File -> Report as Attachment",
+            "targetStep": "\/api\/3\/workflow_steps\/748efb97-9530-40dd-bf76-de0a0926f885",
+            "sourceStep": "\/api\/3\/workflow_steps\/40e85a9a-2776-45ec-9370-2a73f10b2d9c",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "1f282332-e1ea-4d80-8e10-7e40ae360951"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Generate Report Code -> Create Report File",
+            "targetStep": "\/api\/3\/workflow_steps\/40e85a9a-2776-45ec-9370-2a73f10b2d9c",
+            "sourceStep": "\/api\/3\/workflow_steps\/b2b22de9-af76-4f1c-b041-159b4b90b7e6",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "29821d41-27f3-4690-a299-e45d4dec7741"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Report as Attachment -> Output",
+            "targetStep": "\/api\/3\/workflow_steps\/b26ea287-3b50-4194-a05a-fea7af679032",
+            "sourceStep": "\/api\/3\/workflow_steps\/748efb97-9530-40dd-bf76-de0a0926f885",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "66706c84-5450-4c84-8211-d7cd71e02d7a"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Configure Report",
+            "targetStep": "\/api\/3\/workflow_steps\/372c8d15-a112-43fa-b11c-b2cb6fb92300",
+            "sourceStep": "\/api\/3\/workflow_steps\/6b74e61f-cddc-45a2-85ac-f286b3079a4e",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "23ebea21-ba3b-49cf-ba04-117c6179efc8"
+        }
+    ],
+    "groups": [
+        {
+            "@type": "WorkflowGroup",
+            "name": "Report Generation",
+            "description": "",
+            "type": "block",
+            "isCollapsed": false,
+            "hasTriggerStep": false,
+            "hideInLogs": false,
+            "metadata": [],
+            "reusable": false,
+            "top": "20",
+            "left": "760",
+            "height": "360",
+            "width": "336",
+            "uuid": "5b18fcc1-b7da-4625-9f35-e432b0e6fdf2",
+            "recordTags": []
+        }
+    ],
+    "priority": "\/api\/3\/picklists\/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
+    "uuid": "b3ae28e7-4cb7-4c5b-9966-fdb00c8564ee",
+    "owners": [],
+    "isPrivate": false,
+    "deletedAt": null,
+    "recordTags": [
+        "FortiSOAR Health Assessment"
+    ]
+}

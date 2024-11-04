@@ -1,0 +1,23 @@
+{
+    "HEALTH_ASSESSMENTS": {
+        "MODULE_DETAILS": {
+            "SINGULAR_NAME": "Health Assessment",
+            "PLURAL_NAME": "Health Assessments"
+        },
+        "FIELDS": {
+            "RECOMMENDATION": "Recommendation",
+            "DESCRIPTION": "Assessment",
+            "SUMMARY": "Summary",
+            "REPORTSANDYAMLFILE": "Reports And YAML file",
+            "PLAYBOOKSCONSTANTLYRUNNINGINDEBUGMODE": "Playbooks constantly running in debug mode",
+            "MOSTTIMECONSUMINGPLAYBOOKS": "Most Time Consuming Playbooks",
+            "MOSTEXECUTEDPLAYBOOKS": "Most Executed Playbooks",
+            "MOSTFAILINGPLAYBOOKS": "Most Failing Playbooks",
+            "ALERTSTRENDS": "Alerts Trends",
+            "OTHERCONFIGURATIONS": "Other Configurations",
+            "PHPFPMCONFIGURATION": "PHP-FPM Configuration",
+            "POSTGRESQLCONFIGURATION": "PostgreSQL  Configuration",
+            "SYSTEMDETAILS": "System Details"
+        }
+    }
+}

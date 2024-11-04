@@ -1,0 +1,25 @@
+{
+    "@context": "\/api\/3\/contexts\/SystemViewTemplate",
+    "@type": "SystemViewTemplate",
+    "type": "app",
+    "config": {
+        "navigation": [
+            {
+                "editMode": false,
+                "icon": "fa fa-cogs",
+                "require": {
+                    "action": "read",
+                    "module": "health_assessments"
+                },
+                "state": {
+                    "name": "main.modules.list",
+                    "parameters": {
+                        "module": "health_assessments"
+                    }
+                },
+                "title": "Health Assessments"
+            }
+        ]
+    },
+    "uuid": "navigation"
+}
