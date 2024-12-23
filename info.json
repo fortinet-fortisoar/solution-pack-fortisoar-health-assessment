@@ -17,7 +17,7 @@
     "prerequisite": "",
     "publisher": "Fortinet",
     "description": "This Solution pack is only for QA team use right now",
-    "help": "",
+    "help": "https://github.com/fortinet-fortisoar/solution-pack-fortisoar-health-assessment/blob/release/1.0.0/README.md",
     "category": [
         "Utilities"
     ],
