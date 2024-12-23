@@ -12,7 +12,6 @@
                                 "type": "primaryDetail",
                                 "config": {
                                     "wid": "8512839a-4d5f-4086-b2af-f827c30d9848",
-                                    "idField": "id",
                                     "picklistFieldReadOnly": false,
                                     "titleFieldReadOnly": true,
                                     "featuredRelationship": {
@@ -27,7 +26,8 @@
                                         "statusField": "type",
                                         "sort": []
                                     },
-                                    "titleField": "summary"
+                                    "titleField": "summary",
+                                    "idField": "id"
                                 }
                             },
                             {
@@ -82,11 +82,11 @@
                                                 "visible": true
                                             },
                                             "icon": "fa fa-medkit",
-                                            "show": false,
+                                            "show": true,
                                             "visible": true
                                         },
                                         {
-                                            "title": "Recommendation",
+                                            "title": "Recommendations",
                                             "active": 0,
                                             "widget": {
                                                 "type": "rows",
@@ -132,7 +132,7 @@
                                                 "visible": true
                                             },
                                             "icon": "fa fa-wrench",
-                                            "show": true,
+                                            "show": false,
                                             "visible": true
                                         }
                                     ],

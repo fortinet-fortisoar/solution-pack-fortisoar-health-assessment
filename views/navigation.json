@@ -7,6 +7,7 @@
             {
                 "editMode": false,
                 "icon": "fa fa-cogs",
+                "mergeType": "merge",
                 "require": {
                     "action": "read",
                     "module": "health_assessments"

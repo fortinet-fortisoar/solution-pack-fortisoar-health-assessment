@@ -121,13 +121,14 @@
             "name": "Generate YAML File",
             "description": null,
             "arguments": {
-                "when": "{{vars.system_config['CPU'] | int >=12}}",
                 "arguments": {
                     "system_details": "{{vars.system_config}}",
                     "configuration_recommandation": "{{vars.steps.Generate_Recommended_Configuration}}"
                 },
                 "apply_async": false,
-                "step_variables": [],
+                "step_variables": {
+                    "Condition": "vars.system_config['CPU'] | int >=12"
+                },
                 "pass_parent_env": false,
                 "pass_input_record": false,
                 "workflowReference": "\/api\/3\/workflows\/c78ba750-7894-4a2e-b232-cb4e27f46a68"
@@ -329,6 +330,7 @@
     "isPrivate": false,
     "deletedAt": null,
     "recordTags": [
-        "FortiSOAR Health Assessment"
+        "FortiSOAR Health Assessment",
+        "ManualTrigger"
     ]
 }

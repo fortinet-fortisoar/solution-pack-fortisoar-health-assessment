@@ -1,7 +1,7 @@
 {
     "@type": "Workflow",
     "triggerLimit": null,
-    "name": "Referenced > Get FortiSOAR Information",
+    "name": "FortiSOAR Health Assessment > Get FortiSOAR Information",
     "aliasName": null,
     "tag": null,
     "description": null,
@@ -31,8 +31,8 @@
                 "step_variables": []
             },
             "status": null,
-            "top": "340",
-            "left": "120",
+            "top": "40",
+            "left": "440",
             "stepType": "\/api\/3\/workflow_step_types\/0bfed618-0316-11e7-93ae-92361f002671",
             "group": null,
             "uuid": "fe84bffd-7f43-49d0-90cb-b75567d43e46"
@@ -53,8 +53,8 @@
                 "step_variables": []
             },
             "status": null,
-            "top": "340",
-            "left": "500",
+            "top": "120",
+            "left": "440",
             "stepType": "\/api\/3\/workflow_step_types\/0bfed618-0316-11e7-93ae-92361f002671",
             "group": null,
             "uuid": "d480021e-abed-4beb-9c5c-8548ba99f887"
@@ -75,8 +75,8 @@
                 "step_variables": []
             },
             "status": null,
-            "top": "240",
-            "left": "500",
+            "top": "360",
+            "left": "440",
             "stepType": "\/api\/3\/workflow_step_types\/0bfed618-0316-11e7-93ae-92361f002671",
             "group": null,
             "uuid": "9cdf1aaf-1938-413f-adc0-5dc02f6bcff5"
@@ -97,8 +97,8 @@
                 "step_variables": []
             },
             "status": null,
-            "top": "40",
-            "left": "500",
+            "top": "520",
+            "left": "440",
             "stepType": "\/api\/3\/workflow_step_types\/0bfed618-0316-11e7-93ae-92361f002671",
             "group": null,
             "uuid": "21047e48-8dc1-4e3d-9b93-68ea71e46354"
@@ -119,8 +119,8 @@
                 "step_variables": []
             },
             "status": null,
-            "top": "240",
-            "left": "140",
+            "top": "200",
+            "left": "440",
             "stepType": "\/api\/3\/workflow_step_types\/0bfed618-0316-11e7-93ae-92361f002671",
             "group": null,
             "uuid": "9edece3a-0d85-4120-a1b2-a9d466abfc3e"
@@ -141,8 +141,8 @@
                 "step_variables": []
             },
             "status": null,
-            "top": "140",
-            "left": "500",
+            "top": "440",
+            "left": "440",
             "stepType": "\/api\/3\/workflow_step_types\/0bfed618-0316-11e7-93ae-92361f002671",
             "group": null,
             "uuid": "6aadf05c-c9db-4e63-8fe7-9a196239b999"
@@ -161,8 +161,8 @@
                 "top_10_playbooks_running_in_debug_mode": "{{vars.steps.Playbooks_Running_in_Debug_Mode_Constantly.data}}"
             },
             "status": null,
-            "top": "460",
-            "left": "120",
+            "top": "280",
+            "left": "780",
             "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
             "group": null,
             "uuid": "bf9c4416-e779-41a4-963c-d16e4a6de4db"
@@ -183,8 +183,8 @@
                 "step_variables": []
             },
             "status": null,
-            "top": "140",
-            "left": "140",
+            "top": "280",
+            "left": "440",
             "stepType": "\/api\/3\/workflow_step_types\/0bfed618-0316-11e7-93ae-92361f002671",
             "group": null,
             "uuid": "41bc4799-f469-40d7-8a40-cf5b905a1593"
@@ -204,8 +204,8 @@
                 "triggerOnReplicate": false
             },
             "status": null,
-            "top": "40",
-            "left": "140",
+            "top": "280",
+            "left": "120",
             "stepType": "\/api\/3\/workflow_step_types\/b348f017-9a94-471f-87f8-ce88b6a7ad62",
             "group": null,
             "uuid": "21256bd1-7db3-46c4-837a-65e24a403bdf"
@@ -224,63 +224,93 @@
         },
         {
             "@type": "WorkflowRoute",
-            "name": "Get Number of Alerts Created in 7 Days -> Get Number of Alerts Created in 14 Days",
-            "targetStep": "\/api\/3\/workflow_steps\/fe84bffd-7f43-49d0-90cb-b75567d43e46",
+            "name": "Get Number of Alerts Created in 7 Days -> Output",
+            "targetStep": "\/api\/3\/workflow_steps\/bf9c4416-e779-41a4-963c-d16e4a6de4db",
             "sourceStep": "\/api\/3\/workflow_steps\/d480021e-abed-4beb-9c5c-8548ba99f887",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "70a4026a-63fc-4afd-9e86-f95b0c74786c"
+            "uuid": "291f07b0-07c0-457d-b208-c7e2aa39fd22"
         },
         {
             "@type": "WorkflowRoute",
-            "name": "Get Number of Alerts Created in a Day -> Get Number of Alerts Created in 7 Days",
-            "targetStep": "\/api\/3\/workflow_steps\/d480021e-abed-4beb-9c5c-8548ba99f887",
+            "name": "Get Number of Alerts Created in a Day -> Output",
+            "targetStep": "\/api\/3\/workflow_steps\/bf9c4416-e779-41a4-963c-d16e4a6de4db",
             "sourceStep": "\/api\/3\/workflow_steps\/9cdf1aaf-1938-413f-adc0-5dc02f6bcff5",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "6435ab99-c6a4-4254-aaf9-ae4fc3c8d357"
+            "uuid": "7825c743-5c31-47d6-bf22-f3cd6ebf54a7"
         },
         {
             "@type": "WorkflowRoute",
-            "name": "Most Executed Playbook -> Most Time Consuming Playbook",
-            "targetStep": "\/api\/3\/workflow_steps\/6aadf05c-c9db-4e63-8fe7-9a196239b999",
+            "name": "Most Executed Playbook -> Output",
+            "targetStep": "\/api\/3\/workflow_steps\/bf9c4416-e779-41a4-963c-d16e4a6de4db",
             "sourceStep": "\/api\/3\/workflow_steps\/21047e48-8dc1-4e3d-9b93-68ea71e46354",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "fadb9746-9bcb-461b-9a30-22a144df3e36"
+            "uuid": "4f291358-ac6e-47f7-aab8-3908c7a5d2b9"
         },
         {
             "@type": "WorkflowRoute",
-            "name": "Most Failing Playbooks -> Get Number of Alerts Created in a Day",
-            "targetStep": "\/api\/3\/workflow_steps\/9cdf1aaf-1938-413f-adc0-5dc02f6bcff5",
+            "name": "Most Failing Playbooks -> Output",
+            "targetStep": "\/api\/3\/workflow_steps\/bf9c4416-e779-41a4-963c-d16e4a6de4db",
             "sourceStep": "\/api\/3\/workflow_steps\/9edece3a-0d85-4120-a1b2-a9d466abfc3e",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "1c1f95db-fece-430d-8de0-37c28e475e34"
+            "uuid": "73622e70-6b5e-400e-b1f9-5a4aa303a073"
         },
         {
             "@type": "WorkflowRoute",
-            "name": "Most Time Consuming Playbook -> Playbooks Running in Debug Mode Constantly",
-            "targetStep": "\/api\/3\/workflow_steps\/41bc4799-f469-40d7-8a40-cf5b905a1593",
+            "name": "Most Time Consuming Playbook -> Output",
+            "targetStep": "\/api\/3\/workflow_steps\/bf9c4416-e779-41a4-963c-d16e4a6de4db",
             "sourceStep": "\/api\/3\/workflow_steps\/6aadf05c-c9db-4e63-8fe7-9a196239b999",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "560bb374-1d30-4f11-bc4f-7d54fc2356ce"
+            "uuid": "0044472c-c294-497b-8c4f-ed4d64a3b970"
         },
         {
             "@type": "WorkflowRoute",
-            "name": "Playbooks Running in Debug Mode Constantly -> Most Failing Playbooks",
-            "targetStep": "\/api\/3\/workflow_steps\/9edece3a-0d85-4120-a1b2-a9d466abfc3e",
+            "name": "Playbooks Running in Debug Mode Constantly -> Output",
+            "targetStep": "\/api\/3\/workflow_steps\/bf9c4416-e779-41a4-963c-d16e4a6de4db",
             "sourceStep": "\/api\/3\/workflow_steps\/41bc4799-f469-40d7-8a40-cf5b905a1593",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "149800fa-2be0-4b4f-8893-ee693c153834"
+            "uuid": "29f0e6db-cce8-44f3-8b30-ae30b50e7633"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Get Number of Alerts Created in 14 Days",
+            "targetStep": "\/api\/3\/workflow_steps\/fe84bffd-7f43-49d0-90cb-b75567d43e46",
+            "sourceStep": "\/api\/3\/workflow_steps\/21256bd1-7db3-46c4-837a-65e24a403bdf",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "fc3b520a-aa58-4c82-ad66-1978797d44b1"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Get Number of Alerts Created in 7 Days",
+            "targetStep": "\/api\/3\/workflow_steps\/d480021e-abed-4beb-9c5c-8548ba99f887",
+            "sourceStep": "\/api\/3\/workflow_steps\/21256bd1-7db3-46c4-837a-65e24a403bdf",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "0a4836fd-ab26-4f8d-adf9-f59767afc263"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Get Number of Alerts Created in a Day",
+            "targetStep": "\/api\/3\/workflow_steps\/9cdf1aaf-1938-413f-adc0-5dc02f6bcff5",
+            "sourceStep": "\/api\/3\/workflow_steps\/21256bd1-7db3-46c4-837a-65e24a403bdf",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "b6d0fd06-9b9c-478c-aa89-90224f55b70a"
         },
         {
             "@type": "WorkflowRoute",
@@ -291,6 +321,36 @@
             "isExecuted": false,
             "group": null,
             "uuid": "b2b0d89f-55bd-4546-a9fb-38c1856ab2ce"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Most Failing Playbooks",
+            "targetStep": "\/api\/3\/workflow_steps\/9edece3a-0d85-4120-a1b2-a9d466abfc3e",
+            "sourceStep": "\/api\/3\/workflow_steps\/21256bd1-7db3-46c4-837a-65e24a403bdf",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "68d1a8ab-2ad0-462e-b499-bb396b900ed8"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Most Time Consuming Playbook",
+            "targetStep": "\/api\/3\/workflow_steps\/6aadf05c-c9db-4e63-8fe7-9a196239b999",
+            "sourceStep": "\/api\/3\/workflow_steps\/21256bd1-7db3-46c4-837a-65e24a403bdf",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "30338ed8-c571-41e5-81bf-2caa2aeaa32e"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Playbooks Running in Debug Mode Constantly",
+            "targetStep": "\/api\/3\/workflow_steps\/41bc4799-f469-40d7-8a40-cf5b905a1593",
+            "sourceStep": "\/api\/3\/workflow_steps\/21256bd1-7db3-46c4-837a-65e24a403bdf",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "2280cac1-3fee-4b01-a37d-752cf8d9e6ca"
         }
     ],
     "groups": [],
@@ -300,6 +360,8 @@
     "isPrivate": false,
     "deletedAt": null,
     "recordTags": [
-        "FortiSOAR Health Assessment"
+        "FortiSOAR Health Assessment",
+        "Referenced",
+        "system"
     ]
 }

@@ -1,7 +1,7 @@
 {
     "@type": "Workflow",
     "triggerLimit": null,
-    "name": "Referenced > YAML File Generation",
+    "name": "FortiSOAR Health Assessment > YAML File Generation",
     "aliasName": null,
     "tag": null,
     "description": null,
@@ -18,6 +18,32 @@
     "versions": [],
     "triggerStep": "\/api\/3\/workflow_steps\/ae9c0ff5-0c37-42e0-832e-f1513c4e24ec",
     "steps": [
+        {
+            "@type": "WorkflowStep",
+            "name": "Create YAML Attachment",
+            "description": null,
+            "arguments": {
+                "params": {
+                    "name": "FortiSOAR Health Assessment Recommandation YAML",
+                    "filename": "{{vars.steps.Create_YAML_File.data.filename}}",
+                    "description": "This is Playbook Generated File by FortiSOAR Health Assessment",
+                    "request_headers": "",
+                    "multipart_headers": "",
+                    "extra_multipart_fields": ""
+                },
+                "version": "3.3.1",
+                "connector": "cyops_utilities",
+                "operation": "create_cyops_attachment",
+                "operationTitle": "File: Create Attachment from File",
+                "step_variables": []
+            },
+            "status": null,
+            "top": "260",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+            "group": "\/api\/3\/workflow_groups\/92f3dd9d-3e22-4b24-8c42-08319b2989ea",
+            "uuid": "cbe9d3cc-9259-499c-a219-88a69d4a59d0"
+        },
         {
             "@type": "WorkflowStep",
             "name": "Create YAML File",
@@ -43,27 +69,6 @@
         },
         {
             "@type": "WorkflowStep",
-            "name": "Download YAML File",
-            "description": null,
-            "arguments": {
-                "params": {
-                    "iri": "{{vars.steps.YAML_as_Attachment.data['@id']}}"
-                },
-                "version": "3.3.1",
-                "connector": "cyops_utilities",
-                "operation": "download_file_from_cyops_alias",
-                "operationTitle": "File: Download File From FortiSOAR",
-                "step_variables": []
-            },
-            "status": null,
-            "top": "280",
-            "left": "700",
-            "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
-            "group": null,
-            "uuid": "d2051dd9-abe6-41eb-8686-310103c6bdba"
-        },
-        {
-            "@type": "WorkflowStep",
             "name": "Generate YAML Code",
             "description": null,
             "arguments": {
@@ -81,12 +86,12 @@
             "name": "Output",
             "description": null,
             "arguments": {
-                "fileName": "{{vars.steps.YAML_as_Attachment.data.name}}",
-                "recordIRI": "{{vars.steps.YAML_as_Attachment.data['@id']}}"
+                "fileName": "{{vars.steps.Create_YAML_Attachment.data.name}}",
+                "recordIRI": "{{vars.steps.Create_YAML_Attachment.data['@id']}}"
             },
             "status": null,
-            "top": "80",
-            "left": "700",
+            "top": "300",
+            "left": "800",
             "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
             "group": null,
             "uuid": "7957d11e-c503-4381-80e4-9f9d3f6a40fb"
@@ -99,7 +104,7 @@
                 "name": "FortiSOAR Health Assessment",
                 "config": "d7755da0-81b7-4be3-9f65-6d5089076888",
                 "params": {
-                    "filename": "{{vars.steps.Download_YAML_File.data['cyops_file_path']}}"
+                    "filename": "{{vars.steps.Create_YAML_File.data.filename}}"
                 },
                 "version": "1.0.0",
                 "connector": "fortisoar-health-assessment",
@@ -109,8 +114,8 @@
                 "step_variables": []
             },
             "status": null,
-            "top": "180",
-            "left": "700",
+            "top": "200",
+            "left": "800",
             "stepType": "\/api\/3\/workflow_step_types\/0bfed618-0316-11e7-93ae-92361f002671",
             "group": null,
             "uuid": "b91e0554-40b2-455a-841c-7e2342670bf0"
@@ -131,37 +136,11 @@
                 "triggerOnReplicate": false
             },
             "status": null,
-            "top": "80",
-            "left": "20",
+            "top": "100",
+            "left": "140",
             "stepType": "\/api\/3\/workflow_step_types\/b348f017-9a94-471f-87f8-ce88b6a7ad62",
             "group": null,
             "uuid": "ae9c0ff5-0c37-42e0-832e-f1513c4e24ec"
-        },
-        {
-            "@type": "WorkflowStep",
-            "name": "YAML as Attachment",
-            "description": null,
-            "arguments": {
-                "params": {
-                    "name": "FortiSOAR Health Assessment Recommandation YAML",
-                    "filename": "{{vars.steps.Create_YAML_File.data.filename}}",
-                    "description": "This is Playbook Generated File by FortiSOAR Health Assessment",
-                    "request_headers": "",
-                    "multipart_headers": "",
-                    "extra_multipart_fields": ""
-                },
-                "version": "3.3.1",
-                "connector": "cyops_utilities",
-                "operation": "create_cyops_attachment",
-                "operationTitle": "File: Create Attachment from File",
-                "step_variables": []
-            },
-            "status": null,
-            "top": "260",
-            "left": "40",
-            "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
-            "group": "\/api\/3\/workflow_groups\/92f3dd9d-3e22-4b24-8c42-08319b2989ea",
-            "uuid": "cbe9d3cc-9259-499c-a219-88a69d4a59d0"
         }
     ],
     "routes": [
@@ -177,13 +156,23 @@
         },
         {
             "@type": "WorkflowRoute",
-            "name": "Download YAML File -> Set Recommended Configuration in YAML file",
-            "targetStep": "\/api\/3\/workflow_steps\/b91e0554-40b2-455a-841c-7e2342670bf0",
-            "sourceStep": "\/api\/3\/workflow_steps\/d2051dd9-abe6-41eb-8686-310103c6bdba",
+            "name": "Create YAML Attachment -> Output",
+            "targetStep": "\/api\/3\/workflow_steps\/7957d11e-c503-4381-80e4-9f9d3f6a40fb",
+            "sourceStep": "\/api\/3\/workflow_steps\/cbe9d3cc-9259-499c-a219-88a69d4a59d0",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "2da30d2e-f90c-4077-ac00-8ec2be442ece"
+            "uuid": "026b0f6b-d371-473b-ae64-ff4e910c93ab"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Create YAML File -> Set Recommended Configuration in YAML file",
+            "targetStep": "\/api\/3\/workflow_steps\/b91e0554-40b2-455a-841c-7e2342670bf0",
+            "sourceStep": "\/api\/3\/workflow_steps\/43e74a0a-52e7-41a5-b381-d1bb8c25c500",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "9905a53a-3035-41b6-8b8b-30478e896669"
         },
         {
             "@type": "WorkflowRoute",
@@ -214,16 +203,6 @@
             "isExecuted": false,
             "group": null,
             "uuid": "c36311ee-e83b-46a3-b02d-6518879548e0"
-        },
-        {
-            "@type": "WorkflowRoute",
-            "name": "YAML as Attachment -> Download YAML File",
-            "targetStep": "\/api\/3\/workflow_steps\/d2051dd9-abe6-41eb-8686-310103c6bdba",
-            "sourceStep": "\/api\/3\/workflow_steps\/cbe9d3cc-9259-499c-a219-88a69d4a59d0",
-            "label": null,
-            "isExecuted": false,
-            "group": null,
-            "uuid": "45309cc3-1bac-42ea-bb81-fb1b39c0691e"
         }
     ],
     "groups": [
@@ -237,8 +216,8 @@
             "hideInLogs": false,
             "metadata": [],
             "reusable": false,
-            "top": "20",
-            "left": "320",
+            "top": "40",
+            "left": "440",
             "height": "345",
             "width": "325",
             "uuid": "92f3dd9d-3e22-4b24-8c42-08319b2989ea",
@@ -251,6 +230,8 @@
     "isPrivate": false,
     "deletedAt": null,
     "recordTags": [
-        "FortiSOAR Health Assessment"
+        "FortiSOAR Health Assessment",
+        "Referenced",
+        "system"
     ]
 }

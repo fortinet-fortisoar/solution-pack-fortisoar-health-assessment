@@ -1,10 +1,10 @@
 {
     "@type": "Workflow",
     "triggerLimit": null,
-    "name": "Referenced > Report Generation",
+    "name": "FortiSOAR Health Assessment > Report Generation",
     "aliasName": null,
     "tag": null,
-    "description": null,
+    "description": "This is incomlete playbook\nthis is incomplete",
     "isActive": true,
     "debug": true,
     "singleRecordExecution": false,
@@ -19,6 +19,42 @@
     "steps": [
         {
             "@type": "WorkflowStep",
+            "name": "Configuration Of Alert Stats",
+            "description": null,
+            "arguments": {
+                "one_day_value": "{{vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_day']}}",
+                "one_week_value": "{{vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_week']}}",
+                "two_week_value": "{{vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_two_week']}}",
+                "one_day_percentage": "{% if vars.steps.Find_Previous_Record | length > 0 %}{% set old_data=vars.steps.Find_Previous_Record[0].alertsTrends['one_day'] %}{% set new_data=vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_day'] %}{% if new_data>old_data %}{{((new_data-old_data)*100\/old_data) | int}}{% elif new_data<old_data %}{{((old_data-new_data)*100\/old_data) | int}}{% else %}0{% endif %}{% endif %}",
+                "one_week_percentage": "{% if vars.steps.Find_Previous_Record | length > 0 %}{% set old_data=vars.steps.Find_Previous_Record[0].alertsTrends['one_week'] %}{% set new_data=vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_week'] %}{% if new_data>old_data %}{{((new_data-old_data)*100\/old_data) | int}}{% elif new_data<old_data %}{{((old_data-new_data)*100\/old_data) | int}}{% else %}0{% endif %}{% endif %}",
+                "two_week_percentage": "{% if vars.steps.Find_Previous_Record | length > 0 %}{% set old_data=vars.steps.Find_Previous_Record[0].alertsTrends['two_week'] %}{% set new_data=vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_two_week'] %}{% if new_data>old_data %}{{((new_data-old_data)*100\/old_data) | int}}{% elif new_data<old_data %}{{((old_data-new_data)*100\/old_data) | int}}{% else %}0{% endif %}{% endif %}"
+            },
+            "status": null,
+            "top": "460",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+            "group": null,
+            "uuid": "fad73639-3f06-49aa-bb66-e2715a0e1f6a"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Configuration Of Playbooks Stats",
+            "description": null,
+            "arguments": {
+                "most_failing": "{% for data in vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_failing_playbooks']  %}\n            <tr class=\"flex_one border_none flex_display padding_zero table_row_color margin_zero\">\n                <td class=\"width_16per padding_1rem_top_and_bottom font_weight_lighter table_top_border padding_6per_left text_overflow_hidden\">{{loop.index}}<\/td>\n                <td class=\"width_57per padding_1rem_top_and_bottom font_weight_lighter table_top_border text_overflow_hidden\"><a href='https:\/\/{{globalVars.Server_fqhn}}\/playbooks\/{{data.playbook_iri | regex_replace(\"\/api\/3\/workflows\/\", \"\")}}' target='_blank'>{{data.playbook_name}} <\/a><\/td>\n                <td class=\"table_top_border font_weight_lighter padding_1rem_top_and_bottom text_overflow_hidden width_26per\">{{data.execution_count}}<\/td>\n            <\/tr>{% endfor%}",
+                "most_executed": "{% for data in vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_executed_playbooks']  %}\n            <tr class=\"flex_one border_none flex_display padding_zero table_row_color margin_zero\">\n                <td class=\"width_16per padding_1rem_top_and_bottom font_weight_lighter table_top_border padding_6per_left text_overflow_hidden\">{{loop.index}}<\/td>\n                <td class=\"width_57per padding_1rem_top_and_bottom font_weight_lighter table_top_border text_overflow_hidden\"><a href='https:\/\/{{globalVars.Server_fqhn}}\/playbooks\/{{data.playbook_iri | regex_replace(\"\/api\/3\/workflows\/\", \"\")}}' target='_blank'>{{data.playbook_name}} <\/a><\/td>\n                <td class=\"table_top_border font_weight_lighter padding_1rem_top_and_bottom text_overflow_hidden width_26per\">{{data.execution_count}}<\/td>\n            <\/tr>{% endfor%}",
+                "running_in_debug": "{% for data in vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_playbooks_running_in_debug_mode']  %}\n            <tr class=\"flex_one border_none flex_display padding_zero table_row_color margin_zero\">\n                <td class=\"width_16per padding_1rem_top_and_bottom font_weight_lighter table_top_border padding_6per_left text_overflow_hidden\">{{loop.index}}<\/td>\n                <td class=\"width_57per padding_1rem_top_and_bottom font_weight_lighter table_top_border text_overflow_hidden\"><a href='https:\/\/{{globalVars.Server_fqhn}}\/playbooks\/{{data.playbook_iri | regex_replace(\"\/api\/3\/workflows\/\", \"\")}}' target='_blank'>{{data.playbook_name}} <\/a><\/td>\n                <td class=\"table_top_border font_weight_lighter padding_1rem_top_and_bottom text_overflow_hidden width_26per\">{{data.execution_count}}<\/td>\n            <\/tr>{% endfor%}",
+                "most_time_consuming": "{% for data in vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_time_consuming_playbooks']  %}\n            <tr class=\"flex_one border_none flex_display padding_zero table_row_color margin_zero\">\n                <td class=\"width_16per padding_1rem_top_and_bottom font_weight_lighter table_top_border padding_6per_left text_overflow_hidden\">{{loop.index}}<\/td>\n                <td class=\"width_57per padding_1rem_top_and_bottom font_weight_lighter table_top_border text_overflow_hidden\"><a href='https:\/\/{{globalVars.Server_fqhn}}\/playbooks\/{{data.playbook_iri | regex_replace(\"\/api\/3\/workflows\/\", \"\")}}' target='_blank'>{{data.playbook_name}} <\/a><\/td>\n                <td class=\"table_top_border font_weight_lighter padding_1rem_top_and_bottom text_overflow_hidden width_26per\">{{data.time_consumed}}<\/td>\n            <\/tr>{% endfor%}"
+            },
+            "status": null,
+            "top": "340",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+            "group": null,
+            "uuid": "32cbaaca-87d8-4bdb-a578-9e6a58603a55"
+        },
+        {
+            "@type": "WorkflowStep",
             "name": "Configure Report",
             "description": null,
             "arguments": {
@@ -28,14 +64,40 @@
                 "most_failing_playbooks": "<h3>Most Failing Playbooks<\/h3>\n    <table class=\"GeneratedTable\">\n        <thead>\n                <th>Sr No<\/th>\n                <th>Playbook Name<\/th>\n                <th>Number of Times Executed<\/th>\n        <\/thead>\n        <tbody>\n            {% for data in vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_failing_playbooks']  %}\n            <tr>\n                <td>{{loop.index}}<\/td>\n                <td><a href='https:\/\/{{globalVars.Server_fqhn}}\/playbooks\/{{data.playbook_iri | regex_replace(\"\/api\/3\/workflows\/\", \"\")}}' target='_blank'>{{data.playbook_name}} <\/a><\/td>\n                <td>{{data.execution_count}}<\/td>\n            <\/tr>{% endfor%}\n        <\/tbody>\n    <\/table>",
                 "most_executed_playbooks": "<h3>Most Executed Playbooks<\/h3>\n    <table class=\"GeneratedTable\">\n        <thead>\n                <th>Sr No<\/th>\n                <th>Playbook Name<\/th>\n                <th>Number of Times Executed<\/th>\n        <\/thead>\n        <tbody>\n            {% for data in vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_executed_playbooks']  %}\n            <tr>\n                <td>{{loop.index}}<\/td>\n                <td><a href='https:\/\/{{globalVars.Server_fqhn}}\/playbooks\/{{data.playbook_iri | regex_replace(\"\/api\/3\/workflows\/\", \"\")}}' target='_blank'>{{data.playbook_name}} <\/a><\/td>\n                <td>{{data.execution_count}}<\/td>\n            <\/tr>{% endfor%}\n        <\/tbody>\n    <\/table>",
                 "most_time_consuming_playbooks": "<h3>Most Time Consuming Playbooks<\/h3>\n    <table class=\"GeneratedTable\">\n        <thead>\n                <th>Sr No<\/th>\n                <th>Playbook Name<\/th>\n                <th>Execution Time<\/th>\n        <\/thead>\n        <tbody>\n            {% for data in vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_time_consuming_playbooks']  %}\n            <tr>\n                <td>{{loop.index}}<\/td>\n                <td><a href='https:\/\/{{globalVars.Server_fqhn}}\/playbooks\/{{data.playbook_iri | regex_replace(\"\/api\/3\/workflows\/\", \"\")}}' target='_blank'>{{data.playbook_name}} <\/a><\/td>\n                <td>{{data.time_consumed}}<\/td>\n            <\/tr>{% endfor%}\n        <\/tbody>\n    <\/table>",
-                "playbooks_running_in_debug_mode_constantly": "<h3>Playbooks Running In Debug Mode Constantly<\/h3>\n    <table class=\"GeneratedTable\">\n        <thead>\n                <th>Sr No<\/th>\n                <th>Playbook Name<\/th>\n                <th>Number of Times Executed<\/th>\n        <\/thead>\n        <tbody>\n            {% for data in vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_playbooks_running_in_debug_mode']  %}\n            <tr>\n                <td>{{loop.index}}<\/td>\n                <td><a href='https:\/\/{{globalVars.Server_fqhn}}\/playbooks\/{{data.playbook_iri | regex_replace(\"\/api\/3\/workflows\/\", \"\")}}' target='_blank'>{{data.playbook_name}} <\/a><\/td>\n                <td>{{data.execution_count}}<\/td>\n            <\/tr>{% endfor%}\n        <\/tbody>\n    <\/table>"
+                "playbooks_running_in_debug_mode_constantly": "<h3>Playbooks Running in Debug Mode<\/h3>\n    <table class=\"GeneratedTable\">\n        <thead>\n                <th>Sr No<\/th>\n                <th>Playbook Name<\/th>\n                <th>Number of Times Executed<\/th>\n        <\/thead>\n        <tbody>\n            {% for data in vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_playbooks_running_in_debug_mode']  %}\n            <tr>\n                <td>{{loop.index}}<\/td>\n                <td><a href='https:\/\/{{globalVars.Server_fqhn}}\/playbooks\/{{data.playbook_iri | regex_replace(\"\/api\/3\/workflows\/\", \"\")}}' target='_blank'>{{data.playbook_name}} <\/a><\/td>\n                <td>{{data.execution_count}}<\/td>\n            <\/tr>{% endfor%}\n        <\/tbody>\n    <\/table>"
             },
             "status": null,
             "top": "80",
-            "left": "360",
+            "left": "460",
             "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
             "group": null,
             "uuid": "372c8d15-a112-43fa-b11c-b2cb6fb92300"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Create Report Attachment",
+            "description": null,
+            "arguments": {
+                "params": {
+                    "name": "{{vars.steps.Create_Report_File.data.filename| regex_replace(\"_[0-9]+[\\.]html\", \"\") | regex_replace(\"_\",\" \")}} Report",
+                    "filename": "{{vars.steps.Create_Report_File.data.filename}}",
+                    "description": "This is Playbook Generated Report by FortiSOAR Health Assessment",
+                    "request_headers": "",
+                    "multipart_headers": "",
+                    "extra_multipart_fields": ""
+                },
+                "version": "3.3.1",
+                "connector": "cyops_utilities",
+                "operation": "create_cyops_attachment",
+                "operationTitle": "File: Create Attachment from File",
+                "step_variables": []
+            },
+            "status": null,
+            "top": "260",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+            "group": "\/api\/3\/workflow_groups\/5b18fcc1-b7da-4625-9f35-e432b0e6fdf2",
+            "uuid": "748efb97-9530-40dd-bf76-de0a0926f885"
         },
         {
             "@type": "WorkflowStep",
@@ -62,10 +124,47 @@
         },
         {
             "@type": "WorkflowStep",
+            "name": "Find Previous Record",
+            "description": null,
+            "arguments": {
+                "query": {
+                    "sort": [
+                        {
+                            "field": "createDate",
+                            "direction": "DESC",
+                            "_fieldName": "createDate",
+                            "_fieldTitle": "Created On"
+                        }
+                    ],
+                    "limit": 30,
+                    "logic": "AND",
+                    "filters": [
+                        {
+                            "type": "primitive",
+                            "field": "summary",
+                            "value": "%Error%",
+                            "operator": "notlike",
+                            "_operator": "notlike"
+                        }
+                    ]
+                },
+                "module": "health_assessments?$limit=1",
+                "checkboxFields": false,
+                "step_variables": []
+            },
+            "status": null,
+            "top": "220",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/b593663d-7d13-40ce-a3a3-96dece928770",
+            "group": null,
+            "uuid": "ba08c313-52d5-468c-a044-06203b43176b"
+        },
+        {
+            "@type": "WorkflowStep",
             "name": "Generate Report Code",
             "description": null,
             "arguments": {
-                "report_code": "<!-- \nCopyright start\nCopyright (C) 2008 - 2024 Fortinet Inc.\nAll rights reserved.\nFORTINET CONFIDENTIAL & FORTINET PROPRIETARY SOURCE CODE\nCopyright end \n-->\n<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <title>FortiSOAR Health Assessment<\/title>\n    <style>\n        \/* Global Styles *\/\n        body {\n            font-family: Arial, sans-serif;\n            line-height: 1.6;\n            color: #333;\n            background-color: #f4f4f4;\n            margin: 0;\n            padding: 0;\n        }\n\n        \/* Centered Heading *\/\n        h1 {\n            text-align: center;\n            color: #333;\n            padding: 20px 0;\n        }\n\n        \/* Center Tables *\/\n        table.GeneratedTable {\n            width: 80%;\n            \/* Adjust width as needed *\/\n            margin: 20px auto;\n            \/* Center table and add vertical margins *\/\n            border-collapse: collapse;\n        }\n\n        table.GeneratedTable th,\n        table.GeneratedTable td {\n            border: 2px solid #080808;\n            padding: 8px;\n            text-align: left;\n        }\n\n        table.GeneratedTable thead {\n            background-color: #5074e2;\n            color: #fff;\n        }\n\n        table.GeneratedTable tbody tr:nth-child(odd) {\n            background-color: #f2f2f2;\n        }\n\n        \/* Spacing Divs *\/\n        .spacing-div {\n            height: 20px;\n            \/* Adjusted for better spacing *\/\n        }\n\n        \/* Code Styling *\/\n        code {\n            color: crimson;\n            background-color: #f1f1f1;\n            padding: 2px 4px;\n            font-size: 1.1em;\n        }\n\n        \/* Headings *\/\n        h2,\n        h3 {\n            color: #333;\n            text-align: center;\n        }\n\n        h2 {\n            border-bottom: 2px solid #5074e2;\n            padding-bottom: 10px;\n            margin-bottom: 20px;\n        }\n\n        h3 {\n            color: #5074e2;\n            margin-top: 20px;\n        }\n\n        \/* Horizontal Rules *\/\n        hr {\n            border: 0;\n            border-top: 2px solid #ccc;\n            margin: 20px 0;\n        }\n    <\/style>\n<\/head>\n\n<body>\n    <h1>\n        <center>FortiSOAR Health Assessment.<\/center>\n    <\/h1>\n    <div class=\"spacing-div\"><\/div>\n    <!-- <p> We performed a scan of system for resources like CPU , RAM , Disk\n        Here are details about it\n    <p> -->\n    <h2> Here are your System Details<\/h2>\n    <table class=\"GeneratedTable\">\n        <thead>\n            <tr>\n                <th>Sr No<\/th>\n                <th>System Entity<\/th>\n                <th>Value<\/th>\n            <\/tr>\n        <\/thead>\n        <tbody>\n            <tr>\n                <td>1<\/td>\n                <td>CPU<\/td>\n                <td>{{vars.input.params['fortisoar_health_data']['system_details']['CPU']}}\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>2<\/td>\n                <td>RAM\n                <\/td>\n                <td>{{vars.input.params['fortisoar_health_data']['system_details']['RAM']}} GB\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>3<\/td>\n                <td>Disk Latency\n                <\/td>\n                <td>{{vars.input.params['fortisoar_health_data']['system_details'][\"Disk latency\"]}}\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>3<\/td>\n                <td>Disk IOPS - Read\n                <\/td>\n                <td>{{vars.input.params['fortisoar_health_data']['system_details'][\"Disk IOPS - Read\"]}}\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>4<\/td>\n                <td>Disk IOPS - Write\n                <\/td>\n                <td>{{vars.input.params['fortisoar_health_data']['system_details'][\"Disk IOPS - Write\"]}}\n            <\/tr>\n        <\/tbody>\n    <\/table>\n    <br>\n\n\n    <h2>Current System State<\/h2>\n\n    {{vars.alerts_trend if (vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_day'] | int !=0) or\n    (vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_week'] | int !=0) or\n    (vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_two_week'] | int !=0)}}\n\n    {{vars.most_executed_playbooks if (vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_executed_playbooks']| length)\n    != 0 }}\n\n    {{vars.most_failing_playbooks if (vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_failing_playbooks']| length)\n    != 0}}\n\n    {{vars.most_time_consuming_playbooks if\n    (vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_time_consuming_playbooks']| length) != 0 }}\n\n    {{vars.playbooks_running_in_debug_mode_constantly if\n    (vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_playbooks_running_in_debug_mode']| length) != 0 }}\n\n    <div class=\"spacing-div\"><\/div>\n    <h2>We recommend following system configuration based on system information gathered <\/h2>\n    {{vars.recommendations if vars.input.params['fortisoar_health_data']['system_details']['CPU'] | int > 12  else \"<h3 style='color: red;'>Your current system configuration is less than recommended. Therefore, we cannot generate recommendations. Please check <a href='https:\/\/docs.fortinet.com\/document\/fortisoar\/7.6.0\/deployment-guide\/158469\/deploying-fortisoar#\/document\/fortisoar\/7.6.0\/deployment-guide\/158469\/deploying-fortisoar#Recommended_Resource_Requirements' target='_blank'>Recommended Resource Requirements<\/a>.<\/h3><br><br><br>\"}}\n<\/body>\n\n<\/html>"
+                "report_code": "<!-- \nCopyright start\nCopyright (C) 2008 - 2024 Fortinet Inc.\nAll rights reserved.\nFORTINET CONFIDENTIAL & FORTINET PROPRIETARY SOURCE CODE\nCopyright end \n-->\n<!DOCTYPE html>\n<html lang=\"en\">\n\n<head>\n    <title>FortiSOAR Health Assessment<\/title>\n    <style>\n        \/* Global Styles *\/\n        body {\n            font-family: Arial, sans-serif;\n            line-height: 1.6;\n            color: #333;\n            background-color: #f4f4f4;\n            margin: 0;\n            padding: 0;\n        }\n\n        \/* Centered Heading *\/\n        h1 {\n            text-align: center;\n            color: #333;\n            padding: 20px 0;\n        }\n\n        \/* Center Tables *\/\n        table.GeneratedTable {\n            width: 80%;\n            \/* Adjust width as needed *\/\n            margin: 20px auto;\n            \/* Center table and add vertical margins *\/\n            border-collapse: collapse;\n        }\n\n        table.GeneratedTable th,\n        table.GeneratedTable td {\n            border: 2px solid #080808;\n            padding: 8px;\n            text-align: left;\n        }\n\n        table.GeneratedTable thead {\n            background-color: #5074e2;\n            color: #fff;\n        }\n\n        table.GeneratedTable tbody tr:nth-child(odd) {\n            background-color: #f2f2f2;\n        }\n\n        \/* Spacing Divs *\/\n        .spacing-div {\n            height: 20px;\n            \/* Adjusted for better spacing *\/\n        }\n\n        \/* Code Styling *\/\n        code {\n            color: crimson;\n            background-color: #f1f1f1;\n            padding: 2px 4px;\n            font-size: 1.1em;\n        }\n\n        \/* Headings *\/\n        h2,\n        h3 {\n            color: #333;\n            text-align: center;\n        }\n\n        h2 {\n            border-bottom: 2px solid #5074e2;\n            padding-bottom: 10px;\n            margin-bottom: 20px;\n        }\n\n        h3 {\n            color: #5074e2;\n            margin-top: 20px;\n        }\n\n        \/* Horizontal Rules *\/\n        hr {\n            border: 0;\n            border-top: 2px solid #ccc;\n            margin: 20px 0;\n        }\n    <\/style>\n<\/head>\n\n<body>\n    <h1>\n        <center>FortiSOAR Health Assessment.<\/center>\n    <\/h1>\n    <div class=\"spacing-div\"><\/div>\n    <!-- <p> We performed a scan of system for resources like CPU , RAM , Disk\n        Here are details about it\n    <p> -->\n    <h2> Here are your System Details<\/h2>\n    <table class=\"GeneratedTable\">\n        <thead>\n            <tr>\n                <th>Sr No<\/th>\n                <th>System Entity<\/th>\n                <th>Value<\/th>\n            <\/tr>\n        <\/thead>\n        <tbody>\n            <tr>\n                <td>1<\/td>\n                <td>vCPU<\/td>\n                <td>{{vars.input.params['fortisoar_health_data']['system_details']['CPU']}}\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>2<\/td>\n                <td>RAM\n                <\/td>\n                <td>{{vars.input.params['fortisoar_health_data']['system_details']['RAM']}} GB\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>3<\/td>\n                <td>Disk Latency\n                <\/td>\n                <td>{{vars.input.params['fortisoar_health_data']['system_details'][\"Disk latency\"]}}\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>3<\/td>\n                <td>Disk IOPS - Read\n                <\/td>\n                <td>{{vars.input.params['fortisoar_health_data']['system_details'][\"Disk IOPS - Read\"]}}\n                <\/td>\n            <\/tr>\n            <tr>\n                <td>4<\/td>\n                <td>Disk IOPS - Write\n                <\/td>\n                <td>{{vars.input.params['fortisoar_health_data']['system_details'][\"Disk IOPS - Write\"]}}\n            <\/tr>\n        <\/tbody>\n    <\/table>\n    <br>\n\n\n    <h2>Current System State<\/h2>\n\n    {{vars.alerts_trend if (vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_day'] | int !=0) or\n    (vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_week'] | int !=0) or\n    (vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_two_week'] | int !=0)}}\n\n    {{vars.most_executed_playbooks if (vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_executed_playbooks']| length)\n    != 0 }}\n\n    {{vars.most_failing_playbooks if (vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_failing_playbooks']| length)\n    != 0}}\n\n    {{vars.most_time_consuming_playbooks if\n    (vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_time_consuming_playbooks']| length) != 0 }}\n\n    {{vars.playbooks_running_in_debug_mode_constantly if\n    (vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_playbooks_running_in_debug_mode']| length) != 0 }}\n\n    <div class=\"spacing-div\"><\/div>\n    <h2>We recommend following system configuration based on system information gathered <\/h2>\n    {{vars.recommendations if vars.input.params['fortisoar_health_data']['system_details']['CPU'] | int > 12  else \"<h3 style='color: red;'>Your current system configuration is less than recommended. As a result, we cannot generate recommendations. Please check <a href='https:\/\/docs.fortinet.com\/document\/fortisoar\/7.6.0\/deployment-guide\/158469\/deploying-fortisoar#\/document\/fortisoar\/7.6.0\/deployment-guide\/158469\/deploying-fortisoar#Recommended_Resource_Requirements' target='_blank'>Recommended Resource Requirements<\/a>.<\/h3><br><br><br>\"}}\n{{vars.recommendations}}\n\n<\/body>\n\n<\/html>"
             },
             "status": null,
             "top": "60",
@@ -76,11 +175,26 @@
         },
         {
             "@type": "WorkflowStep",
+            "name": "Miscellaneous",
+            "description": null,
+            "arguments": {
+                "alert_no_data": "<div class=\"flex_one\">\n                            <div class=\"flex_one flex_display\">\n                                <div class=\"icon flex_display flex_column\" style=\"padding-left: 20%;\">\n                                    <div class=\"icon_upper_div flex_display icon_border\">\n                                        <div class=\"icon_dots\"><\/div>\n                                        <div class=\"icon_dots\"><\/div>\n                                        <div class=\"icon_dots\"><\/div>\n                                    <\/div>\n                                    <div\n                                        class=\"flex_one icon_border icon_top_border_none icon_lower_div flex_display flex_column\">\n                                        <div class=\"flex_one flex_display\">\n                                            <div class=\"flex_one\">\n                                                <div class=\"icon_dots icon_left_eye\"><\/div>\n                                            <\/div>\n                                            <div class=\"flex_one\">\n                                                <div class=\"icon_dots icon_right_eye\"><\/div>\n                                            <\/div>\n                                        <\/div>\n                                        <div class=\"flex_one flex_display\">\n                                            <div class=\"flex_one\">\n                                                <div class=\"icon_smile\">\n\n                                                <\/div>\n                                            <\/div>\n                                        <\/div>\n                                    <\/div>\n                                <\/div>\n                                <div class=\"flex_one text_align_left text_color_gray font_weight_lighter\"\n                                    style=\"padding-top: 1.5vw;padding-left: 1vw; \">\n                                    No Data Available\n                                <\/div>\n                            <\/div>\n                        <\/div>",
+                "playbook_no_data": "<tr class=\"flex_one border_none padding_zero table_row_color margin_zero flex_display\">\n                        <td class=\" flex_one width_16per padding_1rem_top_and_bottom font_weight_lighter margin_auto\"\n                            colspan=\"3\">\n                            <div class=\"icon icon_margin flex_display flex_column\">\n                                <div class=\"icon_upper_div flex_display icon_border\">\n                                    <div class=\"icon_dots\"><\/div>\n                                    <div class=\"icon_dots\"><\/div>\n                                    <div class=\"icon_dots\"><\/div>\n                                <\/div>\n                                <div\n                                    class=\"flex_one icon_border icon_top_border_none icon_lower_div flex_display flex_column\">\n                                    <div class=\"flex_one flex_display\">\n                                        <div class=\"flex_one\">\n                                            <div class=\"icon_dots icon_left_eye\"><\/div>\n                                        <\/div>\n                                        <div class=\"flex_one\">\n                                            <div class=\"icon_dots icon_right_eye\"><\/div>\n                                        <\/div>\n                                    <\/div>\n                                    <div class=\"flex_one flex_display\">\n                                        <div class=\"flex_one\">\n                                            <div class=\"icon_smile\">\n\n                                            <\/div>\n                                        <\/div>\n                                    <\/div>\n                                <\/div>\n                            <\/div>\n                            <p class=\"text_align_center flex_one\">No Data Available<\/p>\n                        <\/td>\n                    <\/tr>"
+            },
+            "status": null,
+            "top": "220",
+            "left": "340",
+            "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+            "group": null,
+            "uuid": "6ec4fb3b-9019-48e9-bebf-f168416bd5c9"
+        },
+        {
+            "@type": "WorkflowStep",
             "name": "Output",
             "description": null,
             "arguments": {
-                "fileName": "{{vars.steps.Report_as_Attachment.data.name}}",
-                "recordIRI": "{{vars.steps.Report_as_Attachment.data['@id']}}"
+                "fileName": "{{vars.steps.Create_Report_Attachment.data.name}}",
+                "recordIRI": "{{vars.steps.Create_Report_Attachment.data['@id']}}"
             },
             "status": null,
             "top": "280",
@@ -88,32 +202,6 @@
             "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
             "group": null,
             "uuid": "b26ea287-3b50-4194-a05a-fea7af679032"
-        },
-        {
-            "@type": "WorkflowStep",
-            "name": "Report as Attachment",
-            "description": null,
-            "arguments": {
-                "params": {
-                    "name": "{{vars.steps.Create_Report_File.data.filename| regex_replace(\"_[0-9]+[\\.]html\", \"\") | regex_replace(\"_\",\" \")}} Report",
-                    "filename": "{{vars.steps.Create_Report_File.data.filename}}",
-                    "description": "This is Playbook Generated Report by FortiSOAR Health Assessment",
-                    "request_headers": "",
-                    "multipart_headers": "",
-                    "extra_multipart_fields": ""
-                },
-                "version": "3.3.1",
-                "connector": "cyops_utilities",
-                "operation": "create_cyops_attachment",
-                "operationTitle": "File: Create Attachment from File",
-                "step_variables": []
-            },
-            "status": null,
-            "top": "260",
-            "left": "40",
-            "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
-            "group": "\/api\/3\/workflow_groups\/5b18fcc1-b7da-4625-9f35-e432b0e6fdf2",
-            "uuid": "748efb97-9530-40dd-bf76-de0a0926f885"
         },
         {
             "@type": "WorkflowStep",
@@ -140,6 +228,16 @@
     "routes": [
         {
             "@type": "WorkflowRoute",
+            "name": "Configuration Of Playbooks Stats -> Configuration Of Alert Stats",
+            "targetStep": "\/api\/3\/workflow_steps\/fad73639-3f06-49aa-bb66-e2715a0e1f6a",
+            "sourceStep": "\/api\/3\/workflow_steps\/32cbaaca-87d8-4bdb-a578-9e6a58603a55",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "3cd4f5c0-1d9f-4d50-a8f9-5eb02ecff530"
+        },
+        {
+            "@type": "WorkflowRoute",
             "name": "Configure Report -> Generate Report Code",
             "targetStep": "\/api\/3\/workflow_steps\/b2b22de9-af76-4f1c-b041-159b4b90b7e6",
             "sourceStep": "\/api\/3\/workflow_steps\/372c8d15-a112-43fa-b11c-b2cb6fb92300",
@@ -157,6 +255,16 @@
             "isExecuted": false,
             "group": null,
             "uuid": "1f282332-e1ea-4d80-8e10-7e40ae360951"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Find Previous Record -> mislanoius",
+            "targetStep": "\/api\/3\/workflow_steps\/6ec4fb3b-9019-48e9-bebf-f168416bd5c9",
+            "sourceStep": "\/api\/3\/workflow_steps\/ba08c313-52d5-468c-a044-06203b43176b",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "a3f2633a-42bf-4b56-8e98-1e6a9cbe38b2"
         },
         {
             "@type": "WorkflowRoute",
@@ -186,7 +294,17 @@
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "23ebea21-ba3b-49cf-ba04-117c6179efc8"
+            "uuid": "e038e6b7-70eb-475b-ad66-b23444354d01"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Test -> Configuration For Report",
+            "targetStep": "\/api\/3\/workflow_steps\/32cbaaca-87d8-4bdb-a578-9e6a58603a55",
+            "sourceStep": "\/api\/3\/workflow_steps\/ba08c313-52d5-468c-a044-06203b43176b",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "45de7484-37bc-4b87-ba14-ebe33df1c799"
         }
     ],
     "groups": [
@@ -214,6 +332,8 @@
     "isPrivate": false,
     "deletedAt": null,
     "recordTags": [
-        "FortiSOAR Health Assessment"
+        "FortiSOAR Health Assessment",
+        "Referenced",
+        "system"
     ]
 }

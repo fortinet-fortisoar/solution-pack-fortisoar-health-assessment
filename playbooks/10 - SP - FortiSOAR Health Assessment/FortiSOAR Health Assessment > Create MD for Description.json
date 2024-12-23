@@ -1,7 +1,7 @@
 {
     "@type": "Workflow",
     "triggerLimit": null,
-    "name": "Referenced > Create MD for Description",
+    "name": "FortiSOAR Health Assessment > Create MD for Description",
     "aliasName": null,
     "tag": null,
     "description": null,
@@ -19,25 +19,26 @@
     "steps": [
         {
             "@type": "WorkflowStep",
-            "name": "Alerts Trends",
+            "name": "Alerts Creation Trend",
             "description": null,
             "arguments": {
                 "params": {
-                    "data": "{% set data ={\"One Day\":vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_day'], \"One Week\":vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_week'],\"Two Week\":vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_two_week']} %}{{ data | toDict}}",
+                    "data": "{% set data ={\"Per Day\":vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_day'], \"Per Week\":vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_week'],\"Per Two Weeks\":vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_two_week']} %}{{ data | toDict}}",
                     "display": "Horizontal",
                     "styling": true,
                     "row_fields": "",
+                    "show_button": true,
                     "table_style": "{{vars.css}}"
                 },
-                "version": "3.3.1",
+                "version": "3.5.0",
                 "connector": "cyops_utilities",
                 "operation": "json_to_html",
                 "operationTitle": "Utils: Convert JSON into a HTML Table",
                 "step_variables": []
             },
             "status": null,
-            "top": "140",
-            "left": "460",
+            "top": "420",
+            "left": "420",
             "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
             "group": null,
             "uuid": "819e713d-a13a-457f-8fa4-3805fc9ad634"
@@ -52,9 +53,10 @@
                     "display": "Horizontal",
                     "styling": true,
                     "row_fields": "",
+                    "show_button": true,
                     "table_style": "{{vars.css}}"
                 },
-                "version": "3.3.1",
+                "version": "3.5.0",
                 "connector": "cyops_utilities",
                 "operation": "json_to_html",
                 "ignore_errors": true,
@@ -62,8 +64,8 @@
                 "step_variables": []
             },
             "status": null,
-            "top": "140",
-            "left": "120",
+            "top": "500",
+            "left": "420",
             "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
             "group": null,
             "uuid": "538aecae-437d-4244-8fc6-217e8f979798"
@@ -78,9 +80,10 @@
                     "display": "Horizontal",
                     "styling": true,
                     "row_fields": "",
+                    "show_button": true,
                     "table_style": "{{vars.css}}"
                 },
-                "version": "3.3.1",
+                "version": "3.5.0",
                 "connector": "cyops_utilities",
                 "operation": "json_to_html",
                 "ignore_errors": true,
@@ -88,8 +91,8 @@
                 "step_variables": []
             },
             "status": null,
-            "top": "340",
-            "left": "460",
+            "top": "580",
+            "left": "420",
             "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
             "group": null,
             "uuid": "4cba893e-2e99-477f-9632-a81744cc96f0"
@@ -100,7 +103,7 @@
             "description": null,
             "arguments": {
                 "params": {
-                    "data": "{% set data=[] %}{% for temp in vars.input.params['fortisoar_health_data']['fortisoar_information'][\"top_10_most_time_consuming_playbooks\"] %}\n{% do  data.append({\"Playbook Name\":temp['playbook_name'],\"Time Consumed\":temp['time_consumed']}) %}{% endfor %}{{data}}",
+                    "data": "{% set data=[] %}{% for temp in vars.input.params['fortisoar_health_data']['fortisoar_information'][\"top_10_most_time_consuming_playbooks\"] %}{% set timestamp = temp['time_consumed'] %}{% set time_parts = timestamp.split('.') %}{% set time = time_parts[0] %}{% set milliseconds = time_parts[1] if time_parts|length > 1 else '' %}{% set hours, minutes, seconds = time.split(':') %}{% set time_string = (hours | string) + ' hr, ' if hours | int > 0 else '' %}{% set time_string = time_string+(minutes | string) + ' min, ' if minutes | int > 0 else '' %}{% set time_string = time_string+(seconds | string) + ' sec, ' if seconds | int > 0 else '' %}{% set time_string = time_string+ (milliseconds | string) + ' ms. ' if milliseconds | int > 0 else '' %}{% do  data.append({\"Playbook Name\":temp['playbook_name'],\"Time Consumed\":time_string}) %}{% endfor %}{{data}}",
                     "display": "Horizontal",
                     "styling": true,
                     "row_fields": "",
@@ -114,8 +117,8 @@
                 "step_variables": []
             },
             "status": null,
-            "top": "240",
-            "left": "460",
+            "top": "660",
+            "left": "420",
             "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
             "group": null,
             "uuid": "fe1373a8-2f8a-4299-b422-00f370cd9240"
@@ -130,17 +133,18 @@
                     "display": "Horizontal",
                     "styling": true,
                     "row_fields": "",
+                    "show_button": true,
                     "table_style": "{{vars.css}}"
                 },
-                "version": "3.3.1",
+                "version": "3.5.0",
                 "connector": "cyops_utilities",
                 "operation": "json_to_html",
                 "operationTitle": "Utils: Convert JSON into a HTML Table",
                 "step_variables": []
             },
             "status": null,
-            "top": "440",
-            "left": "460",
+            "top": "340",
+            "left": "360",
             "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
             "group": null,
             "uuid": "e8876044-d453-4ed8-9373-d3ada54d81c7"
@@ -150,12 +154,12 @@
             "name": "Output MD",
             "description": null,
             "arguments": {
-                "assessment_report": "<h1> Assessment <\/h1>\n<hr \/>\n<h4>The assessment provides a comprehensive analysis of your system's performance and operational efficiency. It\n    includes system details that highlight your current configuration and performance metrics. Additionally, it tracks\n    alert trends over time, helping to identify recurring issues and potential areas for improvement. The assessment\n    also identifies the most executed playbooks, offering insights into common tasks and workflows, as well as the most\n    failing playbooks, which can help target troubleshooting efforts. Furthermore, it analyzes the most time-consuming\n    playbooks to identify opportunities for optimization, and it reports on playbooks that are constantly running in\n    debug mode, indicating potential underlying issues that need attention. Overall, this assessment aims to enhance\n    your operational effectiveness by providing actionable insights based on data analysis.<\/h4>\n<h2> System Details <\/h2>\n\n<hr \/>\n<div  >\n    {{vars.steps.System_Details.data}}\n<\/div>\n\n\n<h2> FortiSOAR Details <\/h2>\n\n* * *\n\n<div  >\n    <table style=\"display: inline-block; border: none;\">\n        <tr style=\"display:flex\">\n            <td style=\"flex:1\" colspan='2'>\n                <h3>Alerts Trend<\/h3>\n                <\/br>\n                <div  >\n                    {{vars.steps.Alerts_Trends.data if\n                    (vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_day']\n                    | int !=0)\n                    or(vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_week']\n                    | int !=0)\n                    or(vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_two_week']\n                    | int !=0) else \"<div  ><div style='background-color: #e9ecef; color: #6c757d; padding: 10px; border: 1px solid #ced4da;'>There is currently no data available to display.<\/div>\"}}\n                <\/div>\n            <\/td>\n        <\/tr>\n        <tr style=\"display:flex\">\n            <td style=\"flex:1\">\n                <h3>Most Executed Playbooks<\/h3>\n                <\/br>\n                <div  >\n                    {{vars.steps.Most_Executed_Playbooks.data if\n                    (vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_executed_playbooks']|\n                    length) != 0 else \"<div  ><div style='background-color: #e9ecef; color: #6c757d; padding: 10px; border: 1px solid #ced4da;'>There is currently no data available to display.<\/div>\"}}\n                <\/div>\n            <\/td>\n            <td style=\"flex:1\">\n                <h3>Most Failing Playbooks<\/h3>\n                <\/br>\n                <div  >\n                    {{vars.steps.Most_Failing_Playbooks.data if\n                    (vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_failing_playbooks']|\n                    length) != 0 else \"<div  ><div style='background-color: #e9ecef; color: #6c757d; padding: 10px; border: 1px solid #ced4da;'>There is currently no data available to display.<\/div>\"}}\n                <\/div>\n            <\/td>\n        <\/tr>\n        <tr style=\"display:flex\">\n            <td style=\"flex:1\">\n                <h3>Most Time Consuming Playbooks<\/h3>\n                <br \/>\n                <div  >\n                    {{vars.steps.Most_Time_Consuming_Playbooks.data if\n                    (vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_time_consuming_playbooks']|\n                    length) != 0 else \"<div  ><div style='background-color: #e9ecef; color: #6c757d; padding: 10px; border: 1px solid #ced4da;'>There is currently no data available to display.<\/div>\" }}\n                <\/div>\n            <\/td>\n            <td style=\"flex:1\">\n                <h3>Playbooks Running in Debug Mode<\/h3>\n                <\/br>\n                <div  >\n                    {{vars.steps.Playbooks_Constantly_Running_In_Debug_Mode.data\n                    if(vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_playbooks_running_in_debug_mode']|\n                    length) != 0 else \"<div  ><div style='background-color: #e9ecef; color: #6c757d; padding: 10px; border: 1px solid #ced4da;'>There is currently no data available to display.<\/div>\" }}\n                <\/div>\n            <\/td>\n        <\/tr>\n    <\/table>\n<\/div>",
-                "recommendation_report": "<h2 > Recommendations <\/h2>\n\n* * * \n\n<\/br>\n{{vars.recommendation_snippet if vars.input.params['fortisoar_health_data']['system_details']['CPU'] | int > 12 else \"<div style='background-color: #f8d7da; color: #721c24; padding: 10px; border: 1px solid #f5c6cb;'><strong>Warning:<\/strong> Your current system configuration is below the recommended specifications. As a result, we cannot generate recommendations.<\/div>\"}}"
+                "assessment_report": "<h2>System Performance & Operational Assessment Overview <\/h2>\n\n-  **Comprehensive Evaluation :** Analyzes system performance and efficiency, offering detailed insights into configuration and performance metrics.\n- **Alert Trends** : Tracks alert patterns over time, identifying recurring issues (e.g., 15% of alerts are repeated weekly).\n-  **Playbook Insights**:\n     -  **Top Playbooks**: Identifies the most executed playbooks, revealing common tasks \n     -  **Troubleshooting Focus**: Highlights failing playbooks \n     - **Optimization Opportunities**: Analyzes time-consuming playbooks\n     - **Debug Mode Monitoring**: Tracks playbooks constantly running in debug mode, indicating possible inefficiencies or new playbook development\n\n<h2> System Details <\/h2>\n\n<hr \/>\n<div  >\n    {{vars.steps.System_Details.data}}\n<\/div>\n\n\n<h2> FortiSOAR Details <\/h2>\n\n* * *\n\n<div  >\n    <table style=\"display: inline-block; border: none;\">\n        <tr style=\"display:flex\">\n            <td style=\"flex:1\" colspan='2'>\n                <h3>Alerts Trend : Number of Alerts Ingested<\/h3>\n                <\/br>\n                <div  >\n                    {{vars.steps.Alerts_Creation_Trend.data if\n                    (vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_day']\n                    | int !=0)\n                    or(vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_one_week']\n                    | int !=0)\n                    or(vars.input.params['fortisoar_health_data']['fortisoar_information']['number_of_alerts_created_in_two_week']\n                    | int !=0) else \"<div  ><div style='background-color: #e9ecef; color: #6c757d; padding: 10px; border: 1px solid #ced4da;'>No data is available to display at the moment.<\/div>\"}}\n                <\/div>\n            <\/td>\n        <\/tr>\n        <tr style=\"display:flex\">\n            <td style=\"flex:1\">\n                <h3>Playbook : Most Executed<\/h3>\n                <\/br>\n                <div  >\n                    {{vars.steps.Most_Executed_Playbooks.data if\n                    (vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_executed_playbooks']|\n                    length) != 0 else \"<div  ><div style='background-color: #e9ecef; color: #6c757d; padding: 10px; border: 1px solid #ced4da;'>No data is available to display at the moment.<\/div>\"}}\n                <\/div>\n            <\/td>\n            <td style=\"flex:1\">\n                <h3>Playbook : Most Failing<\/h3>\n                <\/br>\n                <div  >\n                    {{vars.steps.Most_Failing_Playbooks.data if\n                    (vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_failing_playbooks']|\n                    length) != 0 else \"<div  ><div style='background-color: #e9ecef; color: #6c757d; padding: 10px; border: 1px solid #ced4da;'>No data is available to display at the moment.<\/div>\"}}\n                <\/div>\n            <\/td>\n        <\/tr>\n        <tr style=\"display:flex\">\n            <td style=\"flex:1\">\n                <h3>Playbook : Running In Debug Mode<\/h3>\n                <br \/>\n                <div  >\n                    {{vars.steps.Most_Time_Consuming_Playbooks.data if\n                    (vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_most_time_consuming_playbooks']|\n                    length) != 0 else \"<div  ><div style='background-color: #e9ecef; color: #6c757d; padding: 10px; border: 1px solid #ced4da;'>No data is available to display at the moment.<\/div>\" }}\n                <\/div>\n            <\/td>\n            <td style=\"flex:1\">\n                <h3>Playbook : Most Time Consuming<\/h3>\n                <\/br>\n                <div  >\n                    {{vars.steps.Playbooks_Constantly_Running_In_Debug_Mode.data\n                    if(vars.input.params['fortisoar_health_data']['fortisoar_information']['top_10_playbooks_running_in_debug_mode']|\n                    length) != 0 else \"<div  ><div style='background-color: #e9ecef; color: #6c757d; padding: 10px; border: 1px solid #ced4da;'>No data is available to display at the moment.<\/div>\" }}\n                <\/div>\n            <\/td>\n        <\/tr>\n    <\/table>\n<\/div>",
+                "recommendation_report": "{{vars.recommendation_snippet}}"
             },
             "status": null,
-            "top": "640",
-            "left": "120",
+            "top": "620",
+            "left": "1000",
             "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
             "group": null,
             "uuid": "825adbdd-ef88-4ff5-973c-ced63747eb5b"
@@ -166,21 +170,22 @@
             "description": null,
             "arguments": {
                 "params": {
-                    "data": "{% set data = [] %}{% do data.append({\"Configuration For\": \"php_fpm\",\"Parameter\":\"pm.start_servers\",\"File Path\":\"\/etc\/php-fpm.d\/cyops-api.conf\",\"Current Value\": vars.input.params['fortisoar_health_data']['current_system_configuration']['php_fpm']['pm.start_servers'],\"Recommended Value\":vars.input.params['fortisoar_health_data']['recommended_configuration']['php_fpm']['pm.start_servers']}) %}{% do data.append({\"Configuration For\": \"php_fpm\",\"Parameter\":\"pm.max_spare_servers\",\"File Path\":\"\/etc\/php-fpm.d\/cyops-api.conf\",\"Current Value\": vars.input.params['fortisoar_health_data']['current_system_configuration']['php_fpm']['pm.max_spare_servers'],\"Recommended Value\":vars.input.params['fortisoar_health_data']['recommended_configuration']['php_fpm']['pm.max_spare_servers']}) %}{{data}}",
+                    "data": "{% set data = [] %}{% do data.append({\"Configuration For\": \"php_fpm\",\"Parameter\":\"pm.start_servers\",\"File Path\":\"\/etc\/php-fpm.d\/cyops-api.conf\",\"Current Value\": vars.input.params['fortisoar_health_data']['current_system_configuration']['php_fpm']['pm.start_servers'],\"Recommended Value\":vars.input.params['fortisoar_health_data']['recommended_configuration']['php_fpm']['pm.start_servers']}) %}{% do data.append({\"Configuration For\": \"php_fpm\",\"Parameter\":\"pm.max_spare_servers\",\"File Path\":\"\/etc\/php-fpm.d\/cyops-api.conf\",\"Current Value\": vars.input.params['fortisoar_health_data']['current_system_configuration']['php_fpm']['pm.max_spare_servers'],\"Recommended Value\":vars.input.params['fortisoar_health_data']['recommended_configuration']['php_fpm']['pm.max_spare_servers']}) %}{% do data.append({\"Configuration For\": \"php_fpm\",\"Parameter\":\"pm.max_children\",\"File Path\":\"\/etc\/php-fpm.d\/cyops-api.conf\",\"Current Value\": vars.input.params['fortisoar_health_data']['current_system_configuration']['php_fpm']['pm.max_children'],\"Recommended Value\":vars.input.params['fortisoar_health_data']['recommended_configuration']['php_fpm']['pm.max_children']}) %}{{data}}",
                     "display": "Horizontal",
                     "styling": true,
                     "row_fields": "['Parameter','Current Value','Recommended Value']",
+                    "show_button": true,
                     "table_style": "{{vars.css}}"
                 },
-                "version": "3.3.1",
+                "version": "3.5.0",
                 "connector": "cyops_utilities",
                 "operation": "json_to_html",
                 "operationTitle": "Utils: Convert JSON into a HTML Table",
                 "step_variables": []
             },
             "status": null,
-            "top": "440",
-            "left": "120",
+            "top": "260",
+            "left": "360",
             "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
             "group": null,
             "uuid": "adcea734-fb98-4ae1-a75e-ee944a9eee31"
@@ -195,9 +200,10 @@
                     "display": "Horizontal",
                     "styling": true,
                     "row_fields": "",
+                    "show_button": true,
                     "table_style": "{{vars.css}}"
                 },
-                "version": "3.3.1",
+                "version": "3.5.0",
                 "connector": "cyops_utilities",
                 "operation": "json_to_html",
                 "ignore_errors": true,
@@ -205,8 +211,8 @@
                 "step_variables": []
             },
             "status": null,
-            "top": "240",
-            "left": "120",
+            "top": "740",
+            "left": "420",
             "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
             "group": null,
             "uuid": "c39e0e80-394c-4b13-861f-123893dd4d47"
@@ -221,17 +227,18 @@
                     "display": "Horizontal",
                     "styling": true,
                     "row_fields": "['Parameter','Current Value','Recommended Value']",
+                    "show_button": true,
                     "table_style": "{{vars.css}}"
                 },
-                "version": "3.3.1",
+                "version": "3.5.0",
                 "connector": "cyops_utilities",
                 "operation": "json_to_html",
                 "operationTitle": "Utils: Convert JSON into a HTML Table",
                 "step_variables": []
             },
             "status": null,
-            "top": "340",
-            "left": "120",
+            "top": "180",
+            "left": "360",
             "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
             "group": null,
             "uuid": "46ea0c94-d53c-427a-9d27-73b82bf355ca"
@@ -241,11 +248,11 @@
             "name": "Report Snippet Generator",
             "description": null,
             "arguments": {
-                "recommendation_snippet": "<h4>This section outlines key recommendations for optimizing your system\u2019s performance and ensuring seamless operation. It covers configuring PostgreSQL for improved database efficiency and managing Celery workers for better task execution. Recommendations for sealab_wsgi and integrations_wsgi focus on enhancing web application performance. For PHP applications, adjustments to php-fpm settings are advised to boost processing speed. Additionally, establishing adequate swap space is essential for maintaining system stability, especially under heavy load. Finally, configuration tips for RabbitMQ will streamline message queuing and enhance communication between services, leading to improved performance and reliability across your system.<\/h4>\n<br>\n<div style=\"background-color: #fff3cd; color: #856404; padding: 10px; border: 1px solid #ffeeba;\">\n    <strong>Note:<\/strong> The configuration changes below will require all services to be restarted.\n<\/div>\n<br>\n<div class=\"\">\n    <table style=\"display: inline-block; border: 0px solid black; margin: auto;\">\n        <tr style=\"display:flex\">\n            <td style=\"flex:1\">\n                <h3 >PostgreSQL<\/h3>\n                <h4 >Edit the <code>\/var\/lib\/pgsql\/14\/data\/postgresql.conf<\/code> file with the following parameters.<\/h4>\n                <div class=\"\">\n                    {{vars.steps.Postgre_SQL.data}}\n                <\/div>\n            <\/td>\n            <td style=\"flex:1\">\n                <h3 >PHP-FPM<\/h3>\n                <h4 >Edit the <code>\/etc\/php-fpm.d\/cyops-api.conf<\/code> file with the following parameters.<\/h4>\n                <div class=\"\">\n                    {{vars.steps.PHP_FPM.data}}\n                <\/div>\n            <\/td>\n        <\/tr>\n        <tr style=\"display:flex\">\n            <td colspan=\"2\" style=\"flex:1\">\n                <h3 >Workflow Engine and RabbitMQ<\/h3>\n                <br\/>\n                <div class=\"\">\n                    {{vars.steps.Other_Configurations.data}}\n                <\/div>\n            <\/td>\n        <\/tr>\n        <tr style=\"display:flex\">\n            <td colspan=\"2\" style=\"flex:1\">\n                <h3 >SWAP SPACE<\/h3>\n                <h4 >Use the <a href=\"https:\/\/docs.redhat.com\/en\/documentation\/red_hat_enterprise_linux\/9\/html\/managing_storage_devices\/getting-started-with-swap_managing-storage-devices#creating-a-swap-file_getting-started-with-swap\">documentation<\/a> for creating swap space<\/h4>\n                <div class=\"\">\n                    {{vars.steps.Swap_Space.data}}\n                <\/div>\n            <\/td>\n        <\/tr>\n    <\/table>\n<\/div>"
+                "recommendation_snippet": "<h2>Key Recommendations for System Optimization <\/h2>\n\n- **PostgreSQL Configuration**: Adjust database settings for improved performance.\n- **Workflow Engine**: Fine-tune worker configurations for better task execution and to enhance request handling.\n- **PHP Application Optimization**: Adjust **php-fpm** settings to boost processing speed.\n- **Swap Space Configuration**: Ensure adequate swap space to maintain stability under heavy load.\n- **RabbitMQ Configuration**: Streamline message queuing to improve communication between services.\n<br>\n\n<h4><strong>Note:<\/strong> The configuration changes below will require all services to be restarted.<\/h4>\n<br>\n<div class=\"\">\n    <table style=\"display: inline-block; border: 0px solid black; margin: auto;\">\n        <tr style=\"display:flex\">\n            <td style=\"flex:1\">\n                <h3 >PostgreSQL<\/h3>\n                <h4 >Edit the <code>\/var\/lib\/pgsql\/16\/data\/postgresql.conf<\/code> file with the following parameters.<\/h4>\n                <div class=\"\">\n                    {{vars.steps.Postgre_SQL.data}}\n                <\/div>\n            <\/td>\n            <td style=\"flex:1\">\n                <h3 >PHP-FPM<\/h3>\n                <h4 >Edit the <code>\/etc\/php-fpm.d\/cyops-api.conf<\/code> file with the following parameters.<\/h4>\n                <div class=\"\">\n                    {{vars.steps.PHP_FPM.data}}\n                <\/div>\n            <\/td>\n        <\/tr>\n        <tr style=\"display:flex\">\n            <td colspan=\"2\" style=\"flex:1\">\n                <h3 >Workflow Engine and RabbitMQ<\/h3>\n                <br\/>\n                <div class=\"\">\n                    {{vars.steps.Other_Configurations.data}}\n                <\/div>\n            <\/td>\n        <\/tr>\n        <tr style=\"display:flex\">\n            <td colspan=\"2\" style=\"flex:1\">\n                <h3 >SWAP SPACE<\/h3>\n                <h4 >Use the <a href=\"https:\/\/docs.redhat.com\/en\/documentation\/red_hat_enterprise_linux\/9\/html\/managing_storage_devices\/getting-started-with-swap_managing-storage-devices#creating-a-swap-file_getting-started-with-swap\">documentation<\/a> for creating swap space<\/h4>\n                <div class=\"\">\n                    {{vars.steps.Swap_Space.data}}\n                <\/div>\n            <\/td>\n        <\/tr>\n    <\/table>\n<\/div>"
             },
             "status": null,
-            "top": "540",
-            "left": "120",
+            "top": "220",
+            "left": "780",
             "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
             "group": null,
             "uuid": "d1a8c84a-d8ee-441d-9134-efa9ed429a67"
@@ -266,7 +273,7 @@
                 "triggerOnReplicate": false
             },
             "status": null,
-            "top": "40",
+            "top": "600",
             "left": "120",
             "stepType": "\/api\/3\/workflow_step_types\/b348f017-9a94-471f-87f8-ce88b6a7ad62",
             "group": null,
@@ -282,17 +289,18 @@
                     "display": "Horizontal",
                     "styling": true,
                     "row_fields": "",
+                    "show_button": true,
                     "table_style": "{{vars.css}}"
                 },
-                "version": "3.3.1",
+                "version": "3.5.0",
                 "connector": "cyops_utilities",
                 "operation": "json_to_html",
                 "operationTitle": "Utils: Convert JSON into a HTML Table",
                 "step_variables": []
             },
             "status": null,
-            "top": "540",
-            "left": "460",
+            "top": "100",
+            "left": "360",
             "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
             "group": null,
             "uuid": "5618acb3-2de3-4b4a-a780-89474e391a17"
@@ -303,21 +311,22 @@
             "description": null,
             "arguments": {
                 "params": {
-                    "data": "{{vars.input.params['fortisoar_health_data']['system_details']}}",
+                    "data": "{% set data=vars.input.params['fortisoar_health_data']['system_details'] %}{% set output={'vCPU':vars.input.params['fortisoar_health_data']['system_details']['CPU'],'RAM':vars.input.params['fortisoar_health_data']['system_details']['RAM']+' GB','Disk latency':vars.input.params['fortisoar_health_data']['system_details']['Disk latency'],'Disk IOPS - Read':vars.input.params['fortisoar_health_data']['system_details']['Disk IOPS - Read'],'Disk IOPS - Write':vars.input.params['fortisoar_health_data']['system_details']['Disk IOPS - Write']} %}{{output}}",
                     "display": "Horizontal",
                     "styling": true,
                     "row_fields": "",
+                    "show_button": true,
                     "table_style": "{{vars.css}}"
                 },
-                "version": "3.3.1",
+                "version": "3.5.0",
                 "connector": "cyops_utilities",
                 "operation": "json_to_html",
                 "operationTitle": "Utils: Convert JSON into a HTML Table",
                 "step_variables": []
             },
             "status": null,
-            "top": "40",
-            "left": "460",
+            "top": "820",
+            "left": "420",
             "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
             "group": null,
             "uuid": "6cfefc47-4be3-4fb6-bbf0-c263e6907755"
@@ -326,83 +335,83 @@
     "routes": [
         {
             "@type": "WorkflowRoute",
-            "name": "Alerts Trends -> Most Executed Playbooks",
-            "targetStep": "\/api\/3\/workflow_steps\/538aecae-437d-4244-8fc6-217e8f979798",
+            "name": "Alerts Trends -> Output MD",
+            "targetStep": "\/api\/3\/workflow_steps\/825adbdd-ef88-4ff5-973c-ced63747eb5b",
             "sourceStep": "\/api\/3\/workflow_steps\/819e713d-a13a-457f-8fa4-3805fc9ad634",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "3dc98fc5-c70e-403b-a4bb-6e562c93437e"
+            "uuid": "f69db39b-77d0-4199-a6fb-1b12e7fc451d"
         },
         {
             "@type": "WorkflowRoute",
-            "name": "Most Executed Playbooks -> Playbook Constantly Running In Debug Mode",
-            "targetStep": "\/api\/3\/workflow_steps\/c39e0e80-394c-4b13-861f-123893dd4d47",
+            "name": "Most Executed Playbooks -> Output MD",
+            "targetStep": "\/api\/3\/workflow_steps\/825adbdd-ef88-4ff5-973c-ced63747eb5b",
             "sourceStep": "\/api\/3\/workflow_steps\/538aecae-437d-4244-8fc6-217e8f979798",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "dc2473b0-d182-4109-843f-e6e83d33b7c6"
+            "uuid": "46903cbc-eaff-4fc8-b3a9-b6e6934bf976"
         },
         {
             "@type": "WorkflowRoute",
-            "name": "Most Failing Playbooks -> Test",
-            "targetStep": "\/api\/3\/workflow_steps\/46ea0c94-d53c-427a-9d27-73b82bf355ca",
+            "name": "Most Failing Playbooks -> Output MD",
+            "targetStep": "\/api\/3\/workflow_steps\/825adbdd-ef88-4ff5-973c-ced63747eb5b",
             "sourceStep": "\/api\/3\/workflow_steps\/4cba893e-2e99-477f-9632-a81744cc96f0",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "221df177-0a75-417c-91df-2c7652ebef73"
+            "uuid": "3b99c4c8-9c9a-4c12-a91d-53ec242a1327"
         },
         {
             "@type": "WorkflowRoute",
-            "name": "Most Time Consuming Playbooks -> Most Failing Playbooks",
-            "targetStep": "\/api\/3\/workflow_steps\/4cba893e-2e99-477f-9632-a81744cc96f0",
+            "name": "Most Time Consuming Playbooks -> Output MD",
+            "targetStep": "\/api\/3\/workflow_steps\/825adbdd-ef88-4ff5-973c-ced63747eb5b",
             "sourceStep": "\/api\/3\/workflow_steps\/fe1373a8-2f8a-4299-b422-00f370cd9240",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "0b6f7d2f-39e0-46ee-b4bb-7e373e7f6aa6"
+            "uuid": "77ce16be-89ae-459c-a239-709be5bfd7c2"
         },
         {
             "@type": "WorkflowRoute",
-            "name": "Other Configurations -> Copy of Other Configurations",
-            "targetStep": "\/api\/3\/workflow_steps\/5618acb3-2de3-4b4a-a780-89474e391a17",
+            "name": "Other Configurations -> Report Snippet Generator",
+            "targetStep": "\/api\/3\/workflow_steps\/d1a8c84a-d8ee-441d-9134-efa9ed429a67",
             "sourceStep": "\/api\/3\/workflow_steps\/e8876044-d453-4ed8-9373-d3ada54d81c7",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "f199bae3-6bf6-48c4-a241-cdd6a1a0585e"
+            "uuid": "ec26ffc1-fc94-4343-8893-ce09f262d344"
         },
         {
             "@type": "WorkflowRoute",
-            "name": "PHP FPM -> Other Configurations",
-            "targetStep": "\/api\/3\/workflow_steps\/e8876044-d453-4ed8-9373-d3ada54d81c7",
+            "name": "PHP FPM -> Report Snippet Generator",
+            "targetStep": "\/api\/3\/workflow_steps\/d1a8c84a-d8ee-441d-9134-efa9ed429a67",
             "sourceStep": "\/api\/3\/workflow_steps\/adcea734-fb98-4ae1-a75e-ee944a9eee31",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "efe3a80d-3777-491e-a048-140929e0938e"
+            "uuid": "673b659f-a0ee-4b6a-99e8-4c57e801543e"
         },
         {
             "@type": "WorkflowRoute",
-            "name": "Playbook Constantly Running In Debug Mode -> Most Time Consuming Playbooks",
-            "targetStep": "\/api\/3\/workflow_steps\/fe1373a8-2f8a-4299-b422-00f370cd9240",
+            "name": "Playbooks Constantly Running In Debug Mode -> Output MD",
+            "targetStep": "\/api\/3\/workflow_steps\/825adbdd-ef88-4ff5-973c-ced63747eb5b",
             "sourceStep": "\/api\/3\/workflow_steps\/c39e0e80-394c-4b13-861f-123893dd4d47",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "535b01f4-0a9d-4bf8-b9f4-c3478e3f8196"
+            "uuid": "2648de72-ff9e-49e6-a754-46476d951de4"
         },
         {
             "@type": "WorkflowRoute",
-            "name": "Postgre SQL -> PHP FPM",
-            "targetStep": "\/api\/3\/workflow_steps\/adcea734-fb98-4ae1-a75e-ee944a9eee31",
+            "name": "Postgre SQL -> Report Snippet Generator",
+            "targetStep": "\/api\/3\/workflow_steps\/d1a8c84a-d8ee-441d-9134-efa9ed429a67",
             "sourceStep": "\/api\/3\/workflow_steps\/46ea0c94-d53c-427a-9d27-73b82bf355ca",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "e9451b72-adad-4f5d-b81d-9e0025bcdecd"
+            "uuid": "ed06b34d-f5bb-43d3-b932-dd0d27787434"
         },
         {
             "@type": "WorkflowRoute",
@@ -416,6 +425,86 @@
         },
         {
             "@type": "WorkflowRoute",
+            "name": "Start -> Alerts Trends",
+            "targetStep": "\/api\/3\/workflow_steps\/819e713d-a13a-457f-8fa4-3805fc9ad634",
+            "sourceStep": "\/api\/3\/workflow_steps\/5886c158-3ecd-4136-a75a-5282a3deb3ab",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "480f4fa3-7bbd-43ba-9336-8db84aa2193e"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Most Executed Playbooks",
+            "targetStep": "\/api\/3\/workflow_steps\/538aecae-437d-4244-8fc6-217e8f979798",
+            "sourceStep": "\/api\/3\/workflow_steps\/5886c158-3ecd-4136-a75a-5282a3deb3ab",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "ce6040a3-c8c8-4591-8c70-14e9e504aaa2"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Most Failing Playbooks",
+            "targetStep": "\/api\/3\/workflow_steps\/4cba893e-2e99-477f-9632-a81744cc96f0",
+            "sourceStep": "\/api\/3\/workflow_steps\/5886c158-3ecd-4136-a75a-5282a3deb3ab",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "11a3377e-1cee-43a0-83e1-909aa2c8f5f7"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Most Time Consuming Playbooks",
+            "targetStep": "\/api\/3\/workflow_steps\/fe1373a8-2f8a-4299-b422-00f370cd9240",
+            "sourceStep": "\/api\/3\/workflow_steps\/5886c158-3ecd-4136-a75a-5282a3deb3ab",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "52e3dd35-3390-4630-88c1-2463a84d0228"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Other Configurations",
+            "targetStep": "\/api\/3\/workflow_steps\/e8876044-d453-4ed8-9373-d3ada54d81c7",
+            "sourceStep": "\/api\/3\/workflow_steps\/5886c158-3ecd-4136-a75a-5282a3deb3ab",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "fe111420-9e8b-40b7-8408-0696d28f64b1"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> PHP FPM",
+            "targetStep": "\/api\/3\/workflow_steps\/adcea734-fb98-4ae1-a75e-ee944a9eee31",
+            "sourceStep": "\/api\/3\/workflow_steps\/5886c158-3ecd-4136-a75a-5282a3deb3ab",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "50b910a7-d61b-4dcc-9577-b6df8416781d"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Playbooks Constantly Running In Debug Mode",
+            "targetStep": "\/api\/3\/workflow_steps\/c39e0e80-394c-4b13-861f-123893dd4d47",
+            "sourceStep": "\/api\/3\/workflow_steps\/5886c158-3ecd-4136-a75a-5282a3deb3ab",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "afd885cf-88f8-4bfc-ac90-d2d36a27159b"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Postgre SQL",
+            "targetStep": "\/api\/3\/workflow_steps\/46ea0c94-d53c-427a-9d27-73b82bf355ca",
+            "sourceStep": "\/api\/3\/workflow_steps\/5886c158-3ecd-4136-a75a-5282a3deb3ab",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "0e75c235-a441-4bfd-80ce-973ed74ef9eb"
+        },
+        {
+            "@type": "WorkflowRoute",
             "name": "Start -> Stess",
             "targetStep": "\/api\/3\/workflow_steps\/6cfefc47-4be3-4fb6-bbf0-c263e6907755",
             "sourceStep": "\/api\/3\/workflow_steps\/5886c158-3ecd-4136-a75a-5282a3deb3ab",
@@ -423,6 +512,16 @@
             "isExecuted": false,
             "group": null,
             "uuid": "f44a6812-41cb-4d60-ae26-bad143fa500e"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Swap Space",
+            "targetStep": "\/api\/3\/workflow_steps\/5618acb3-2de3-4b4a-a780-89474e391a17",
+            "sourceStep": "\/api\/3\/workflow_steps\/5886c158-3ecd-4136-a75a-5282a3deb3ab",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "dfef034f-90d5-48bf-962f-5f7eaedc5bf5"
         },
         {
             "@type": "WorkflowRoute",
@@ -436,13 +535,13 @@
         },
         {
             "@type": "WorkflowRoute",
-            "name": "System Details -> Alerts Trends",
-            "targetStep": "\/api\/3\/workflow_steps\/819e713d-a13a-457f-8fa4-3805fc9ad634",
+            "name": "System Details -> Output MD",
+            "targetStep": "\/api\/3\/workflow_steps\/825adbdd-ef88-4ff5-973c-ced63747eb5b",
             "sourceStep": "\/api\/3\/workflow_steps\/6cfefc47-4be3-4fb6-bbf0-c263e6907755",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "c0006b7d-3b19-433a-a115-ab5b7ff729cf"
+            "uuid": "b7ba5563-569f-4feb-9525-12e38bfa5894"
         }
     ],
     "groups": [],
@@ -452,6 +551,8 @@
     "isPrivate": false,
     "deletedAt": null,
     "recordTags": [
-        "FortiSOAR Health Assessment"
+        "FortiSOAR Health Assessment",
+        "Referenced",
+        "system"
     ]
 }

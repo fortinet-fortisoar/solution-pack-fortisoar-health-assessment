@@ -35,7 +35,7 @@
                                         {
                                             "id": "\/api\/3\/workflows\/7f5f86e0-56bd-47da-8b07-9dfc48e4d402",
                                             "name": "Check Health",
-                                            "icon": "fa fa-plus-square"
+                                            "icon": "fa fa-medkit"
                                         }
                                     ],
                                     "query": {

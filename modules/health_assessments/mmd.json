@@ -33,7 +33,8 @@
             "validation": {
                 "required": false,
                 "minlength": 0,
-                "maxlength": 10485761
+                "maxlength": 10485761,
+                "_enableRange": false
             },
             "bulkAction": {
                 "allow": false,
@@ -55,7 +56,7 @@
             "skipSerialization": false,
             "displayName": "{{ recommendation }}",
             "descriptions": {
-                "singular": "Recommendation"
+                "singular": "Recommendations"
             }
         },
         {
@@ -227,7 +228,7 @@
             "skipSerialization": false,
             "displayName": "{{ playbooksConstantlyRunningInDebugMode }}",
             "descriptions": {
-                "singular": "Playbooks constantly running in debug mode"
+                "singular": "Playbook : Running In Debug Mode"
             }
         },
         {
@@ -248,7 +249,8 @@
             "validation": {
                 "required": false,
                 "minlength": 0,
-                "maxlength": 10485761
+                "maxlength": 10485761,
+                "_enableRange": false
             },
             "bulkAction": {
                 "allow": false,
@@ -270,7 +272,7 @@
             "skipSerialization": false,
             "displayName": "{{ mostTimeConsumingPlaybooks }}",
             "descriptions": {
-                "singular": "Most Time Consuming Playbooks"
+                "singular": "Playbook : Most Time Consuming"
             }
         },
         {
@@ -291,7 +293,8 @@
             "validation": {
                 "required": false,
                 "minlength": 0,
-                "maxlength": 10485761
+                "maxlength": 10485761,
+                "_enableRange": false
             },
             "bulkAction": {
                 "allow": false,
@@ -313,7 +316,7 @@
             "skipSerialization": false,
             "displayName": "{{ mostExecutedPlaybooks }}",
             "descriptions": {
-                "singular": "Most Executed Playbooks"
+                "singular": "Playbook : Most Executed"
             }
         },
         {
@@ -357,7 +360,7 @@
             "skipSerialization": false,
             "displayName": "{{ mostFailingPlaybooks }}",
             "descriptions": {
-                "singular": "Most Failing Playbooks"
+                "singular": "Playbook : Most Failing"
             }
         },
         {
@@ -401,7 +404,7 @@
             "skipSerialization": false,
             "displayName": "{{ alertsTrends }}",
             "descriptions": {
-                "singular": "Alerts Trends"
+                "singular": "Alerts Trend : Number of Alerts Ingested"
             }
         },
         {
