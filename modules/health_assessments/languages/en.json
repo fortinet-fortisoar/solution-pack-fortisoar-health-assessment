@@ -16,7 +16,7 @@
             "ALERTSTRENDS": "Alerts Trend : Number of Alerts Ingested",
             "OTHERCONFIGURATIONS": "Other Configurations",
             "PHPFPMCONFIGURATION": "PHP-FPM Configuration",
-            "POSTGRESQLCONFIGURATION": "PostgreSQL  Configuration",
+            "POSTGRESQLCONFIGURATION": "PostgreSQL Configuration",
             "SYSTEMDETAILS": "System Details"
         }
     }
