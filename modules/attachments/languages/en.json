@@ -1,0 +1,11 @@
+{
+    "ATTACHMENTS": {
+        "MODULE_DETAILS": {
+            "SINGULAR_NAME": "Attachment",
+            "PLURAL_NAME": "Attachments"
+        },
+        "FIELDS": {
+            "HEALTHASSESSMENTS": "Health Assessments"
+        }
+    }
+}

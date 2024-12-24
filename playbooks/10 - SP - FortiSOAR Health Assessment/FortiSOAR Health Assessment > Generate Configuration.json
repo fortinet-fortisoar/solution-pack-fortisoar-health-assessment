@@ -1,0 +1,251 @@
+{
+    "@type": "Workflow",
+    "triggerLimit": null,
+    "name": "FortiSOAR Health Assessment > Generate Configuration",
+    "aliasName": null,
+    "tag": null,
+    "description": null,
+    "isActive": true,
+    "debug": true,
+    "singleRecordExecution": false,
+    "remoteExecutableFlag": false,
+    "parameters": [
+        "system_configuration"
+    ],
+    "synchronous": false,
+    "collection": "\/api\/3\/workflow_collections\/dbf8de0d-974b-451d-bbbc-8d4e2ec77ec4",
+    "versions": [],
+    "triggerStep": "\/api\/3\/workflow_steps\/c3b946ee-cf02-4091-bb7f-6bc28fba4f49",
+    "steps": [
+        {
+            "@type": "WorkflowStep",
+            "name": "Output",
+            "description": null,
+            "arguments": {
+                "celeryd": "--autoscale={{vars.system_config.CPU}},{{(vars.system_config.CPU | int * (3\/4))|int}}",
+                "php_fpm": "{\n        \"pm.start_servers\": \"{{(vars.system_config.CPU | int * (6\/12))|int}}\",\n        \"pm.max_spare_servers\": \"{{(vars.system_config.CPU | int * (3\/4))|int}}\",\n        \"pm.max_children\": \"{{(vars.system_config.CPU | int * (3\/4))|int * 2}}\"\n\n    }",
+                "rabbit_mq": "{% set rabbit_mq=(vars.system_config.CPU | int * (3\/8))|int %}+S {{rabbit_mq if rabbit_mq >4 else 4}}:{{rabbit_mq if rabbit_mq >4 else 4}}",
+                "postgresql": "{\n            \"work_mem\": \"{{(vars.work_mem | int)}}MB\",\n            \"wal_buffers\": \"{{(vars.wal_buffers | int)}}MB\",\n            \"max_wal_size\": \"{{((vars.max_wal_size | int)\/1024) | round | int}}GB\",\n            \"min_wal_size\": \"{{((vars.min_wal_size | int)\/1024) | round | int}}GB\",\n            \"shared_buffers\": \"{{(vars.shared_buffers_value | int)}}MB\",\n            \"max_connections\": \"{{(vars.max_connections | int)}}\",\n            \"random_page_cost\": \"{{vars.random_page_cost_ssd}}\",\n            \"effective_cache_size\": \"{{((vars.effective_cache_size | int)\/1024) | round | int}}GB\",\n            \"maintenance_work_mem\": \"{{(vars.maintenance_work_mem | int)}}MB\",\n            \"max_parallel_workers\": \"{{(vars.max_parallel_workers | int)}}\",\n            \"max_worker_processes\": \"{{(vars.max_worker_processes | int)}}\",\n            \"effective_io_concurrency\": \"{{(vars.effective_io_concurrency_ssd | int)}}\",\n            \"checkpoint_completion_target\": \"{{(vars.checkpoint_completion_target)}}\",\n            \"max_parallel_workers_per_gather\": \"{{(vars.max_parallel_workers_per_gather | int)}}\",\n            \"max_parallel_maintenance_workers\": \"{{(vars.max_parallel_workers_per_gather | int)}}\"\n        }",
+                "swap_space": "{% set data=(vars.shared_buffers_value | int \/1024) | round | int %}{{'16' if data>16 else data}}GB",
+                "sealab_wsgi": "{{(vars.system_config.CPU | int * (3\/4))|int}}",
+                "integrations_wgsi": "{{(vars.system_config.CPU | int * (3\/4))|int}}"
+            },
+            "status": null,
+            "top": "80",
+            "left": "740",
+            "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+            "group": null,
+            "uuid": "e62fb7c0-2968-48a9-adc0-779cbfa829df"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Output for 12 vCPU",
+            "description": null,
+            "arguments": {
+                "celeryd": "--autoscale=16,12",
+                "php_fpm": "{\n        \"pm.start_servers\": \"8\",\n        \"pm.max_spare_servers\": \"12\",\n\"pm.max_children\":24\n    }",
+                "rabbit_mq": "+S 6:6",
+                "postgresql": "{\n            \"work_mem\": \"9MB\",\n            \"wal_buffers\": \"16MB\",\n            \"max_wal_size\": \"8GB\",\n            \"min_wal_size\": \"2GB\",\n            \"shared_buffers\": \"7680MB\",\n            \"max_connections\": 300,\n            \"random_page_cost\": \"1.1\",\n            \"effective_cache_size\": \"23GB\",\n            \"maintenance_work_mem\": \"1920MB\",\n            \"max_parallel_workers\": 6,\n            \"max_worker_processes\": 6,\n            \"effective_io_concurrency\": 200,\n            \"checkpoint_completion_target\": \"0.9\",\n            \"max_parallel_workers_per_gather\": 3,\n            \"max_parallel_maintenance_workers\": 3\n        }",
+                "swap_space": "8GB",
+                "sealab_wsgi": "12",
+                "integrations_wgsi": "12"
+            },
+            "status": null,
+            "top": "200",
+            "left": "760",
+            "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+            "group": null,
+            "uuid": "9b6e02a3-7654-4a7a-992a-64a8b35e0443"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Output for upto 8 vCPU",
+            "description": null,
+            "arguments": {
+                "celeryd": "--autoscale=16,12",
+                "php_fpm": "{\n        \"pm.start_servers\": \"8\",\n        \"pm.max_spare_servers\": \"12\",\n\"pm.max_children\":24\n    }",
+                "rabbit_mq": "+S 6:6",
+                "postgresql": "{\n            \"work_mem\": \"9MB\",\n            \"wal_buffers\": \"16MB\",\n            \"max_wal_size\": \"8GB\",\n            \"min_wal_size\": \"2GB\",\n            \"shared_buffers\": \"7680MB\",\n            \"max_connections\": 300,\n            \"random_page_cost\": \"1.1\",\n            \"effective_cache_size\": \"23GB\",\n            \"maintenance_work_mem\": \"1920MB\",\n            \"max_parallel_workers\": 6,\n            \"max_worker_processes\": 6,\n            \"effective_io_concurrency\": 200,\n            \"checkpoint_completion_target\": \"0.9\",\n            \"max_parallel_workers_per_gather\": 3,\n            \"max_parallel_maintenance_workers\": 3\n        }",
+                "swap_space": "8GB",
+                "sealab_wsgi": "12",
+                "integrations_wgsi": "12"
+            },
+            "status": null,
+            "top": "340",
+            "left": "400",
+            "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+            "group": null,
+            "uuid": "df5ca0c9-9de0-42a3-b0ca-3d48861bcdf1"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Postgresql Configuration",
+            "description": null,
+            "arguments": {
+                "work_mem": "{% set work_mem=(((vars.ram *1024)-vars.shared_buffers_value)\/(300 * 3)\/(vars.system_config.CPU  | int \/ 2) | round )%}\n{{work_mem | round if work_mem>8 else 8}}",
+                "wal_buffers": "{{(((3 * vars.shared_buffers_value | int ) \/ 100) | round | int) if (vars.shared_buffers_value | int )>=517 else 16}}",
+                "max_wal_size": "4096",
+                "min_wal_size": "1024",
+                "max_connections": "300",
+                "workers_per_gather": "{% set value= (vars.system_config.CPU | int \/ 8) | round |int %}{{\"4\" if value > 4 else value}}",
+                "effective_cache_size": "{{((vars.ram)* 3  * 1024 \/ 4 ) | round}}",
+                "maintenance_work_mem": "{{ ((vars.ram)* 1024 \/ 16) | round }}",
+                "max_parallel_workers": "{{vars.system_config.CPU | int \/4 | int}}",
+                "max_worker_processes": "{{vars.system_config.CPU | int  \/4 | int }}",
+                "random_page_cost_hdd": "4",
+                "random_page_cost_ssd": "1.1",
+                "parallel_maintenanceWorkers": "4",
+                "checkpoint_completion_target": "0.9",
+                "effective_io_concurrency_hdd": "2",
+                "effective_io_concurrency_ssd": "200",
+                "max_parallel_workers_per_gather": "{% set value= (vars.system_config.CPU | int \/ 8) | round |int %}{{\"4\" if value > 4 else value}}"
+            },
+            "status": null,
+            "top": "60",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+            "group": "\/api\/3\/workflow_groups\/8352560a-a285-49a5-9c62-715aec431fa5",
+            "uuid": "2b65f4d6-ac7c-4847-a5b6-b8e7e60a9755"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Start",
+            "description": null,
+            "arguments": {
+                "__triggerLimit": true,
+                "step_variables": {
+                    "ram": "{{(vars.input.params['system_configuration'] | toDict).RAM | int - (((vars.input.params['system_configuration']| toDict).CPU | int * 3\/4) | int)}}",
+                    "input": {
+                        "params": []
+                    },
+                    "system_config": "{{(vars.input.params['system_configuration'] | toDict)}}",
+                    "rabbit_mq_statement": "{% set rabbit_mq_cpus=  (((vars.input.params['system_configuration']| toDict).CPU | int * 3\/8) | int) %}<tr><td>4<\/td><td>File - \/etc\/rabbitmq\/rabbitmq-env.conf<\/td><td>Update the Value of RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS to \"+S {{rabbit_mq_cpus}}:{{rabbit_mq_cpus}}\"<\/td><\/tr>",
+                    "shared_buffers_value": "{{((((vars.input.params['system_configuration'] | toDict).RAM | int)-(((vars.input.params['system_configuration'] | toDict).CPU | int * 3 \/ 4) | int))\/ 4 * 1024 | round) | int}}"
+                },
+                "triggerOnSource": true,
+                "triggerOnReplicate": false
+            },
+            "status": null,
+            "top": "200",
+            "left": "80",
+            "stepType": "\/api\/3\/workflow_step_types\/b348f017-9a94-471f-87f8-ce88b6a7ad62",
+            "group": null,
+            "uuid": "c3b946ee-cf02-4091-bb7f-6bc28fba4f49"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Test One",
+            "description": null,
+            "arguments": {
+                "conditions": [
+                    {
+                        "option": "for 12 vCPU",
+                        "step_iri": "\/api\/3\/workflow_steps\/2b65f4d6-ac7c-4847-a5b6-b8e7e60a9755",
+                        "condition": "{{ vars.system_config['CPU'] | int == 12 and vars.system_config['RAM'] | int == 48 }}",
+                        "step_name": "Postgresql Configuration"
+                    },
+                    {
+                        "option": "Auto Generate",
+                        "default": true,
+                        "step_iri": "\/api\/3\/workflow_steps\/2b65f4d6-ac7c-4847-a5b6-b8e7e60a9755",
+                        "step_name": "Postgresql Configuration"
+                    },
+                    {
+                        "option": "For 8 vCPU",
+                        "step_iri": "\/api\/3\/workflow_steps\/df5ca0c9-9de0-42a3-b0ca-3d48861bcdf1",
+                        "condition": "{{ vars.system_config['CPU'] | int  == 8 and vars.system_config['RAM'] | int == 32 }}",
+                        "step_name": "Output for upto 8 vCPU"
+                    }
+                ],
+                "step_variables": []
+            },
+            "status": null,
+            "top": "200",
+            "left": "400",
+            "stepType": "\/api\/3\/workflow_step_types\/12254cf5-5db7-4b1a-8cb1-3af081924b28",
+            "group": null,
+            "uuid": "3a0c5a20-e4d5-4ac9-a070-768c64c746d5"
+        }
+    ],
+    "routes": [
+        {
+            "@type": "WorkflowRoute",
+            "name": "Postgresql Configuration -> output_json",
+            "targetStep": "\/api\/3\/workflow_steps\/e62fb7c0-2968-48a9-adc0-779cbfa829df",
+            "sourceStep": "\/api\/3\/workflow_steps\/2b65f4d6-ac7c-4847-a5b6-b8e7e60a9755",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "e40a1e4c-d508-4c0a-b53a-d143cce8c7c1"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Test One",
+            "targetStep": "\/api\/3\/workflow_steps\/3a0c5a20-e4d5-4ac9-a070-768c64c746d5",
+            "sourceStep": "\/api\/3\/workflow_steps\/c3b946ee-cf02-4091-bb7f-6bc28fba4f49",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "8afe7263-1600-4a72-aa7f-364884b914dd"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Test One -> Copy of Output for upto 12 vCPU",
+            "targetStep": "\/api\/3\/workflow_steps\/df5ca0c9-9de0-42a3-b0ca-3d48861bcdf1",
+            "sourceStep": "\/api\/3\/workflow_steps\/3a0c5a20-e4d5-4ac9-a070-768c64c746d5",
+            "label": "For 8 vCPU",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "46ba11c9-cfd9-4bcf-ae50-9342c217a68b"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Test One -> Output for 12 vCPU",
+            "targetStep": "\/api\/3\/workflow_steps\/9b6e02a3-7654-4a7a-992a-64a8b35e0443",
+            "sourceStep": "\/api\/3\/workflow_steps\/3a0c5a20-e4d5-4ac9-a070-768c64c746d5",
+            "label": "",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "d5444694-e2e5-406e-8185-bf4509a15006"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Test One -> Postgresql Configuration",
+            "targetStep": "\/api\/3\/workflow_steps\/2b65f4d6-ac7c-4847-a5b6-b8e7e60a9755",
+            "sourceStep": "\/api\/3\/workflow_steps\/3a0c5a20-e4d5-4ac9-a070-768c64c746d5",
+            "label": "for 12 vCPU",
+            "isExecuted": false,
+            "group": null,
+            "uuid": "f10e0f23-3e77-4ba2-afdc-b7fa33b7cfb7"
+        }
+    ],
+    "groups": [
+        {
+            "@type": "WorkflowGroup",
+            "name": "Utilities",
+            "description": "",
+            "type": "block",
+            "isCollapsed": false,
+            "hasTriggerStep": false,
+            "hideInLogs": false,
+            "metadata": [],
+            "reusable": false,
+            "top": "20",
+            "left": "360",
+            "height": "149",
+            "width": "322",
+            "uuid": "8352560a-a285-49a5-9c62-715aec431fa5",
+            "recordTags": []
+        }
+    ],
+    "priority": "\/api\/3\/picklists\/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
+    "uuid": "e3257f95-a459-4973-b566-25f1cdf7974a",
+    "owners": [],
+    "isPrivate": false,
+    "deletedAt": null,
+    "recordTags": [
+        "FortiSOAR Health Assessment",
+        "Referenced",
+        "system"
+    ]
+}

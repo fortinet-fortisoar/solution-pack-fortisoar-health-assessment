@@ -1,0 +1,129 @@
+{
+    "@context": "\/api\/3\/contexts\/Role",
+    "@id": "\/api\/3\/roles\/17562d60-b841-4ed7-912b-1ebaf063c8c9",
+    "@type": "Role",
+    "description": "Manages the Roles and Teams area of the administration menu",
+    "name": "Security Administrator",
+    "modulePermissions": [
+        {
+            "@type": "ModulePermission",
+            "canCreate": true,
+            "canExecute": true,
+            "canRead": true,
+            "canUpdate": true,
+            "canDelete": false,
+            "fieldPermissions": [
+                {
+                    "@type": "FieldPermission",
+                    "field": "alertsTrends",
+                    "canRead": true,
+                    "canWrite": true
+                },
+                {
+                    "@type": "FieldPermission",
+                    "field": "createDate",
+                    "canRead": true,
+                    "canWrite": true
+                },
+                {
+                    "@type": "FieldPermission",
+                    "field": "createUser",
+                    "canRead": true,
+                    "canWrite": true
+                },
+                {
+                    "@type": "FieldPermission",
+                    "field": "description",
+                    "canRead": true,
+                    "canWrite": true
+                },
+                {
+                    "@type": "FieldPermission",
+                    "field": "modifyDate",
+                    "canRead": true,
+                    "canWrite": true
+                },
+                {
+                    "@type": "FieldPermission",
+                    "field": "modifyUser",
+                    "canRead": true,
+                    "canWrite": true
+                },
+                {
+                    "@type": "FieldPermission",
+                    "field": "mostExecutedPlaybooks",
+                    "canRead": true,
+                    "canWrite": true
+                },
+                {
+                    "@type": "FieldPermission",
+                    "field": "mostFailingPlaybooks",
+                    "canRead": true,
+                    "canWrite": true
+                },
+                {
+                    "@type": "FieldPermission",
+                    "field": "mostTimeConsumingPlaybooks",
+                    "canRead": true,
+                    "canWrite": true
+                },
+                {
+                    "@type": "FieldPermission",
+                    "field": "otherConfigurations",
+                    "canRead": true,
+                    "canWrite": true
+                },
+                {
+                    "@type": "FieldPermission",
+                    "field": "pHPFPMConfiguration",
+                    "canRead": true,
+                    "canWrite": true
+                },
+                {
+                    "@type": "FieldPermission",
+                    "field": "playbooksConstantlyRunningInDebugMode",
+                    "canRead": true,
+                    "canWrite": true
+                },
+                {
+                    "@type": "FieldPermission",
+                    "field": "postgreSQLConfiguration",
+                    "canRead": true,
+                    "canWrite": true
+                },
+                {
+                    "@type": "FieldPermission",
+                    "field": "recommendation",
+                    "canRead": true,
+                    "canWrite": true
+                },
+                {
+                    "@type": "FieldPermission",
+                    "field": "recordTags",
+                    "canRead": true,
+                    "canWrite": true
+                },
+                {
+                    "@type": "FieldPermission",
+                    "field": "reportsAndYAMLFile",
+                    "canRead": true,
+                    "canWrite": true
+                },
+                {
+                    "@type": "FieldPermission",
+                    "field": "summary",
+                    "canRead": true,
+                    "canWrite": true
+                },
+                {
+                    "@type": "FieldPermission",
+                    "field": "systemDetails",
+                    "canRead": true,
+                    "canWrite": true
+                }
+            ],
+            "module": "health_assessments"
+        }
+    ],
+    "uuid": "17562d60-b841-4ed7-912b-1ebaf063c8c9"
+}

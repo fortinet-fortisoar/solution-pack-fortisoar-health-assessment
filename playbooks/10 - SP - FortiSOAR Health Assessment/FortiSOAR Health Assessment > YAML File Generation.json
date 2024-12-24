@@ -1,0 +1,237 @@
+{
+    "@type": "Workflow",
+    "triggerLimit": null,
+    "name": "FortiSOAR Health Assessment > YAML File Generation",
+    "aliasName": null,
+    "tag": null,
+    "description": null,
+    "isActive": true,
+    "debug": true,
+    "singleRecordExecution": false,
+    "remoteExecutableFlag": false,
+    "parameters": [
+        "configuration_recommandation",
+        "system_details"
+    ],
+    "synchronous": false,
+    "collection": "\/api\/3\/workflow_collections\/dbf8de0d-974b-451d-bbbc-8d4e2ec77ec4",
+    "versions": [],
+    "triggerStep": "\/api\/3\/workflow_steps\/ae9c0ff5-0c37-42e0-832e-f1513c4e24ec",
+    "steps": [
+        {
+            "@type": "WorkflowStep",
+            "name": "Create YAML Attachment",
+            "description": null,
+            "arguments": {
+                "params": {
+                    "name": "FortiSOAR Health Assessment Recommandation YAML",
+                    "filename": "{{vars.steps.Create_YAML_File.data.filename}}",
+                    "description": "This is Playbook Generated File by FortiSOAR Health Assessment",
+                    "request_headers": "",
+                    "multipart_headers": "",
+                    "extra_multipart_fields": ""
+                },
+                "version": "3.3.1",
+                "connector": "cyops_utilities",
+                "operation": "create_cyops_attachment",
+                "operationTitle": "File: Create Attachment from File",
+                "step_variables": []
+            },
+            "status": null,
+            "top": "260",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+            "group": "\/api\/3\/workflow_groups\/92f3dd9d-3e22-4b24-8c42-08319b2989ea",
+            "uuid": "cbe9d3cc-9259-499c-a219-88a69d4a59d0"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Create YAML File",
+            "description": null,
+            "arguments": {
+                "params": {
+                    "contents": "{{vars.file_code}}",
+                    "filename": "fortisoar_configuration_recommendation.yml",
+                    "mimetype": "text\/plain"
+                },
+                "version": "3.3.1",
+                "connector": "cyops_utilities",
+                "operation": "create_file_from_string",
+                "operationTitle": "File: Create File from String",
+                "step_variables": []
+            },
+            "status": null,
+            "top": "160",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/0109f35d-090b-4a2b-bd8a-94cbc3508562",
+            "group": "\/api\/3\/workflow_groups\/92f3dd9d-3e22-4b24-8c42-08319b2989ea",
+            "uuid": "43e74a0a-52e7-41a5-b381-d1bb8c25c500"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Generate YAML Code",
+            "description": null,
+            "arguments": {
+                "file_code": "# Copyright start\n# Copyright (C) 2008 - 2024 Fortinet Inc.\n# All rights reserved.\n# FORTINET CONFIDENTIAL & FORTINET PROPRIETARY SOURCE CODE\n# Copyright end\n---\n\noptimal:\n  elasticsearch:\n    mask: False\n    # Below values are in GB\n    xms: 4\n    xmx: 4\n  postgres:\n    max_worker_processes: {{vars.input.params['configuration_recommandation']['postgresql']['max_worker_processes'] | int }}\n    max_parallel_workers_per_gather: {{vars.input.params['configuration_recommandation']['postgresql']['max_parallel_workers_per_gather'] | int }}\n    max_parallel_maintenance_workers: {{vars.input.params['configuration_recommandation']['postgresql']['max_parallel_maintenance_workers'] | int }}\n    max_parallel_workers: {{vars.input.params['configuration_recommandation']['postgresql']['max_parallel_workers'] | int }}\n    max_connections: {{vars.input.params['configuration_recommandation']['postgresql']['max_connections'] | int}}\n    checkpoint_completion_target: {{vars.input.params['configuration_recommandation']['postgresql']['checkpoint_completion_target']}}\n    default_statistics_target: 100\n    random_page_cost: {{vars.input.params['configuration_recommandation']['postgresql']['random_page_cost']  }}\n    effective_io_concurrency: {{vars.input.params['configuration_recommandation']['postgresql']['effective_io_concurrency'] }}\n    huge_pages: try\n    # Below values are in GB\n    min_wal_size: {{vars.input.params['configuration_recommandation']['postgresql']['min_wal_size'] | regex_replace(\"GB\",\"\") | int}}\n    max_wal_size: {{vars.input.params['configuration_recommandation']['postgresql']['max_wal_size'] | regex_replace(\"GB\",\"\") | int}}\n    effective_cache_size: {{vars.input.params['configuration_recommandation']['postgresql']['effective_cache_size'] | regex_replace(\"GB\",\"\") | int}}\n    # Below values are in MB\n    shared_buffer: {{vars.input.params['configuration_recommandation']['postgresql']['shared_buffers'] | regex_replace(\"MB\",\"\") | int}}\n    work_mem: {{vars.input.params['configuration_recommandation']['postgresql']['work_mem'] | regex_replace(\"MB\",\"\") | int}}\n    maintenance_work_mem: {{vars.input.params['configuration_recommandation']['postgresql']['maintenance_work_mem'] | regex_replace(\"MB\",\"\") | int}}\n    wal_buffers: {{vars.input.params['configuration_recommandation']['postgresql']['wal_buffers'] | regex_replace(\"MB\",\"\") | int}}\n  tomcat:\n    # Below values are in MB\n    xms: 256\n    xmx: 4096\n  php:\n    max_children: 20\n    start_servers: {{vars.input.params['configuration_recommandation']['php_fpm']['pm.start_servers'] | int}}\n    min_spare_servers: 4\n    max_spare_servers: {{vars.input.params['configuration_recommandation']['php_fpm']['pm.max_spare_servers'] | int}}\n    # Below value is in MB\n    acpu: 512\n    admin_memory_limit: 1024\n  mq:\n    scheduler: {{vars.input.params['configuration_recommandation']['rabbit_mq']| regex_search(\"[\\d]+\") | int}}\n  workflow:\n    autoscale: True\n    max_consumer: {% set celeryd_values=vars.input.params['configuration_recommandation']['celeryd']| regex_findall(\"[\\d]+\") %}{{celeryd_values[0] | int}}\n    min_consumer: {{celeryd_values[1] | int}}\n    process: {{vars.input.params['configuration_recommandation']['sealab_wsgi'] | int}}\n    rule_engine_worker: 8\n  hardware:\n    # Number of cores\n    cpu: {{vars.input.params['system_details']['CPU'] | int}}\n    # Below value is in GB\n    ram: {{vars.input.params['system_details']['RAM'] | int}}\n    ram_percent_error_margin: 10.00"
+            },
+            "status": null,
+            "top": "60",
+            "left": "40",
+            "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+            "group": "\/api\/3\/workflow_groups\/92f3dd9d-3e22-4b24-8c42-08319b2989ea",
+            "uuid": "c2646aa4-42fa-4b33-9f85-01321d513c5b"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Output",
+            "description": null,
+            "arguments": {
+                "fileName": "{{vars.steps.Create_YAML_Attachment.data.name}}",
+                "recordIRI": "{{vars.steps.Create_YAML_Attachment.data['@id']}}"
+            },
+            "status": null,
+            "top": "300",
+            "left": "800",
+            "stepType": "\/api\/3\/workflow_step_types\/04d0cf46-b6a8-42c4-8683-60a7eaa69e8f",
+            "group": null,
+            "uuid": "7957d11e-c503-4381-80e4-9f9d3f6a40fb"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Set Recommended Configuration in YAML file",
+            "description": null,
+            "arguments": {
+                "name": "FortiSOAR Health Assessment",
+                "config": "d7755da0-81b7-4be3-9f65-6d5089076888",
+                "params": {
+                    "filename": "{{vars.steps.Create_YAML_File.data.filename}}"
+                },
+                "version": "1.0.0",
+                "connector": "fortisoar-health-assessment",
+                "operation": "set_recommended_configuration_in_yaml_file",
+                "operationTitle": "Set Recommended Configuration in YAML file",
+                "pickFromTenant": false,
+                "step_variables": []
+            },
+            "status": null,
+            "top": "200",
+            "left": "800",
+            "stepType": "\/api\/3\/workflow_step_types\/0bfed618-0316-11e7-93ae-92361f002671",
+            "group": null,
+            "uuid": "b91e0554-40b2-455a-841c-7e2342670bf0"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Start",
+            "description": null,
+            "arguments": {
+                "__triggerLimit": true,
+                "step_variables": {
+                    "YML": "optimal:\n  elasticsearch:\n    mask: False\n    # Below values are in GB\n    xms: 4\n    xmx: 4\n  postgres:\n    max_worker_processes: 8\n    max_parallel_workers_per_gather: 2\n    max_parallel_maintenance_workers: 2\n    max_parallel_workers: 8\n    max_connections: 200\n    checkpoint_completion_target: 0.9\n    default_statistics_target: 100\n    random_page_cost: 1.1\n    effective_io_concurrency: 1\n    huge_pages: try\n    # Below values are in GB\n    min_wal_size: 1\n    max_wal_size: 4\n    effective_cache_size: 4\n    # Below values are in MB\n    shared_buffer: 1024\n    work_mem: 8\n    maintenance_work_mem: 512\n    wal_buffers: -1\n  tomcat:\n    # Below values are in MB\n    xms: 256\n    xmx: 4096\n  php:\n    max_children: 20\n    start_servers: 6\n    min_spare_servers: 4\n    max_spare_servers: 8\n    # Below value is in MB\n    acpu: 512\n    admin_memory_limit: 1024\n  mq:\n    scheduler: 4\n  workflow:\n    autoscale: True\n    max_consumer: 12\n    min_consumer: 8\n    process: 10\n    rule_engine_worker: 8\n  hardware:\n    # Number of cores\n    cpu: 8\n    # Below value is in GB\n    ram: 32\n    ram_percent_error_margin: 10.00",
+                    "input": {
+                        "params": []
+                    }
+                },
+                "triggerOnSource": true,
+                "triggerOnReplicate": false
+            },
+            "status": null,
+            "top": "100",
+            "left": "140",
+            "stepType": "\/api\/3\/workflow_step_types\/b348f017-9a94-471f-87f8-ce88b6a7ad62",
+            "group": null,
+            "uuid": "ae9c0ff5-0c37-42e0-832e-f1513c4e24ec"
+        }
+    ],
+    "routes": [
+        {
+            "@type": "WorkflowRoute",
+            "name": "Create File -> Create Attachment",
+            "targetStep": "\/api\/3\/workflow_steps\/cbe9d3cc-9259-499c-a219-88a69d4a59d0",
+            "sourceStep": "\/api\/3\/workflow_steps\/43e74a0a-52e7-41a5-b381-d1bb8c25c500",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "974701d5-baa1-44f9-a51d-da59125fcb42"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Create YAML Attachment -> Output",
+            "targetStep": "\/api\/3\/workflow_steps\/7957d11e-c503-4381-80e4-9f9d3f6a40fb",
+            "sourceStep": "\/api\/3\/workflow_steps\/cbe9d3cc-9259-499c-a219-88a69d4a59d0",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "026b0f6b-d371-473b-ae64-ff4e910c93ab"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Create YAML File -> Set Recommended Configuration in YAML file",
+            "targetStep": "\/api\/3\/workflow_steps\/b91e0554-40b2-455a-841c-7e2342670bf0",
+            "sourceStep": "\/api\/3\/workflow_steps\/43e74a0a-52e7-41a5-b381-d1bb8c25c500",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "9905a53a-3035-41b6-8b8b-30478e896669"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Generate YML Code -> Create yml File",
+            "targetStep": "\/api\/3\/workflow_steps\/43e74a0a-52e7-41a5-b381-d1bb8c25c500",
+            "sourceStep": "\/api\/3\/workflow_steps\/c2646aa4-42fa-4b33-9f85-01321d513c5b",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "de3e3af3-83b1-4662-be49-2440c9104b9a"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Set Recommended Configuration in YAML file -> Output",
+            "targetStep": "\/api\/3\/workflow_steps\/7957d11e-c503-4381-80e4-9f9d3f6a40fb",
+            "sourceStep": "\/api\/3\/workflow_steps\/b91e0554-40b2-455a-841c-7e2342670bf0",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "4145a4a5-afca-46bd-95d8-22f6f81dadce"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Generate YML Code",
+            "targetStep": "\/api\/3\/workflow_steps\/c2646aa4-42fa-4b33-9f85-01321d513c5b",
+            "sourceStep": "\/api\/3\/workflow_steps\/ae9c0ff5-0c37-42e0-832e-f1513c4e24ec",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "c36311ee-e83b-46a3-b02d-6518879548e0"
+        }
+    ],
+    "groups": [
+        {
+            "@type": "WorkflowGroup",
+            "name": "YML Generation",
+            "description": "",
+            "type": "block",
+            "isCollapsed": false,
+            "hasTriggerStep": false,
+            "hideInLogs": false,
+            "metadata": [],
+            "reusable": false,
+            "top": "40",
+            "left": "440",
+            "height": "345",
+            "width": "325",
+            "uuid": "92f3dd9d-3e22-4b24-8c42-08319b2989ea",
+            "recordTags": []
+        }
+    ],
+    "priority": "\/api\/3\/picklists\/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
+    "uuid": "c78ba750-7894-4a2e-b232-cb4e27f46a68",
+    "owners": [],
+    "isPrivate": false,
+    "deletedAt": null,
+    "recordTags": [
+        "FortiSOAR Health Assessment",
+        "Referenced",
+        "system"
+    ]
+}

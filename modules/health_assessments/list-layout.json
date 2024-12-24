@@ -1,0 +1,64 @@
+{
+    "@context": "\/api\/3\/contexts\/SystemViewTemplate",
+    "@type": "SystemViewTemplate",
+    "type": "rows",
+    "config": {
+        "rows": [
+            {
+                "columns": [
+                    {
+                        "widgets": [
+                            {
+                                "type": "grid",
+                                "config": {
+                                    "wid": "d63b2dce-5639-4437-8563-ed7cd26a6490",
+                                    "module": "health_assessments",
+                                    "columns": [
+                                        "id",
+                                        "summary",
+                                        "createDate"
+                                    ],
+                                    "expandableCol": [
+                                        {
+                                            "openTab": false,
+                                            "name": "description"
+                                        },
+                                        {
+                                            "openTab": false,
+                                            "name": "recommendation"
+                                        }
+                                    ],
+                                    "relationshipField": [],
+                                    "checkboxStatus": true,
+                                    "editableFields": false,
+                                    "actionButtons": [
+                                        {
+                                            "id": "\/api\/3\/workflows\/7f5f86e0-56bd-47da-8b07-9dfc48e4d402",
+                                            "name": "Check Health",
+                                            "icon": "fa fa-medkit"
+                                        }
+                                    ],
+                                    "query": {
+                                        "sort": [],
+                                        "limit": 30,
+                                        "logic": "AND",
+                                        "filters": []
+                                    }
+                                }
+                            }
+                        ],
+                        "style": "col-lg-12"
+                    }
+                ],
+                "wid": "0727424c-d83b-432c-b7e0-1334397857f4",
+                "_collapsed": false
+            }
+        ],
+        "wid": "42e67766-5852-4b1b-b72d-7c5467bf2c64",
+        "metadata": {
+            "customTemplateTitle": "Health Assessments",
+            "originalTemplateTitle": "Health Assessments"
+        }
+    },
+    "uuid": "modules-health_assessments-list"
+}

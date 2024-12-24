@@ -1,12 +1,12 @@
 [
     {
-        "name": "ssh",
-        "label": "SSH",
+        "name": "fortisoar-health-assessment",
+        "label": "FortiSOAR Health Assessment",
         "category": [
-            "utilities"
+            "Utilities"
         ],
-        "description": "Steps that use an ssh connection. Including sftp and remote code execution",
-        "publisher": "CyberSponse",
+        "description": "Health Assessment Connector is used to get user's FortiSOAR VM configuration which include CPU, RAM, IOPs, and Disk Latency. Also this connector is used to take information related to playbook such as most running playbook, most failing playbook, etc.",
+        "publisher": "Fortinet",
         "operation_roles": [],
         "configurations": [],
         "dataImports": [],
