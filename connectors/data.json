@@ -5,7 +5,7 @@
         "category": [
             "Utilities"
         ],
-        "description": "Health Assessment Connector is used to get user's FortiSOAR VM configuration which include CPU, RAM, IOPs, and Disk Latency. Also this connector is used to take information related to playbook such as most running playbook, most failing playbook, etc.",
+        "description": "The Health Assessment Connector provides detailed insights into FortiSOAR VM configurations, including CPU, RAM, IOPs, and disk latency metrics. Additionally, it gathers playbook-related data, such as the most frequently executed playbooks and those with the highest failure rates.",
         "publisher": "Fortinet",
         "operation_roles": [],
         "configurations": [],

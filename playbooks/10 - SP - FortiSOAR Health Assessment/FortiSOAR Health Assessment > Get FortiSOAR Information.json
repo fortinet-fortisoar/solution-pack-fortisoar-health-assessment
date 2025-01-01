@@ -4,9 +4,9 @@
     "name": "FortiSOAR Health Assessment > Get FortiSOAR Information",
     "aliasName": null,
     "tag": null,
-    "description": null,
+    "description": "This playbook is used to gather information about your FortiSOAR system.",
     "isActive": true,
-    "debug": true,
+    "debug": false,
     "singleRecordExecution": false,
     "remoteExecutableFlag": false,
     "parameters": [],
@@ -22,11 +22,13 @@
             "arguments": {
                 "name": "FortiSOAR Health Assessment",
                 "config": "509a4f3a-0488-4d6f-a99d-ca4e0f2a03e1",
-                "params": [],
+                "params": {
+                    "number_of_days": 14
+                },
                 "version": "1.0.0",
                 "connector": "fortisoar-health-assessment",
-                "operation": "get_number_of_alerts_created_in_last_fourteen_days",
-                "operationTitle": "Get Number of Alerts Created in last 14 Days",
+                "operation": "get_number_of_alerts_created_in_n_day",
+                "operationTitle": "Get Number of Alerts Created in N Days",
                 "pickFromTenant": false,
                 "step_variables": []
             },
@@ -44,11 +46,13 @@
             "arguments": {
                 "name": "FortiSOAR Health Assessment",
                 "config": "509a4f3a-0488-4d6f-a99d-ca4e0f2a03e1",
-                "params": [],
+                "params": {
+                    "number_of_days": 7
+                },
                 "version": "1.0.0",
                 "connector": "fortisoar-health-assessment",
-                "operation": "get_number_of_alerts_created_in_last_seven_days",
-                "operationTitle": "Get Number of Alerts Created in last 7 Days",
+                "operation": "get_number_of_alerts_created_in_n_day",
+                "operationTitle": "Get Number of Alerts Created in N Days",
                 "pickFromTenant": false,
                 "step_variables": []
             },
@@ -66,11 +70,13 @@
             "arguments": {
                 "name": "FortiSOAR Health Assessment",
                 "config": "509a4f3a-0488-4d6f-a99d-ca4e0f2a03e1",
-                "params": [],
+                "params": {
+                    "number_of_days": 1
+                },
                 "version": "1.0.0",
                 "connector": "fortisoar-health-assessment",
-                "operation": "get_number_of_alerts_created_in_a_day",
-                "operationTitle": "Get Number of Alerts Created in a Day",
+                "operation": "get_number_of_alerts_created_in_n_day",
+                "operationTitle": "Get Number of Alerts Created in N Days",
                 "pickFromTenant": false,
                 "step_variables": []
             },

@@ -4,7 +4,7 @@
     "fsrMinCompatibility": "7.6.0",
     "type": "solutionpack",
     "local": true,
-    "certified": true
+    "certified": true,
     "featuredTags": [
         {
             "color": "#2d87e3",
@@ -16,7 +16,7 @@
     "dependencies": [],
     "prerequisite": "",
     "publisher": "Fortinet",
-    "description": "This Solution pack is only for QA team use right now",
+    "description": "The FortiSOAR Health Assessment Solution Pack for the FortiSOAR platform provides comprehensive monitoring and insights to optimize automation workflows. It includes Playbook Statistics for tracking execution performance, Current System Details for real-time configuration insights, Configuration Change Recommendations to improve system efficiency, and Alert Trends to identify recurring issues. This solution pack helps maintain the health and performance of your SOAR environment, ensuring smooth and efficient operations.",
     "help": "https://github.com/fortinet-fortisoar/solution-pack-fortisoar-health-assessment/blob/release/1.0.0/README.md",
     "category": [
         "Utilities"

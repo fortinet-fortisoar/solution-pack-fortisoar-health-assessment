@@ -4,9 +4,9 @@
     "name": "FortiSOAR Health Assessment > Generate Configuration",
     "aliasName": null,
     "tag": null,
-    "description": null,
+    "description": "This playbook generates configuration recommendations for your system based on its resources.",
     "isActive": true,
-    "debug": true,
+    "debug": false,
     "singleRecordExecution": false,
     "remoteExecutableFlag": false,
     "parameters": [
@@ -62,13 +62,13 @@
             "name": "Output for upto 8 vCPU",
             "description": null,
             "arguments": {
-                "celeryd": "--autoscale=16,12",
-                "php_fpm": "{\n        \"pm.start_servers\": \"8\",\n        \"pm.max_spare_servers\": \"12\",\n\"pm.max_children\":24\n    }",
-                "rabbit_mq": "+S 6:6",
-                "postgresql": "{\n            \"work_mem\": \"9MB\",\n            \"wal_buffers\": \"16MB\",\n            \"max_wal_size\": \"8GB\",\n            \"min_wal_size\": \"2GB\",\n            \"shared_buffers\": \"7680MB\",\n            \"max_connections\": 300,\n            \"random_page_cost\": \"1.1\",\n            \"effective_cache_size\": \"23GB\",\n            \"maintenance_work_mem\": \"1920MB\",\n            \"max_parallel_workers\": 6,\n            \"max_worker_processes\": 6,\n            \"effective_io_concurrency\": 200,\n            \"checkpoint_completion_target\": \"0.9\",\n            \"max_parallel_workers_per_gather\": 3,\n            \"max_parallel_maintenance_workers\": 3\n        }",
-                "swap_space": "8GB",
-                "sealab_wsgi": "12",
-                "integrations_wgsi": "12"
+                "celeryd": "--autoscale=12,8",
+                "php_fpm": "{\n        \"pm.start_servers\": 6,\n        \"pm.max_spare_servers\": 8,\n\"pm.max_children\":20\n    }",
+                "rabbit_mq": "+S 4:4",
+                "postgresql": "{\n            \"work_mem\": \"8MB\",\n            \"wal_buffers\": \"-1\",\n            \"max_wal_size\": \"4GB\",\n            \"min_wal_size\": \"1GB\",\n            \"shared_buffers\": \"1024MB\",\n            \"max_connections\": 300,\n            \"random_page_cost\": \"1.1\",\n            \"effective_cache_size\": \"4GB\",\n            \"maintenance_work_mem\": \"1920MB\",\n            \"max_parallel_workers\": 8,\n            \"max_worker_processes\": 8,\n            \"effective_io_concurrency\": 200,\n            \"checkpoint_completion_target\": \"0.9\",\n            \"max_parallel_workers_per_gather\": 2,\n            \"max_parallel_maintenance_workers\": 2\n        }",
+                "swap_space": "1GB",
+                "sealab_wsgi": "8",
+                "integrations_wgsi": "8"
             },
             "status": null,
             "top": "340",
@@ -141,7 +141,7 @@
                     {
                         "option": "for 12 vCPU",
                         "step_iri": "\/api\/3\/workflow_steps\/2b65f4d6-ac7c-4847-a5b6-b8e7e60a9755",
-                        "condition": "{{ vars.system_config['CPU'] | int == 12 and vars.system_config['RAM'] | int == 48 }}",
+                        "condition": "{{ vars.system_config['CPU'] | int == 12 and vars.system_config['RAM'] | int == 46 }}",
                         "step_name": "Postgresql Configuration"
                     },
                     {
@@ -153,7 +153,7 @@
                     {
                         "option": "For 8 vCPU",
                         "step_iri": "\/api\/3\/workflow_steps\/df5ca0c9-9de0-42a3-b0ca-3d48861bcdf1",
-                        "condition": "{{ vars.system_config['CPU'] | int  == 8 and vars.system_config['RAM'] | int == 32 }}",
+                        "condition": "{{ vars.system_config['CPU'] | int  == 8 and vars.system_config['RAM'] | int == 31 }}",
                         "step_name": "Output for upto 8 vCPU"
                     }
                 ],

@@ -538,7 +538,7 @@
             "skipSerialization": false,
             "displayName": "{{ postgreSQLConfiguration }}",
             "descriptions": {
-                "singular": "PostgreSQL  Configuration"
+                "singular": "PostgreSQL Configuration"
             }
         },
         {
