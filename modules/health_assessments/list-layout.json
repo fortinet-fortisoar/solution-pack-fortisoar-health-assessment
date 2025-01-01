@@ -33,7 +33,7 @@
                                     "editableFields": false,
                                     "actionButtons": [
                                         {
-                                            "id": "\/api\/3\/workflows\/7f5f86e0-56bd-47da-8b07-9dfc48e4d402",
+                                            "id": "\/api\/3\/workflows\/e2ee50dc-7aea-4272-b00f-02bcedf2e156",
                                             "name": "Check Health",
                                             "icon": "fa fa-medkit"
                                         }

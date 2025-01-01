@@ -4,9 +4,9 @@
     "name": "FortiSOAR Health Assessment > YAML File Generation",
     "aliasName": null,
     "tag": null,
-    "description": null,
+    "description": "This playbook generates a YAML file with recommended configuration changes, stores it on a Linux system, and attaches it to the Health Assessment record as an attachment.",
     "isActive": true,
-    "debug": true,
+    "debug": false,
     "singleRecordExecution": false,
     "remoteExecutableFlag": false,
     "parameters": [

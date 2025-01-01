@@ -4,14 +4,14 @@
     "@type": "Role",
     "description": "Manages the Roles and Teams area of the administration menu",
     "name": "Security Administrator",
-    "modulePermissions": [
-        {
+    "modulePermissions": {
+        "25": {
             "@type": "ModulePermission",
             "canCreate": true,
             "canExecute": true,
             "canRead": true,
             "canUpdate": true,
-            "canDelete": false,
+            "canDelete": true,
             "fieldPermissions": [
                 {
                     "@type": "FieldPermission",
@@ -124,6 +124,6 @@
             ],
             "module": "health_assessments"
         }
-    ],
+    },
     "uuid": "17562d60-b841-4ed7-912b-1ebaf063c8c9"
 }
