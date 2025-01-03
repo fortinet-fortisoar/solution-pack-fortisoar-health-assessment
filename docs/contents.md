@@ -3,33 +3,35 @@
 
 # Contents
 
-The **System Configuration Recommendation** solution pack contains the following resources.
+The **FortiSOAR Health Assessment** solution pack contains the following resources.
 
 ## Connectors
 
 |**Name**|**Description**|
 | :- | :- |
-| SSH  | Use this connector to connect to different servers and execute commands or python scripts on those servers. |
+| FortiSOAR Health Assessment  | The Health Assessment Connector provides detailed insights into FortiSOAR VM configurations, including CPU, RAM, IOPs, and disk latency metrics. Additionally, it gathers playbook-related data, such as the most frequently executed playbooks and those with the highest failure rates. |
 
-
-## Record Set
-
-|**Name**|**Description**|
-| :- | :- |
-|  Scenario  |  Record named as **System Configuration Recommendation** is used to generate report containing system configuration changes   |
 
 ## Playbook Collection
 
 |**Playbook Collection Name**|**Description**|
 | :- | :- |
-| 10 - SP - System Configuration Recommendation | Focuses on analysing and creating recommendation report |
+| 10 - SP - FortiSOAR Health Assessment | Playbooks designed to capture, evaluate, and generate reports and ymal files |
 
 ## Playbook
 
 |**Playbook Name**|**Description**|
 | :- | :- |
-| Manual Trigger > System Configuration Recommendation | This playbook generates the configuration recommendation report based on the inputs given by user |
-|Scenario - System Configuration Recommendation|This playbook is triggered by Scenario record to generate configuration recommendation report|
+| Health Assessment | This playbook that creates Health Assessment Record |
+| Health Assessment > Capture and Evaluate Data | This playbook captures and evaluates data to generate Health Assessment Record |
+| Health Assessment > Get FortiSOAR Information | This playbook is used to gather information about your FortiSOAR system. |
+| Configuration Recommendation | This playbook creates Configuration Recommendation Record |
+| Configuration Recommendation > Capture and Evaluate Data | This playbook captures and evaluates data to generate Configuration Recommendation Recordd |
+| > YAML File Generation | This playbook generates a YAML file with recommended configuration changes, stores it on a Linux system, and attaches it to the Health Assessment record as an attachment. |
+| > Create MD for Description | This playbook generates a report that is displayed in the Health Assessment module. |
+| > Report Generation | This playbook generates the report that is attached to Health Assessment Module |
+| > Generate Configuration | This playbook generates configuration recommendations for your system based on its resources. |
+
 
 >**Warning:** We recommend that you clone these playbooks before customizing to avoid loss of information while upgrading the solution pack.
 
