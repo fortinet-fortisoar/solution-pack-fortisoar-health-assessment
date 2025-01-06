@@ -36,6 +36,11 @@
                                             "id": "\/api\/3\/workflows\/e2ee50dc-7aea-4272-b00f-02bcedf2e156",
                                             "name": "Check Health",
                                             "icon": "fa fa-medkit"
+                                        },
+                                        {
+                                            "id": "\/api\/3\/workflows\/56eaa0a4-71ba-4b3c-8b13-3d4a3f3c6be0",
+                                            "name": "Generate Recommenadation",
+                                            "icon": "icon icon-settings"
                                         }
                                     ],
                                     "query": {

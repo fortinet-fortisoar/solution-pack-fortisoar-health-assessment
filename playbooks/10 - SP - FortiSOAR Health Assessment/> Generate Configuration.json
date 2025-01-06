@@ -1,7 +1,7 @@
 {
     "@type": "Workflow",
     "triggerLimit": null,
-    "name": "FortiSOAR Health Assessment > Generate Configuration",
+    "name": "> Generate Configuration",
     "aliasName": null,
     "tag": null,
     "description": "This playbook generates configuration recommendations for your system based on its resources.",
@@ -22,13 +22,14 @@
             "name": "Output",
             "description": null,
             "arguments": {
-                "celeryd": "--autoscale={{vars.system_config.CPU}},{{(vars.system_config.CPU | int * (3\/4))|int}}",
+                "celeryd": "--autoscale={{(vars.system_config.CPU | int) + 4}},{{(vars.system_config.CPU | int)}}",
                 "php_fpm": "{\n        \"pm.start_servers\": \"{{(vars.system_config.CPU | int * (6\/12))|int}}\",\n        \"pm.max_spare_servers\": \"{{(vars.system_config.CPU | int * (3\/4))|int}}\",\n        \"pm.max_children\": \"{{(vars.system_config.CPU | int * (3\/4))|int * 2}}\"\n\n    }",
                 "rabbit_mq": "{% set rabbit_mq=(vars.system_config.CPU | int * (3\/8))|int %}+S {{rabbit_mq if rabbit_mq >4 else 4}}:{{rabbit_mq if rabbit_mq >4 else 4}}",
                 "postgresql": "{\n            \"work_mem\": \"{{(vars.work_mem | int)}}MB\",\n            \"wal_buffers\": \"{{(vars.wal_buffers | int)}}MB\",\n            \"max_wal_size\": \"{{((vars.max_wal_size | int)\/1024) | round | int}}GB\",\n            \"min_wal_size\": \"{{((vars.min_wal_size | int)\/1024) | round | int}}GB\",\n            \"shared_buffers\": \"{{(vars.shared_buffers_value | int)}}MB\",\n            \"max_connections\": \"{{(vars.max_connections | int)}}\",\n            \"random_page_cost\": \"{{vars.random_page_cost_ssd}}\",\n            \"effective_cache_size\": \"{{((vars.effective_cache_size | int)\/1024) | round | int}}GB\",\n            \"maintenance_work_mem\": \"{{(vars.maintenance_work_mem | int)}}MB\",\n            \"max_parallel_workers\": \"{{(vars.max_parallel_workers | int)}}\",\n            \"max_worker_processes\": \"{{(vars.max_worker_processes | int)}}\",\n            \"effective_io_concurrency\": \"{{(vars.effective_io_concurrency_ssd | int)}}\",\n            \"checkpoint_completion_target\": \"{{(vars.checkpoint_completion_target)}}\",\n            \"max_parallel_workers_per_gather\": \"{{(vars.max_parallel_workers_per_gather | int)}}\",\n            \"max_parallel_maintenance_workers\": \"{{(vars.max_parallel_workers_per_gather | int)}}\"\n        }",
                 "swap_space": "{% set data=(vars.shared_buffers_value | int \/1024) | round | int %}{{'16' if data>16 else data}}GB",
-                "sealab_wsgi": "{{(vars.system_config.CPU | int * (3\/4))|int}}",
-                "integrations_wgsi": "{{(vars.system_config.CPU | int * (3\/4))|int}}"
+                "max_celeryd": "--autoscale={{(vars.system_config.CPU | int) + 8}},{{(vars.system_config.CPU | int)}}",
+                "sealab_wsgi": "{{(vars.system_config.CPU | int )}}",
+                "integrations_wgsi": "{{(vars.system_config.CPU | int)}}"
             },
             "status": null,
             "top": "80",
@@ -47,6 +48,7 @@
                 "rabbit_mq": "+S 6:6",
                 "postgresql": "{\n            \"work_mem\": \"9MB\",\n            \"wal_buffers\": \"16MB\",\n            \"max_wal_size\": \"8GB\",\n            \"min_wal_size\": \"2GB\",\n            \"shared_buffers\": \"7680MB\",\n            \"max_connections\": 300,\n            \"random_page_cost\": \"1.1\",\n            \"effective_cache_size\": \"23GB\",\n            \"maintenance_work_mem\": \"1920MB\",\n            \"max_parallel_workers\": 6,\n            \"max_worker_processes\": 6,\n            \"effective_io_concurrency\": 200,\n            \"checkpoint_completion_target\": \"0.9\",\n            \"max_parallel_workers_per_gather\": 3,\n            \"max_parallel_maintenance_workers\": 3\n        }",
                 "swap_space": "8GB",
+                "max_celeryd": "--autoscale=20,12",
                 "sealab_wsgi": "12",
                 "integrations_wgsi": "12"
             },
@@ -67,6 +69,7 @@
                 "rabbit_mq": "+S 4:4",
                 "postgresql": "{\n            \"work_mem\": \"8MB\",\n            \"wal_buffers\": \"-1\",\n            \"max_wal_size\": \"4GB\",\n            \"min_wal_size\": \"1GB\",\n            \"shared_buffers\": \"1024MB\",\n            \"max_connections\": 300,\n            \"random_page_cost\": \"1.1\",\n            \"effective_cache_size\": \"4GB\",\n            \"maintenance_work_mem\": \"1920MB\",\n            \"max_parallel_workers\": 8,\n            \"max_worker_processes\": 8,\n            \"effective_io_concurrency\": 200,\n            \"checkpoint_completion_target\": \"0.9\",\n            \"max_parallel_workers_per_gather\": 2,\n            \"max_parallel_maintenance_workers\": 2\n        }",
                 "swap_space": "1GB",
+                "max_celeryd": "--autoscale=16,8",
                 "sealab_wsgi": "8",
                 "integrations_wgsi": "8"
             },
@@ -140,12 +143,12 @@
                 "conditions": [
                     {
                         "option": "for 12 vCPU",
-                        "step_iri": "\/api\/3\/workflow_steps\/2b65f4d6-ac7c-4847-a5b6-b8e7e60a9755",
+                        "step_iri": "\/api\/3\/workflow_steps\/9b6e02a3-7654-4a7a-992a-64a8b35e0443",
                         "condition": "{{ vars.system_config['CPU'] | int == 12 and vars.system_config['RAM'] | int == 46 }}",
-                        "step_name": "Postgresql Configuration"
+                        "step_name": "Output for 12 vCPU"
                     },
                     {
-                        "option": "Auto Generate",
+                        "option": "for Others",
                         "default": true,
                         "step_iri": "\/api\/3\/workflow_steps\/2b65f4d6-ac7c-4847-a5b6-b8e7e60a9755",
                         "step_name": "Postgresql Configuration"
@@ -203,7 +206,7 @@
             "name": "Test One -> Output for 12 vCPU",
             "targetStep": "\/api\/3\/workflow_steps\/9b6e02a3-7654-4a7a-992a-64a8b35e0443",
             "sourceStep": "\/api\/3\/workflow_steps\/3a0c5a20-e4d5-4ac9-a070-768c64c746d5",
-            "label": "",
+            "label": "for 12 vCPU",
             "isExecuted": false,
             "group": null,
             "uuid": "d5444694-e2e5-406e-8185-bf4509a15006"
@@ -213,7 +216,7 @@
             "name": "Test One -> Postgresql Configuration",
             "targetStep": "\/api\/3\/workflow_steps\/2b65f4d6-ac7c-4847-a5b6-b8e7e60a9755",
             "sourceStep": "\/api\/3\/workflow_steps\/3a0c5a20-e4d5-4ac9-a070-768c64c746d5",
-            "label": "for 12 vCPU",
+            "label": "for Others",
             "isExecuted": false,
             "group": null,
             "uuid": "f10e0f23-3e77-4ba2-afdc-b7fa33b7cfb7"

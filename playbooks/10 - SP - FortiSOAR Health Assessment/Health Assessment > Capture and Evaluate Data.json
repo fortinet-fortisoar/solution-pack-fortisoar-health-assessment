@@ -1,10 +1,10 @@
 {
     "@type": "Workflow",
     "triggerLimit": null,
-    "name": "FortiSOAR Health Assessment > Capture and Evaluate Data",
+    "name": "Health Assessment > Capture and Evaluate Data",
     "aliasName": null,
     "tag": null,
-    "description": "This is the main playbook that captures and evaluate data to generate Health Assessment Record",
+    "description": "This playbook captures and evaluates data to generate Health Assessment Record",
     "isActive": true,
     "debug": false,
     "singleRecordExecution": false,
@@ -57,6 +57,7 @@
             "description": null,
             "arguments": {
                 "arguments": {
+                    "recommendations_only": "{{ 1 != 1 }}",
                     "fortisoar_health_data": "{{vars.fortisoar_health_data}}"
                 },
                 "apply_async": false,
@@ -110,8 +111,8 @@
                 "workflowReference": "\/api\/3\/workflows\/b3ae28e7-4cb7-4c5b-9966-fdb00c8564ee"
             },
             "status": null,
-            "top": "705",
-            "left": "825",
+            "top": "700",
+            "left": "820",
             "stepType": "\/api\/3\/workflow_step_types\/74932bdc-b8b6-4d24-88c4-1a4dfbc524f3",
             "group": null,
             "uuid": "7775968f-86e7-4016-9192-4e1afecac4c3"
@@ -123,12 +124,11 @@
             "arguments": {
                 "arguments": {
                     "system_details": "{{vars.system_config}}",
+                    "recommendations_only": "{{ 1!=1 }}",
                     "configuration_recommandation": "{{vars.steps.Generate_Recommended_Configuration}}"
                 },
                 "apply_async": false,
-                "step_variables": {
-                    "Condition": "vars.system_config['CPU'] | int >=12"
-                },
+                "step_variables": [],
                 "pass_parent_env": false,
                 "pass_input_record": false,
                 "workflowReference": "\/api\/3\/workflows\/c78ba750-7894-4a2e-b232-cb4e27f46a68"

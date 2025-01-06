@@ -1,7 +1,7 @@
 {
     "@type": "Workflow",
     "triggerLimit": null,
-    "name": "FortiSOAR Health Assessment > Get FortiSOAR Information",
+    "name": "Health Assessment > Get FortiSOAR Information",
     "aliasName": null,
     "tag": null,
     "description": "This playbook is used to gather information about your FortiSOAR system.",

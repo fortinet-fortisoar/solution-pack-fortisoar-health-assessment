@@ -1,10 +1,10 @@
 {
     "@type": "Workflow",
     "triggerLimit": null,
-    "name": "FortiSOAR Health Assessment",
+    "name": "Configuration Recommendation",
     "aliasName": null,
     "tag": null,
-    "description": "This is a wrapper playbook that creates Health Assessment record if there is some error in generation playbook",
+    "description": "This playbook creates Configuration Recommendation Record",
     "isActive": true,
     "debug": false,
     "singleRecordExecution": false,
@@ -13,19 +13,19 @@
     "synchronous": false,
     "collection": "\/api\/3\/workflow_collections\/dbf8de0d-974b-451d-bbbc-8d4e2ec77ec4",
     "versions": [],
-    "triggerStep": "\/api\/3\/workflow_steps\/441c1ede-33ab-4b68-87f6-236cf4dd945c",
+    "triggerStep": "\/api\/3\/workflow_steps\/ec8a69d8-d62f-4c9b-8d08-3d4cfdd8519c",
     "steps": [
         {
             "@type": "WorkflowStep",
-            "name": "Create Health Assessment If Already Not Created",
+            "name": "Create Configuration Recommendation If Already Not Created",
             "description": null,
             "arguments": {
-                "when": "{{not ((vars.steps.Generate_Health_Assessment_Report[\"@id\"] is defined) and (vars.steps.Generate_Health_Assessment_Report[\"@id\"] != None))}}",
+                "when": "{{not ((vars.steps.Generate_Configuration_Recommendation_Report['@id'] is defined) and (vars.steps.Generate_Configuration_Recommendation_Report['@id'] != None))}}",
                 "resource": {
-                    "summary": "Error : {{vars.steps.Generate_Health_Assessment_Report['Error message']}}",
+                    "summary": "Error : {{vars.steps.Generate_Configuration_Recommendation_Report['Error message']}}",
                     "__replace": "",
-                    "description": "{{vars.steps.Generate_Health_Assessment_Report['Error message']}}",
-                    "recommendation": "{{vars.steps.Generate_Health_Assessment_Report['Error message']}}"
+                    "description": "{{vars.steps.Generate_Configuration_Recommendation_Report['Error message']}}",
+                    "recommendation": "{{vars.steps.Generate_Configuration_Recommendation_Report['Error message']}}"
                 },
                 "operation": "Overwrite",
                 "collection": "\/api\/3\/health_assessments",
@@ -36,39 +36,38 @@
                 "step_variables": []
             },
             "status": null,
-            "top": "30",
-            "left": "775",
+            "top": "40",
+            "left": "660",
             "stepType": "\/api\/3\/workflow_step_types\/2597053c-e718-44b4-8394-4d40fe26d357",
             "group": null,
-            "uuid": "90ce81da-fc25-446c-b7cc-145fa1c71bf5"
+            "uuid": "b77d21a3-6f56-473b-b680-2a35331fbd50"
         },
         {
             "@type": "WorkflowStep",
-            "name": "Generate Health Assessment Report",
+            "name": "Generate Configuration Recommendation Report",
             "description": null,
             "arguments": {
                 "arguments": [],
                 "apply_async": false,
-                "ignore_errors": true,
                 "step_variables": [],
                 "pass_parent_env": false,
                 "pass_input_record": false,
-                "workflowReference": "\/api\/3\/workflows\/7f5f86e0-56bd-47da-8b07-9dfc48e4d402"
+                "workflowReference": "\/api\/3\/workflows\/6042c4b9-4f38-49b5-90da-acbf25317363"
             },
             "status": null,
-            "top": "30",
-            "left": "450",
+            "top": "40",
+            "left": "340",
             "stepType": "\/api\/3\/workflow_step_types\/74932bdc-b8b6-4d24-88c4-1a4dfbc524f3",
             "group": null,
-            "uuid": "2660f71a-8845-4c76-ae53-4b486049228f"
+            "uuid": "d28c2ed9-1840-439c-8afc-8e5a07f74b69"
         },
         {
             "@type": "WorkflowStep",
             "name": "Start",
             "description": null,
             "arguments": {
-                "route": "9cd93116-6fe0-43a4-81e2-b880bc9d39a4",
-                "title": "Start Assessment",
+                "route": "ecb01a67-2b55-4a4d-8786-b65e7da574a8",
+                "title": "Recommend Config",
                 "resources": [
                     "health_assessments"
                 ],
@@ -80,7 +79,6 @@
                         "records": "{{vars.input.records}}"
                     }
                 },
-                "_promptexpanded": false,
                 "triggerOnSource": true,
                 "executeButtonText": "Execute",
                 "noRecordExecution": true,
@@ -92,38 +90,38 @@
                 "singleRecordExecution": false
             },
             "status": null,
-            "top": "30",
-            "left": "125",
+            "top": "40",
+            "left": "40",
             "stepType": "\/api\/3\/workflow_step_types\/f414d039-bb0d-4e59-9c39-a8f1e880b18a",
             "group": null,
-            "uuid": "441c1ede-33ab-4b68-87f6-236cf4dd945c"
+            "uuid": "ec8a69d8-d62f-4c9b-8d08-3d4cfdd8519c"
         }
     ],
     "routes": [
         {
             "@type": "WorkflowRoute",
-            "name": "Generate Health Assessment Report -> Create Health Assessment If Already Not Created",
-            "targetStep": "\/api\/3\/workflow_steps\/90ce81da-fc25-446c-b7cc-145fa1c71bf5",
-            "sourceStep": "\/api\/3\/workflow_steps\/2660f71a-8845-4c76-ae53-4b486049228f",
+            "name": "Generate Configuration Changes and Create Record out of it -> Create Health Assessment If Already Not Created",
+            "targetStep": "\/api\/3\/workflow_steps\/b77d21a3-6f56-473b-b680-2a35331fbd50",
+            "sourceStep": "\/api\/3\/workflow_steps\/d28c2ed9-1840-439c-8afc-8e5a07f74b69",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "c9cab18e-6429-4c7c-8e50-13d31a56f6c9"
+            "uuid": "68054945-375c-4651-af65-6afa64d437bf"
         },
         {
             "@type": "WorkflowRoute",
-            "name": "Start -> Generate Health Assessment Report",
-            "targetStep": "\/api\/3\/workflow_steps\/2660f71a-8845-4c76-ae53-4b486049228f",
-            "sourceStep": "\/api\/3\/workflow_steps\/441c1ede-33ab-4b68-87f6-236cf4dd945c",
+            "name": "Start -> Generate Configuration Changes and Create Record out of it",
+            "targetStep": "\/api\/3\/workflow_steps\/d28c2ed9-1840-439c-8afc-8e5a07f74b69",
+            "sourceStep": "\/api\/3\/workflow_steps\/ec8a69d8-d62f-4c9b-8d08-3d4cfdd8519c",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "c1c06be0-1aa5-4815-818f-bc163eccdd62"
+            "uuid": "15d20f34-2d8c-4b4d-8667-2733f98dc8f3"
         }
     ],
     "groups": [],
     "priority": "\/api\/3\/picklists\/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
-    "uuid": "e2ee50dc-7aea-4272-b00f-02bcedf2e156",
+    "uuid": "56eaa0a4-71ba-4b3c-8b13-3d4a3f3c6be0",
     "owners": [],
     "isPrivate": false,
     "deletedAt": null,

@@ -1,0 +1,309 @@
+{
+    "@type": "Workflow",
+    "triggerLimit": null,
+    "name": "Configuration Recommendation > Capture and Evaluate Data",
+    "aliasName": null,
+    "tag": null,
+    "description": "This playbook captures and evaluates data to generate Configuration Recommendation Record",
+    "isActive": true,
+    "debug": false,
+    "singleRecordExecution": false,
+    "remoteExecutableFlag": false,
+    "parameters": [],
+    "synchronous": false,
+    "collection": "\/api\/3\/workflow_collections\/dbf8de0d-974b-451d-bbbc-8d4e2ec77ec4",
+    "versions": [],
+    "triggerStep": "\/api\/3\/workflow_steps\/56c295db-c6d8-4ed9-a02f-e7518bda0119",
+    "steps": [
+        {
+            "@type": "WorkflowStep",
+            "name": "Create Record",
+            "description": null,
+            "arguments": {
+                "resource": {
+                    "summary": "Configuration Recommendation - {{arrow.utcnow().format(\"YYYY-MM-DD\")}}",
+                    "__replace": "",
+                    "description": "{{vars.steps.Generate_MD['assessment_report']}}",
+                    "systemDetails": "{{vars.system_config}}",
+                    "recommendation": "{{vars.steps.Generate_MD['recommendation_report']}}",
+                    "reportsAndYAMLFile": "{% set data=[] %}{% if vars.steps.Generate_Report['recordIRI'] %}{% do data.append(vars.steps.Generate_Report['recordIRI']) %}{% endif %}{% if vars.steps.Generate_YAML_File['recordIRI'] %}{% do data.append(vars.steps.Generate_YAML_File['recordIRI']) %}{% endif %}{{data}}",
+                    "otherConfigurations": "{% set data = [] %}{% do data.append({\"configuration_for\": \"celeryd\",\"parameter\":\"CELERYD_OPTS\",\"file_path\":\"\/etc\/celery\/celeryd.conf\",\"current_value\": vars.fortisoar_health_data.current_system_configuration.celeryd,\"recommended_value\":vars.fortisoar_health_data.recommended_configuration.celeryd}) %}{% do data.append({\"configuration_for\": \"sealab_wsgi\",\"parameter\":\"processes\",\"file_path\":\"\/etc\/uwsgi.d\/sealab_wsgi.ini\",\"current_value\": vars.fortisoar_health_data.current_system_configuration.sealab_wsgi,\"recommended_value\":vars.fortisoar_health_data.recommended_configuration.sealab_wsgi}) %}{% do data.append({\"configuration_for\": \"integrations_wgsi\",\"parameter\":\"processes\",\"file_path\":\"\/etc\/uwsgi.d\/integrations_wgsi.ini\",\"current_value\": vars.fortisoar_health_data.current_system_configuration.integrations_wgsi,\"recommended_value\":vars.fortisoar_health_data.recommended_configuration.integrations_wgsi}) %}{% do data.append({\"configuration_for\": \"RabbitMQ\",\"parameter\":\"RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS\",\"file_path\":\"\/etc\/rabbitmq\/rabbitmq-env.conf\",\"current_value\": vars.fortisoar_health_data.current_system_configuration.rabbit_mq,\"recommended_value\":vars.fortisoar_health_data.recommended_configuration.rabbit_mq}) %}{{data}}",
+                    "pHPFPMConfiguration": "{% set data = [] %}{% do data.append({\"configuration_for\": \"php_fpm\",\"parameter\":\"pm.start_servers\",\"file_path\":\"\/etc\/php-fpm.d\/cyops-api.conf\",\"current_value\": vars.fortisoar_health_data.current_system_configuration.php_fpm['pm.start_servers'],\"recommended_value\":vars.fortisoar_health_data.recommended_configuration.php_fpm['pm.start_servers']}) %}{% do data.append({\"configuration_for\": \"php_fpm\",\"parameter\":\"pm.max_spare_servers\",\"file_path\":\"\/etc\/php-fpm.d\/cyops-api.conf\",\"current_value\": vars.fortisoar_health_data.current_system_configuration.php_fpm['pm.max_spare_servers'],\"recommended_value\":vars.fortisoar_health_data.recommended_configuration.php_fpm['pm.max_spare_servers']}) %}{{data}}",
+                    "postgreSQLConfiguration": "{% set data = [] %}{% for value in ['work_mem','wal_buffers','max_wal_size','min_wal_size','shared_buffers','max_connections','random_page_cost','effective_cache_size','maintenance_work_mem','max_parallel_workers','max_worker_processes','effective_io_concurrency','checkpoint_completion_target','max_parallel_workers_per_gather','max_parallel_maintenance_workers']%}{% do data.append({\"configuration_for\": \"postgresql\",\"parameter\":value,\"file_path\":\"\/var\/lib\/pgsql\/14\/data\/postgresql.conf\",\"current_value\": vars.fortisoar_health_data.current_system_configuration.postgresql[value],\"recommended_value\":vars.fortisoar_health_data.recommended_configuration.postgresql[value]}) %}{% endfor %}{{data}}"
+                },
+                "operation": "Overwrite",
+                "collection": "\/api\/3\/health_assessments",
+                "__recommend": [],
+                "fieldOperation": {
+                    "recordTags": "Overwrite"
+                },
+                "step_variables": []
+            },
+            "status": null,
+            "top": "705",
+            "left": "475",
+            "stepType": "\/api\/3\/workflow_step_types\/2597053c-e718-44b4-8394-4d40fe26d357",
+            "group": null,
+            "uuid": "7f2b428a-952d-4889-af0e-ea3eb74fe565"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Generate MD",
+            "description": null,
+            "arguments": {
+                "arguments": {
+                    "recommendations_only": "{{1 == 1}}",
+                    "fortisoar_health_data": "{{vars.fortisoar_health_data}}"
+                },
+                "apply_async": false,
+                "step_variables": [],
+                "pass_parent_env": false,
+                "pass_input_record": false,
+                "workflowReference": "\/api\/3\/workflows\/2b5fda5c-eb00-4b41-be3e-f932df38a89a"
+            },
+            "status": null,
+            "top": "570",
+            "left": "125",
+            "stepType": "\/api\/3\/workflow_step_types\/74932bdc-b8b6-4d24-88c4-1a4dfbc524f3",
+            "group": null,
+            "uuid": "3ce9b43d-0137-47fb-b274-a65b17f17fe3"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Generate Recommended Configuration",
+            "description": null,
+            "arguments": {
+                "arguments": {
+                    "system_configuration": "{{vars.system_config}}"
+                },
+                "apply_async": false,
+                "step_variables": {
+                    "fortisoar_health_data": "{\n\"system_details\":{{vars.system_config}},\n\"current_system_configuration\":{{vars.steps.Get_Current_System_Configuration.data}},\"recommended_configuration\":{{vars.steps.Generate_Recommended_Configuration}}\n}"
+                },
+                "pass_parent_env": false,
+                "pass_input_record": false,
+                "workflowReference": "\/api\/3\/workflows\/e3257f95-a459-4973-b566-25f1cdf7974a"
+            },
+            "status": null,
+            "top": "435",
+            "left": "475",
+            "stepType": "\/api\/3\/workflow_step_types\/74932bdc-b8b6-4d24-88c4-1a4dfbc524f3",
+            "group": null,
+            "uuid": "b18c2a13-cb3b-49c9-b1e7-46cf92eeb3fd"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Generate Report",
+            "description": null,
+            "arguments": {
+                "arguments": {
+                    "recommendations_only": "{{ 1==1 }}",
+                    "fortisoar_health_data": "{{vars.fortisoar_health_data}}"
+                },
+                "apply_async": false,
+                "step_variables": [],
+                "pass_parent_env": false,
+                "pass_input_record": false,
+                "workflowReference": "\/api\/3\/workflows\/b3ae28e7-4cb7-4c5b-9966-fdb00c8564ee"
+            },
+            "status": null,
+            "top": "570",
+            "left": "475",
+            "stepType": "\/api\/3\/workflow_step_types\/74932bdc-b8b6-4d24-88c4-1a4dfbc524f3",
+            "group": null,
+            "uuid": "e5d86979-b0de-4b3e-a087-2853500a264e"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Generate YAML File",
+            "description": null,
+            "arguments": {
+                "arguments": {
+                    "system_details": "{{vars.system_config}}",
+                    "recommendations_only": "{{ 1==1 }}",
+                    "configuration_recommandation": "{{vars.steps.Generate_Recommended_Configuration}}"
+                },
+                "apply_async": false,
+                "step_variables": [],
+                "pass_parent_env": false,
+                "pass_input_record": false,
+                "workflowReference": "\/api\/3\/workflows\/c78ba750-7894-4a2e-b232-cb4e27f46a68"
+            },
+            "status": null,
+            "top": "570",
+            "left": "825",
+            "stepType": "\/api\/3\/workflow_step_types\/74932bdc-b8b6-4d24-88c4-1a4dfbc524f3",
+            "group": null,
+            "uuid": "473ea48a-7257-4c06-bf6b-825189956012"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Get Current System Configuration",
+            "description": null,
+            "arguments": {
+                "name": "FortiSOAR Health Assessment",
+                "config": "509a4f3a-0488-4d6f-a99d-ca4e0f2a03e1",
+                "params": [],
+                "version": "1.0.0",
+                "connector": "fortisoar-health-assessment",
+                "operation": "get_current_system_configurations",
+                "operationTitle": "Get Current System Configuration",
+                "pickFromTenant": false,
+                "step_variables": []
+            },
+            "status": null,
+            "top": "300",
+            "left": "475",
+            "stepType": "\/api\/3\/workflow_step_types\/0bfed618-0316-11e7-93ae-92361f002671",
+            "group": null,
+            "uuid": "f4276dc1-8b4e-4277-89e7-33a99f8bf46d"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Get System Details",
+            "description": null,
+            "arguments": {
+                "name": "FortiSOAR Health Assessment",
+                "config": "509a4f3a-0488-4d6f-a99d-ca4e0f2a03e1",
+                "params": [],
+                "version": "1.0.0",
+                "connector": "fortisoar-health-assessment",
+                "operation": "get_system_details",
+                "operationTitle": "Get System Details",
+                "pickFromTenant": false,
+                "step_variables": {
+                    "system_config": "{% set data_dict = {\n    'CPU': vars.steps.Get_System_Details.data.cpu|string,\n    'RAM': vars.steps.Get_System_Details.data.ram|string,\n    'Disk IOPS - Read': vars.steps.Get_System_Details.data.iops_read|string,\n    'Disk IOPS - Write': vars.steps.Get_System_Details.data.iops_write|string,\n    'Disk latency': vars.steps.Get_System_Details.data.disk_latency|string\n} %}{{data_dict}}"
+                }
+            },
+            "status": null,
+            "top": "165",
+            "left": "475",
+            "stepType": "\/api\/3\/workflow_step_types\/0bfed618-0316-11e7-93ae-92361f002671",
+            "group": null,
+            "uuid": "3ec34c85-5b3f-4f57-8387-d135df580f92"
+        },
+        {
+            "@type": "WorkflowStep",
+            "name": "Start",
+            "description": null,
+            "arguments": {
+                "__triggerLimit": true,
+                "step_variables": {
+                    "input": {
+                        "params": []
+                    }
+                },
+                "triggerOnSource": true,
+                "triggerOnReplicate": false
+            },
+            "status": null,
+            "top": "30",
+            "left": "475",
+            "stepType": "\/api\/3\/workflow_step_types\/b348f017-9a94-471f-87f8-ce88b6a7ad62",
+            "group": null,
+            "uuid": "56c295db-c6d8-4ed9-a02f-e7518bda0119"
+        }
+    ],
+    "routes": [
+        {
+            "@type": "WorkflowRoute",
+            "name": "Generate MD -> Create Record",
+            "targetStep": "\/api\/3\/workflow_steps\/7f2b428a-952d-4889-af0e-ea3eb74fe565",
+            "sourceStep": "\/api\/3\/workflow_steps\/3ce9b43d-0137-47fb-b274-a65b17f17fe3",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "16686885-ef69-4d37-9995-45bec60c528f"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Generate Recommended Configuration -> Generate MD",
+            "targetStep": "\/api\/3\/workflow_steps\/3ce9b43d-0137-47fb-b274-a65b17f17fe3",
+            "sourceStep": "\/api\/3\/workflow_steps\/b18c2a13-cb3b-49c9-b1e7-46cf92eeb3fd",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "c44eab5d-2fd8-4446-9f07-a951d3c97b12"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Generate Recommended Configuration -> Generate Report",
+            "targetStep": "\/api\/3\/workflow_steps\/e5d86979-b0de-4b3e-a087-2853500a264e",
+            "sourceStep": "\/api\/3\/workflow_steps\/b18c2a13-cb3b-49c9-b1e7-46cf92eeb3fd",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "df254fa2-66ab-4a09-af1c-385705ebf3a1"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Generate Recommended Configuration -> Generate YAML File",
+            "targetStep": "\/api\/3\/workflow_steps\/473ea48a-7257-4c06-bf6b-825189956012",
+            "sourceStep": "\/api\/3\/workflow_steps\/b18c2a13-cb3b-49c9-b1e7-46cf92eeb3fd",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "fd2bc44b-171c-4aa7-9d61-865ad8b55ede"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Generate Report -> Create Record",
+            "targetStep": "\/api\/3\/workflow_steps\/7f2b428a-952d-4889-af0e-ea3eb74fe565",
+            "sourceStep": "\/api\/3\/workflow_steps\/e5d86979-b0de-4b3e-a087-2853500a264e",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "602a1f3e-3aeb-4aac-833d-9611a15b1808"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Generate YAML File -> Create Record",
+            "targetStep": "\/api\/3\/workflow_steps\/7f2b428a-952d-4889-af0e-ea3eb74fe565",
+            "sourceStep": "\/api\/3\/workflow_steps\/473ea48a-7257-4c06-bf6b-825189956012",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "666eed21-4e84-4d9d-bd1f-10cf56b8df08"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Get Current System Configuration -> Generate Recommended Configuration",
+            "targetStep": "\/api\/3\/workflow_steps\/b18c2a13-cb3b-49c9-b1e7-46cf92eeb3fd",
+            "sourceStep": "\/api\/3\/workflow_steps\/f4276dc1-8b4e-4277-89e7-33a99f8bf46d",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "94f685de-20a1-4ae2-95bb-fb2f08cc35d9"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Get System Configuration -> Get Current System Configuration",
+            "targetStep": "\/api\/3\/workflow_steps\/f4276dc1-8b4e-4277-89e7-33a99f8bf46d",
+            "sourceStep": "\/api\/3\/workflow_steps\/3ec34c85-5b3f-4f57-8387-d135df580f92",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "3f50d087-fe6a-4b23-a507-24402d0a849c"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Start -> Get System Details",
+            "targetStep": "\/api\/3\/workflow_steps\/3ec34c85-5b3f-4f57-8387-d135df580f92",
+            "sourceStep": "\/api\/3\/workflow_steps\/56c295db-c6d8-4ed9-a02f-e7518bda0119",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "e194bf2e-c800-4ba4-bd3b-fdc5547c9aae"
+        }
+    ],
+    "groups": [],
+    "priority": "\/api\/3\/picklists\/2b563c61-ae2c-41c0-a85a-c9709585e3f2",
+    "uuid": "6042c4b9-4f38-49b5-90da-acbf25317363",
+    "owners": [],
+    "isPrivate": false,
+    "deletedAt": null,
+    "recordTags": [
+        "FortiSOAR Health Assessment",
+        "Referenced"
+    ]
+}
