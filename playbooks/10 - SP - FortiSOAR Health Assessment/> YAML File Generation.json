@@ -4,7 +4,7 @@
     "name": "> YAML File Generation",
     "aliasName": null,
     "tag": null,
-    "description": "This playbook generates a YAML file with recommended configuration changes, stores it on a Linux system, and attaches it to the Health Assessment record as an attachment.",
+    "description": "This playbook generates a YAML file with recommended configuration changes, stores it on a Linux system, and attaches it to the Health Assessment module's record as an attachment",
     "isActive": true,
     "debug": false,
     "singleRecordExecution": false,
@@ -52,10 +52,10 @@
             "arguments": {
                 "params": {
                     "contents": "{{vars.file_code}}",
-                    "filename": "fortisoar_configuration_recommendation.yml",
+                    "filename": "fortisoar_optimal_configuration_{{arrow.utcnow().int_timestamp}}.yml",
                     "mimetype": "text\/plain"
                 },
-                "version": "3.3.1",
+                "version": "3.5.0",
                 "connector": "cyops_utilities",
                 "operation": "create_file_from_string",
                 "operationTitle": "File: Create File from String",
@@ -147,23 +147,23 @@
     "routes": [
         {
             "@type": "WorkflowRoute",
-            "name": "Create File -> Create Attachment",
-            "targetStep": "\/api\/3\/workflow_steps\/cbe9d3cc-9259-499c-a219-88a69d4a59d0",
-            "sourceStep": "\/api\/3\/workflow_steps\/43e74a0a-52e7-41a5-b381-d1bb8c25c500",
-            "label": null,
-            "isExecuted": false,
-            "group": null,
-            "uuid": "974701d5-baa1-44f9-a51d-da59125fcb42"
-        },
-        {
-            "@type": "WorkflowRoute",
             "name": "Create YAML Attachment -> Output",
             "targetStep": "\/api\/3\/workflow_steps\/7957d11e-c503-4381-80e4-9f9d3f6a40fb",
             "sourceStep": "\/api\/3\/workflow_steps\/cbe9d3cc-9259-499c-a219-88a69d4a59d0",
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "026b0f6b-d371-473b-ae64-ff4e910c93ab"
+            "uuid": "bfa6d424-7f22-4703-930e-78803793473f"
+        },
+        {
+            "@type": "WorkflowRoute",
+            "name": "Create YAML File -> Create YAML Attachment",
+            "targetStep": "\/api\/3\/workflow_steps\/cbe9d3cc-9259-499c-a219-88a69d4a59d0",
+            "sourceStep": "\/api\/3\/workflow_steps\/43e74a0a-52e7-41a5-b381-d1bb8c25c500",
+            "label": null,
+            "isExecuted": false,
+            "group": null,
+            "uuid": "df66a482-331d-4153-ae23-12c0b8ec64d2"
         },
         {
             "@type": "WorkflowRoute",
@@ -173,7 +173,7 @@
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "9905a53a-3035-41b6-8b8b-30478e896669"
+            "uuid": "1cc91821-3e23-44cb-9c62-01286dc9eabc"
         },
         {
             "@type": "WorkflowRoute",
@@ -193,7 +193,7 @@
             "label": null,
             "isExecuted": false,
             "group": null,
-            "uuid": "4145a4a5-afca-46bd-95d8-22f6f81dadce"
+            "uuid": "031cd029-1c57-4b30-9391-3d07d9dbbc66"
         },
         {
             "@type": "WorkflowRoute",

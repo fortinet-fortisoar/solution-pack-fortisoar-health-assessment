@@ -4,7 +4,7 @@
     "name": "Health Assessment > Get FortiSOAR Information",
     "aliasName": null,
     "tag": null,
-    "description": "This playbook is used to gather information about your FortiSOAR system.",
+    "description": "This playbook is used to gather information about your FortiSOAR system",
     "isActive": true,
     "debug": false,
     "singleRecordExecution": false,

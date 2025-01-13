@@ -11,14 +11,18 @@ The **FortiSOAR Health Assessment** solution pack contains the following resourc
 | :- | :- |
 | FortiSOAR Health Assessment  | The Health Assessment Connector provides detailed insights into FortiSOAR VM configurations, including CPU, RAM, IOPs, and disk latency metrics. Additionally, it gathers playbook-related data, such as the most frequently executed playbooks and those with the highest failure rates. |
 
+## Module
+
+|**Name**|**Description**|
+| :- | :- |
+| Health Assessment  | A module that lists Health Assessment and Configuration Recommendation records |
+
 
 ## Playbook Collection
 
-|**Playbook Collection Name**|**Description**|
-| :- | :- |
-| 10 - SP - FortiSOAR Health Assessment | Playbooks designed to capture, evaluate, and generate reports and ymal files |
+| 10 - SP - FortiSOAR Health Assessment |
+|:-------------------------------------:|
 
-## Playbook
 
 |**Playbook Name**|**Description**|
 | :- | :- |
@@ -32,8 +36,17 @@ The **FortiSOAR Health Assessment** solution pack contains the following resourc
 | > Report Generation | This playbook generates the report that is attached to Health Assessment Module |
 | > Generate Configuration | This playbook generates configuration recommendations for your system based on its resources. |
 
+>[!Warning] 
+>We recommend that you clone these playbooks before customizing to avoid loss of information while upgrading the solution pack.
 
->**Warning:** We recommend that you clone these playbooks before customizing to avoid loss of information while upgrading the solution pack.
+## System View
+|**Name**|**Description**|
+| :- | :- |
+| Health Assessment | Displays details of the Health Assessment |  
+
+
+
+
 
 | [Installation](./setup.md#installation) | [Configuration](./setup.md#configuration) | [Usage](./usage.md) |
 |-----------------------------------------|-------------------------------------------|---------------------|

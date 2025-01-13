@@ -4,7 +4,7 @@
     "name": "> Generate Configuration",
     "aliasName": null,
     "tag": null,
-    "description": "This playbook generates configuration recommendations for your system based on its resources.",
+    "description": "This playbook generates configuration recommendations for your system based on its resources",
     "isActive": true,
     "debug": false,
     "singleRecordExecution": false,
