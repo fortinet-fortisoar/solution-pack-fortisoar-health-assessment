@@ -68,7 +68,7 @@
             "description": null,
             "arguments": {
                 "route": "9cd93116-6fe0-43a4-81e2-b880bc9d39a4",
-                "title": "System Health Check",
+                "title": "Assess System Health",
                 "resources": [
                     "health_assessments"
                 ],

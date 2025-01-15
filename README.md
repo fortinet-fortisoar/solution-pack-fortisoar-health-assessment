@@ -3,25 +3,19 @@
  * **Version**: 1.0.0
  * **Certified**: Yes
  * **Publisher**: Fortinet
- * **Compatible Version**: FortiSOAR v7.4.3 and later
+ * **Compatible Version**: FortiSOAR v7.6.1 and later
 
 
 # Overview
 
-System Configuration Recommendation is a solution pack that will help your FortiSOAR to utilize all of the resources. The power of FortiSOAR workflow and automation provides flexible solutions for onboarding, lifecycle, and offboarding objectives. FortiSOAR integrates with SSH connector to analuze the system details 
+FortiSOAR is a comprehensive platform designed by integrating multiple applications that seamlessly work together to provide an optimized solution for automation and response management. These applications collectively leverage system resources, with each component contributing to the overall performance and efficiency of the platform. Automation and response functionalities are integral to the FortiSOAR experience, and the platform’s success is highly dependent on effective management of system resources, particularly in terms of the ingestion of records and execution of playbooks.
 
-Playbook automation focused on streamlining the process of analyzing system details, creating a recommendation and presenting both in a report with step to apply the configurations to your system.
+To ensure optimal utilization and performance, FortiSOAR allows for the tuning of individual applications, enabling the efficient consumption of resources. To support this, the platform provides robust statistical insights into the ingestion rates of records and the performance of playbooks. These analytics play a crucial role in the continuous optimization of FortiSOAR's resource usage.
 
-The analyzed system detail will contain
-* Number of CPU
-* RAM 
-* IOPS
-* Disk Latency
-* Shared Memory Parameters
+The solution pack outlined here addresses key use cases aimed at improving resource allocation, enhancing automation workflows, and streamlining overall platform performance:
 
-And with help of above parameters you will get a recommendation to optimise your system.
-
-![](./docs/res/fortisoar-fortimanager-summary-visual.png)
+- **Configuration Recommendation** : To optimise the useage of the resources we provide some confgiuration of multple services that use most of the resources to optimally use the FortiSOAR Resources
+- **Health Assessment** : To assess the health of FortiSOAR system we provide some parameters related to playbook and alert module. Here we also provide confgiuration of multiple services to use most of the resources optimally
 
  # Next Steps
 

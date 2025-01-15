@@ -49,6 +49,7 @@
             "arguments": {
                 "arguments": [],
                 "apply_async": false,
+                "ignore_errors": true,
                 "step_variables": [],
                 "pass_parent_env": false,
                 "pass_input_record": false,
@@ -67,7 +68,7 @@
             "description": null,
             "arguments": {
                 "route": "ecb01a67-2b55-4a4d-8786-b65e7da574a8",
-                "title": "Recommend Config",
+                "title": "Recommend System Configuration",
                 "resources": [
                     "health_assessments"
                 ],
