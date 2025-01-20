@@ -14,8 +14,8 @@ To ensure optimal utilization and performance, FortiSOAR allows for the tuning o
 
 The solution pack outlined here addresses key use cases aimed at improving resource allocation, enhancing automation workflows, and streamlining overall platform performance:
 
-- **Configuration Recommendation** : To optimise the useage of the resources we provide some confgiuration of multple services that use most of the resources to optimally use the FortiSOAR Resources
-- **Health Assessment** : To assess the health of FortiSOAR system we provide some parameters related to playbook and alert module. Here we also provide confgiuration of multiple services to use most of the resources optimally
+- **Configuration Recommendation** : To optimize the use of resources, we provide configurations for multiple services that consume the majority of the resources, ensuring optimal utilization of FortiSOAR resources.
+- **Health Assessment** : To assess the health of the FortiSOAR system, we provide parameters related to the playbook and alert modules. Additionally, we offer configurations for multiple services to optimize resource usage.
 
  # Next Steps
 

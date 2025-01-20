@@ -44,7 +44,14 @@
                                         }
                                     ],
                                     "query": {
-                                        "sort": [],
+                                        "sort": [
+                                            {
+                                                "direction": "DESC",
+                                                "field": "createDate",
+                                                "_fieldTitle": "Created On",
+                                                "_fieldName": "createDate"
+                                            }
+                                        ],
                                         "limit": 30,
                                         "logic": "AND",
                                         "filters": []
