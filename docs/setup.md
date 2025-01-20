@@ -18,8 +18,8 @@ For optimal performance of the **FortiSOAR Health Assessment** solution pack, yo
         - Password Based : Use this method when you use password based authentication method. Fill the following field : 
             - Super User Password : Enter the csadmin user password
         - Certificate Based : Use this method when you use certificate based authentication. Fill the following fields :
-            - SSH Key Password : Fill the SSH key password here.
-            - Private Key : Upload your SSH key here.
+            - SSH Key Password : Enter the password for the SSH private key, if the key is encrypted. This password is required to decrypt the key for authentication during the SSH connection.
+            - Private Key : Provide the private key for SSH authentication.
 
 
 
